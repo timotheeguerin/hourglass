@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   # get 'preview/:user_id/:repository/:revision/:path'
+
+  get 'test' => 'welcome#test'
 end
