@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025212049) do
+ActiveRecord::Schema.define(version: 20141025221459) do
 
   create_table "repositories", force: true do |t|
     t.string   "name"
@@ -24,6 +24,18 @@ ActiveRecord::Schema.define(version: 20141025212049) do
   end
 
   add_index "repositories", ["user_id"], name: "index_repositories_on_user_id", using: :btree
+
+  create_table "revisions", force: true do |t|
+    t.integer  "repository_id"
+    t.string   "hash"
+    t.integer  "order"
+    t.string   "message"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "revisions", ["repository_id"], name: "index_revisions_on_repository_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "username"
