@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:github]
 
+  has_many :repositories, class_name: Repository
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -23,7 +24,16 @@ class User < ActiveRecord::Base
   end
 
   # Sync the user project with github
-  def sync_projects(github_user)
-    
+  def sync_repositories(octokit)
+    octokit.repos(username).each do |github_repo|
+      if Repository.find_by_id(github_repo.name).nil?
+        repository = Repository.new
+        repository.name = github_repo.name
+        repository.url = github_repo.html_url
+        repository.description = github_repo.description
+        repository.user = self
+        repository.save
+      end
+    end
   end
 end

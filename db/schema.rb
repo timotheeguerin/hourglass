@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025195147) do
+ActiveRecord::Schema.define(version: 20141025212049) do
+
+  create_table "repositories", force: true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.string   "description"
+    t.string   "url"
+    t.boolean  "enabled",     default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "repositories", ["user_id"], name: "index_repositories_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "username"

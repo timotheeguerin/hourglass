@@ -7,8 +7,4 @@ class ApplicationController < ActionController::Base
     @octokit ||= Octokit::Client.new(client_id: ENV['github_client_id'],
                                      client_secret: ENV['github_client_secret'])
   end
-
-  def github_user
-    @github_user ||= octokit.user(current_user.username)
-  end
 end
