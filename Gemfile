@@ -38,6 +38,8 @@ gem 'autoprefixer-rails'
 
 gem 'octokit'
 
+gem 'git'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
