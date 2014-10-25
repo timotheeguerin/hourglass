@@ -29,9 +29,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.6)
     arel (5.0.1.20140414130214)
-    autoprefixer-rails (2.1.0.20140628)
+    autoprefixer-rails (3.1.2.20141016)
       execjs
-    bcrypt (3.1.7)
+    bcrypt (3.1.9)
     builder (3.2.2)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
@@ -46,10 +46,11 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
-    devise (3.3.0)
+    devise (3.4.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
+      responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     erubis (2.7.0)
@@ -105,7 +106,7 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
-    puma (2.8.2)
+    puma (2.9.1)
       rack (>= 1.1, < 2.0)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -128,6 +129,8 @@ GEM
     rake (10.3.2)
     rdoc (4.1.2)
       json (~> 1.4)
+    responders (1.1.1)
+      railties (>= 3.2, < 4.2)
     rmagick (2.13.3)
     rubyzip (1.1.6)
     sass (3.2.19)
