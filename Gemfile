@@ -33,6 +33,11 @@ gem 'puma'
 gem 'devise'
 
 gem 'omniauth-github'
+
+gem 'autoprefixer-rails'
+
+gem 'octokit'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

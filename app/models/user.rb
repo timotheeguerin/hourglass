@@ -21,4 +21,9 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  # Sync the user project with github
+  def sync_projects(github_user)
+    
+  end
 end
