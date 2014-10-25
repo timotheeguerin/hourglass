@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20141025224213) do
   create_table "repositories", force: true do |t|
     t.string   "name"
     t.integer  "user_id"
-    t.string   "description"
+    t.text   "description"
     t.string   "url"
     t.boolean  "enabled",     default: false
     t.datetime "created_at"
