@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025221459) do
+ActiveRecord::Schema.define(version: 20141025222954) do
+
+  create_table "pages", force: true do |t|
+    t.string   "name"
+    t.string   "path"
+    t.integer  "repository_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pages", ["repository_id"], name: "index_pages_on_repository_id", using: :btree
 
   create_table "repositories", force: true do |t|
     t.string   "name"
