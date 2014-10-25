@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025222954) do
+ActiveRecord::Schema.define(version: 20141025224213) do
+
+  create_table "page_revisions", force: true do |t|
+    t.integer  "revision_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "thumbnails_file_name"
+    t.string   "thumbnails_content_type"
+    t.integer  "thumbnails_file_size"
+    t.datetime "thumbnails_updated_at"
+  end
+
+  add_index "page_revisions", ["revision_id"], name: "index_page_revisions_on_revision_id", using: :btree
 
   create_table "pages", force: true do |t|
     t.string   "name"
