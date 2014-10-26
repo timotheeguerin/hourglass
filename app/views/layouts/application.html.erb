@@ -19,10 +19,14 @@
 </head>
 <body>
 <%= render 'layouts/header' %>
+<div class="wrapper">
+  <div class="sidebar">
+    <%= render 'layouts/sidebar' %>
+  </div>
+  <div class="content">
 
-<%= render 'layouts/sidebar' %><%= render 'layouts/stack_view' %>
-
-<%= yield %>
-
+    <%= yield %>
+  </div>
+</div>
 </body>
 </html>

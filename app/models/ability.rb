@@ -2,10 +2,14 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new
+    if user.nil?
+      return
+    end
     can :read, :all
 
     can [:list, :sync, :enable, :disable], Repository, user_id: user.id
     can [:list], Page, repository: {user_id: user.id}
+
+    can :compare, Repository
   end
 end
