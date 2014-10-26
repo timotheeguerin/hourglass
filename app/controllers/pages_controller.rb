@@ -4,16 +4,16 @@ class PagesController < ApplicationController
   load_and_authorize_resource through: :repository
 
   def show
-    unless params[:revision_id].nil?
-      @page.revisions = @page.revisions.load.where('page_revisions.revision_id = ?', params[:revision_id])
-    end
+    @page.revisions = @page.revisions.load.where('page_revisions.revision_id = ?', revision_id)
     render json: @page.as_json(methods: :revisions)
   end
 
   def list
-    unless params[:revision_id].nil?
-      @pages = @pages.eager_load(:revisions).where('page_revisions.revision_id = ?', params[:revision_id])
-    end
+    @pages = @pages.eager_load(:revisions).where('page_revisions.revision_id = ?', revision_id)
     render json: @pages.as_json(methods: :revisions)
+  end
+
+  def revision_id
+    params[:revision_id] || @repository.master.id
   end
 end

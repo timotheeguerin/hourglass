@@ -18,3 +18,25 @@
 //= require react_ujs
 //= require_tree .
 
+
+$(window).load(function () {
+    link_iframes($('.left-side .iframe'), $('.right-side .iframe'))
+});
+
+
+function link_iframes(iframe1, iframe2) {
+    var scrollTop = 0;
+
+    function updateScroll(iframe) {
+        $(iframe.contents()).scrollTop(scrollTop);
+    }
+
+    $(iframe1.contents()).scroll(function () {
+        scrollTop = $(this).scrollTop();
+        updateScroll(iframe2)
+    });
+    $(iframe2.contents()).scroll(function () {
+        scrollTop = $(this).scrollTop();
+        updateScroll(iframe1)
+    })
+}

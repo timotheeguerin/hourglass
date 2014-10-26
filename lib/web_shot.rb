@@ -15,7 +15,6 @@ class WebShot
   end
 
   def screenshot(url, output)
-    puts "Url: #{url}"
     begin
       @driver.navigate.to(url.to_s)
     rescue Selenium::WebDriver::Error::TimeOutError
