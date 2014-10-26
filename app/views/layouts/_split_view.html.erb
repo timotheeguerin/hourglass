@@ -1,0 +1,13 @@
+<aside class="split-view">
+  <% if user_signed_in? %>
+      <section class="left-side">
+        <iframe class="iframe" src="http://wikipedia.com"></iframe>
+        <p><span class="left-description"><span title="June 27, 1992 4:05pm EST">2 weeks ago</span> - <b>Graham</b> - Changed the background of the main section to blue</span> <span class="short-hash">e380461</span></p>
+      </section><span class="divider"></span></span><section class="right-side">
+        <iframe class="iframe" src="http://wikipedia.com"></iframe>
+        <p><span class="left-description"><span title="June 27, 1992 4:05pm EST">1 week ago</span> - <b>Carlos</b> - Changed the background of the main section to blue</span> <span class="short-hash">e380461</span></p>
+      </section>
+  <% else %>
+      <%= link_to 'Sign in with Github', user_omniauth_authorize_path(:github) %>
+  <% end %>
+</aside>

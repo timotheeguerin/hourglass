@@ -9,14 +9,19 @@
   <script>
       var current_user = <%= current_user.id %>
   </script>
-
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
 
   <%= csrf_meta_tags %>
 </head>
 <body>
 <%= render 'layouts/header' %>
+
+<%= render 'layouts/sidebar' %><%= render 'layouts/stack_view' %>
+
 <%= yield %>
 
 </body>

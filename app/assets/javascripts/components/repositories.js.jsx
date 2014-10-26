@@ -22,17 +22,12 @@ var RepositoriesBox = React.createClass({
         return {data: []};
     },
     componentDidMount: function () {
-        console.log("URL: " + this.props.url);
-        //this.setState({data: data});
         this.loadCommentsFromServer();
-        //setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+        setInterval(this.loadCommentsFromServer, this.props.pollInterval);
     },
     render: function () {
         return (
-            <div>
-
-                <RepositoriesList data={this.state.data} />
-            </div>
+            <RepositoriesList data={this.state.data} />
         );
     }
 });
@@ -41,26 +36,56 @@ var RepositoriesList = React.createClass({
     render: function () {
         var repositoryNodes = this.props.data.map(function (repository) {
             return (
-                <Repository name={repository.name}>
+                <Repository name={repository.name} id={repository.id} enabled={repository.enabled}>
                 </Repository>
             );
         });
         return (
-            <div className="repositories">
-                <h2>Repositories</h2>
-{repositoryNodes}
-            </div>
+            <ol className="repositories">
+                {repositoryNodes}
+            </ol>
         );
     }
 });
 
 var Repository = React.createClass({
+    toggleRepository: function(e) {
+        var id = this.props.id;
+        console.log("Enabling repository with id " + id);
+        var url = Routes.enable_user_repository_path(current_user, id);
+        if (e.checked) {
+            console.log('e is checked');
+        } else {
+            console.log('e is NOT checked');
+        }
+
+        $.post(url).done(function(data) {
+            console.log("Great succuss");
+        }).fail(function (xhr, status, err) {
+            console.log("Failure");
+            console.error(this.props.url, status, err.toString());
+        });
+    },
     render: function () {
+        if (this.props.enabled) {
+            return (
+                <li className="repository">
+                {this.props.name}
+                    <div class="right">
+                        <input type="checkbox" checked='checked' onChange={this.toggleRepository} />
+                        <i className="fa fa-angle-right fa-lg"></i>
+                    </div>
+                </li>
+            );
+        }
         return (
-            <div className="repository">
-    {this.props.name}
-                <input type="checkbox" />
-            </div>
+            <li className="repository">
+                {this.props.name}
+                <div class="right">
+                    <input type="checkbox" checked='' onChange={this.toggleRepository} />
+                    <i className="fa fa-angle-right fa-lg"></i>
+                </div>
+            </li>
         );
     }
 });
@@ -69,7 +94,7 @@ console.log(window.current_user);
 
 $(document).ready(function () {
     React.renderComponent(
-        <RepositoriesBox url={Routes.list_user_repositories_path({'user_id': current_user})} />,
+        <RepositoriesBox url={Routes.list_user_repositories_path({'user_id': current_user})} pollInterval={5000} />,
         document.getElementById('repositories')
     );
 });

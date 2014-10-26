@@ -1,0 +1,85 @@
+.split-view {
+  height: calc(100vh - 4.5rem);
+  width: 100%;
+  width: calc(100% - 300px);
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+.left-side, .right-side {
+  width: 50%;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  padding: 1rem;
+  background: linear-gradient(0deg, #3a7bd5, #00d2ff);
+}
+.split-view iframe {
+  width: 100%;
+  height: calc(100% - 2.5rem);
+  border: none;
+  border-radius: .4rem;
+}
+.divider {
+  background: #FFFFFF;
+  width: 8px;
+  height: calc(100vh - 4.8rem);
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  display: none;
+}
+.split-view p {
+  width: 100%;
+  color: #FFFFFF;
+  padding: 0 .5rem;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: baseline;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.left-description {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.split-view .short-hash {
+  float: right;
+  display: inline-block;
+  vertical-align: baseline;
+  margin-left: 1rem;
+}
+.stack-view {
+  background: #00d2ff;
+  padding: .5rem;
+}
+.stack-view .left-side, .stack-view .right-side {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+}
+.stack-view .left-side {
+  width: calc(50% + 1rem);
+  overflow: hidden;
+}
+.stack-view .left-side iframe {
+  border-bottom-left-radius: .4rem;
+  border-top-left-radius: .4rem;
+}
+.stack-view .right-side iframe {
+  border-radius: .4rem;
+
+}
+.stack-view .left-side iframe {
+  width: 200%;
+}
+.stack-view iframe {
+  border-radius: 0;
+}
