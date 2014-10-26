@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025224213) do
+ActiveRecord::Schema.define(version: 20141026000139) do
 
   create_table "page_revisions", force: true do |t|
     t.integer  "revision_id"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20141025224213) do
   create_table "repositories", force: true do |t|
     t.string   "name"
     t.integer  "user_id"
-    t.string "description"
+    t.text     "description"
     t.string   "url"
     t.boolean  "enabled",     default: false
     t.datetime "created_at"
