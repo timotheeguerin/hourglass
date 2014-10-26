@@ -49,3 +49,9 @@ gem 'headless'
 gem 'rmagick'
 
 gem 'cancancan'
+
+gem 'js-routes'
+
+gem 'quiet_assets'
+
+gem 'react-rails'
