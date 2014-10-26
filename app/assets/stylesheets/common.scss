@@ -1,0 +1,36 @@
+body {
+  background: #F5F5F5;
+}
+
+.card {
+  padding: 1rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.repositories {
+  @extend .card;
+  width: 40rem;
+  margin: 0 auto;
+  margin-top: 5rem;
+}
+
+.repositories h2 {
+  text-align: center;
+}
+
+.repositories .repository {
+  display: block;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.repositories .repository:nth-child(2n+1) {
+  background: #F5F5F5;
+}
+
+.repository input[type="checkbox"] {
+  float: right;
+}
