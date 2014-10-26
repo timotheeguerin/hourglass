@@ -52,6 +52,6 @@ gem 'js-routes'
 
 gem 'quiet_assets'
 
-gem 'react-rails'
+gem 'react-rails', github: 'reactjs/react-rails'
 
 gem 'sidekiq'

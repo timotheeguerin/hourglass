@@ -1,13 +1,10 @@
-<aside class="sidebar">
-  <% if user_signed_in? %>
-    <h2><i class="fa fa-angle-left fa-lg"></i> Repositories</h2>
-      <div id="repositories">
-
-      </div>
-      <div class="search-repositories">
-        <input type="search" placeholder="Search" />
-      </div>
-  <% else %>
-      <%= link_to 'Sign in with Github', user_omniauth_authorize_path(:github) %>
-  <% end %>
-</aside>
+<% if user_signed_in? %>
+    <%= react_component('RepositoriesBox', {user_id: current_user.id}, {class: 'all-repositories'}) %>
+    <div class="search-repositories">
+      <input type="search" placeholder="Search"/>
+    </div>
+    <%= react_component('RepositoriesBox', {user_id: current_user.id}, {class: 'all-repositories'}) %>
+    <div class="search-repositories">
+      <input type="search" placeholder="Search"/>
+    </div>
+<% end %>

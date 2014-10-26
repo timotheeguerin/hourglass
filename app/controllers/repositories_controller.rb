@@ -12,7 +12,7 @@ class RepositoriesController < ApplicationController
   end
 
   def enable
-    RepositoryPreprocessorWorker.sync(@repository) unless @repository.processing
+    RepositoryPreprocessorWorker.perform_async(@repository.id) unless @repository.processing
     @repository.enabled = true
     @repository.processing = true
     @repository.save

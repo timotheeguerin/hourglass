@@ -9,16 +9,33 @@ body {
   background: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
+
+#repositories {
+  position: relative;
+  width: 100%;
+}
+
+.repositories {
+  position: relative;
+}
 .repositories h2 {
   text-align: center;
 }
+
+.sidebar-nav {
+  display: block;
+  padding: 1rem 1rem 0;
+  cursor: pointer;
+}
+
 .repositories .repository {
   display: block;
-  padding: .7rem 1rem;
+  padding: .6rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: .4rem;
+  margin: 0 .5rem;
   cursor: pointer;
 }
 

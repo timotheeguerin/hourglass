@@ -3,8 +3,10 @@
 
 var RepositoriesBox = React.createClass({
     loadCommentsFromServer: function () {
+        var url = Routes.list_user_repositories_path({'user_id': this.props.user_id});
+        console.log("URL: " + url);
         $.ajax({
-            url: this.props.url,
+            url: url,
             dataType: 'json',
             success: function (data) {
                 this.setState({data: data});
@@ -22,12 +24,22 @@ var RepositoriesBox = React.createClass({
         return {data: []};
     },
     componentDidMount: function () {
+        var pollInterval = 10000;
         this.loadCommentsFromServer();
-        setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+        setInterval(this.loadCommentsFromServer, pollInterval);
+    },
+    navigateBack: function () {
+        console.log("Navigating backwards");
+        $("#repositories").animate({left: '-100%'}, 350);
     },
     render: function () {
         return (
-            <RepositoriesList data={this.state.data} />
+            <div id="repositories">
+                <h2 className="sidebar-nav" onClick={this.navigateBack}>
+                    <i className="fa fa-angle-left fa-lg"></i>
+                Repositories</h2>
+                <RepositoriesList data={this.state.data} />
+            </div>
         );
     }
 });
@@ -93,8 +105,8 @@ console.log(current_user);
 console.log(window.current_user);
 
 $(document).ready(function () {
-    React.renderComponent(
-        <RepositoriesBox url={Routes.list_user_repositories_path({'user_id': current_user})} pollInterval={5000} />,
-        document.getElementById('repositories')
-    );
+    //React.renderComponent(
+    //    <RepositoriesBox url={Routes.list_user_repositories_path({'user_id': current_user})} pollInterval={5000} />,
+    //    document.getElementById('repositories')
+    //);
 });

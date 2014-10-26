@@ -9,8 +9,7 @@
   <script>
       var current_user = <%= user_signed_in? ? current_user.id : -1 %>;
   </script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
@@ -20,8 +19,10 @@
 <body>
 <%= render 'layouts/header' %>
 <div class="wrapper">
-  <div class="sidebar">
-    <%= render 'layouts/sidebar' %>
+  <div class="sidebar-container">
+    <div class="sidebar">
+      <%= render 'layouts/sidebar' %>
+    </div>
   </div>
   <div class="content">
 

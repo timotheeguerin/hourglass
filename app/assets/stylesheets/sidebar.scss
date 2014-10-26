@@ -1,15 +1,27 @@
-.sidebar {
-  padding: 1rem;
+.sidebar-container {
   background-color: #EEE;
   background: #FFFFFF;
   width: 300px;
   height: calc(100vh - 4.5rem);
   border-right: 1px solid rgba(0,0,0,0.1);
   position: relative;
-  display: inline-block;
   vertical-align: middle;
-  overflow: hidden;
+  overflow-x: scroll;
   overflow-y: scroll;
+}
+
+.sidebar {
+  display: flex;
+  width: 200%;
+}
+
+.all-repositories {
+  width: 50%;
+}
+
+.sidebar #repository {
+  width: 50%;
+  flex: 1;
 }
 .sidebar ol {
   -webkit-padding-start: 0px;
