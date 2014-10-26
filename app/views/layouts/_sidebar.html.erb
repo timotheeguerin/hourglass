@@ -3,7 +3,7 @@
     <div class="search-repositories">
       <input type="search" placeholder="Search"/>
     </div>
-    <%= react_component('RepositoriesBox', {user_id: current_user.id}, {class: 'all-repositories'}) %>
+    <%= react_component('FilesBox', {user_id: current_user.id, repository_id: 1}, {class: 'all-files'}) %>
     <div class="search-repositories">
       <input type="search" placeholder="Search"/>
     </div>

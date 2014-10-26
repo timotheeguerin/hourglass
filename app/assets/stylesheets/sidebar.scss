@@ -6,16 +6,18 @@
   border-right: 1px solid rgba(0,0,0,0.1);
   position: relative;
   vertical-align: middle;
-  overflow-x: scroll;
+  overflow-x: hidden;
   overflow-y: scroll;
 }
 
 .sidebar {
   display: flex;
   width: 200%;
+  height: 100%;
 }
 
-.all-repositories {
+.all-repositories, .all-files {
+  position: relative;
   width: 50%;
 }
 
@@ -44,7 +46,7 @@
   position: fixed;
   bottom: 1px;
   left: 0;
-  width: 100%;
+  width: 300px;
 }
 .search-repositories input {
   width: 100%;
