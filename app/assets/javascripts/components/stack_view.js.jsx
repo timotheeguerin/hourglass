@@ -1,11 +1,10 @@
 /** @jsx React.DOM */
 
-
 var CompareBox = React.createClass({
     getInitialState: function () {
         console.log(this.props);
         var left_revision_id = isNull(this.props.left) ? null : this.props.left.revision_id;
-        var right_revision_id = isNull(this.props.right)  ? null : this.props.right.revision_id;
+        var right_revision_id = isNull(this.props.right) ? null : this.props.right.revision_id;
 
         return {
             repository_id: this.props.repository_id,
@@ -26,8 +25,7 @@ var CompareBox = React.createClass({
                 engine: (
                     <SimpleView repository_id={this.state.repository_id}
                         revision_id={this.state.left.revision_id}
-                        page={this.state.page}>
-                    </SimpleView>
+                        page={this.state.page}/>
                 )
             });
         } else {
@@ -141,22 +139,22 @@ function iframes_load(iframes, callback) {
 }
 
 
-function compare_view(repository_id, page, left, right, type) {
-    right = typeof right !== 'undefined' ? right : {};
+function compare_view(repository_id, page, left_revision_id, right_revision_id, type) {
+    right_revision_id = typeof right !== 'undefined' ? right : null;
     type = typeof type !== 'undefined' ? type : null;
     var url = Routes.compare_path({
         user_id: current_user,
         repository_id: repository_id,
-        left: left,
-        right: right,
+        left_revision_id: left_revision_id,
+        right_revision_Id: right_revision_id,
         page: page,
         type: type
     });
     window.history.pushState({}, "", url);
     React.renderComponent(
         <CompareBox repository_id={repository_id}
-            left={{revision_id: left.revision_id}}
-            right={{revision_id: right.revision_id}}
+            left={{revision_id: left_revision_id}}
+            right={{revision_id: right_revision_id}}
             page={page}
             type={type} />
         , document.getElementById('content')
@@ -166,7 +164,3 @@ function compare_view(repository_id, page, left, right, type) {
 function isNull(o) {
     return !(typeof o !== "undefined" && o !== null)
 }
-
-//setTimeout(function () {
-//    compare_view(61, 'index.html', {revision_id: 1})
-//}, 10000);
