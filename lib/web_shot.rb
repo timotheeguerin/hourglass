@@ -14,10 +14,12 @@ class WebShot
   def screenshot(url, output)
     @driver.navigate.to(url)
     @driver.save_screenshot(output)
-
   end
 
-  def thumbnails(url, output)
+  # Generate thumbnails of the given url
+  # @param url: url to screenshot
+  # @param output: output file, if nil return the file object
+  def thumbnails(url, output=nil)
     file = Tempfile.new('foo')
 
     #Take a fullsize screenshot and save it in a tmp file
@@ -26,7 +28,11 @@ class WebShot
     #Resize image to a thumbnail
     img = Magick::Image::read(file.path).first
     thumb = img.scale(@options[:thumbnails_width], (@options[:thumbnails_width] * img.rows)/img.columns)
-    thumb.write(output)
+    if output.nil?
+      thumb.write(output)
+    else
+      thumb
+    end
   end
 
   def close

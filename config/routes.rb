@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
-  # get 'preview/:user_id/:repository/:revision/:path'
+  get 'preview/:user_id/:repository_id/:revision/:path' => 'preview#show', as: :preview
 
   get 'test' => 'welcome#test'
   resources :users do

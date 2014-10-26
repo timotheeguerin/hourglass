@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   # Sync the user project with github
   def sync_repositories(octokit)
     octokit.repos(username).each do |github_repo|
-      if Repository.find_by_id(github_repo.name).nil?
+      if Repository.find_by_name(github_repo.name).nil?
         repository = Repository.new
         repository.name = github_repo.name
         repository.url = github_repo.html_url
