@@ -17,6 +17,16 @@ Rails.application.routes.draw do
         get 'list'
         get 'sync'
       end
+
+      resources :pages do
+
+        member do
+          get 'show'
+        end
+        collection do
+          get 'list'
+        end
+      end
     end
   end
 end
