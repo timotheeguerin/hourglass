@@ -39,3 +39,31 @@ function link_iframes(iframe1, iframe2) {
         updateScroll(iframe1)
     })
 }
+
+$(document).ready(function () {
+    $(document).on('mousedown', '.slider', function (e) {
+        $(this).addClass('dragging');
+    });
+
+    $(document).on('mouseup', function (e) {
+        $('.slider.dragging').removeClass('dragging');
+    });
+
+
+    $(document).mousemove(function (e) {
+        move_slider(e.pageX);
+    });
+});
+
+var move_slider = function (position) {
+    $('.slider.dragging').each(function () {
+        var parent = $(this).parent();
+        var left_iframe = parent.find('.left-iframe')
+        if (position >= parent.offset().left && position <= parent.offset().left + parent.width()) {
+            $(this).offset({left: position})
+            left_iframe.css({width: position - parent.offset().left})
+            left_iframe.find('iframe').css({width: parent.width()})
+        }
+
+    });
+};
