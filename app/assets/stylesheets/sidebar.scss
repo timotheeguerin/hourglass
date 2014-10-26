@@ -1,5 +1,4 @@
 .sidebar {
-  //display: none;
   padding: 1rem;
   background-color: #EEE;
   background: #FFFFFF;
@@ -9,6 +8,8 @@
   position: relative;
   display: inline-block;
   vertical-align: middle;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 .sidebar ol {
   -webkit-padding-start: 0px;
@@ -28,7 +29,7 @@
 }
 .search-repositories {
   background: #00B7FF;
-  position: absolute;
+  position: fixed;
   bottom: 1px;
   left: 0;
   width: 100%;

@@ -15,6 +15,7 @@ sudo apt-get install imagemagick libmagickwand-dev
 Once repo has been cloned:
 
 ```
+$ bundle install
 $ figaro install
 $ cat config/application.yml
 
