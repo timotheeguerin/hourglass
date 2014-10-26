@@ -10,6 +10,13 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.wrapper {
+  display: flex;
+}
+
+.content {
+  width: 100%;
+}
 #repositories {
   position: relative;
   width: 100%;
