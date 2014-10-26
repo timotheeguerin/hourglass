@@ -3,8 +3,9 @@
 
 var CompareBox = React.createClass({
     getInitialState: function () {
-        var left_revision_id = this.props.left === undefined ? null : this.props.left.revision_id;
-        var right_revision_id = this.props.right === undefined ? null : this.props.right.revision_id;
+        console.log(this.props);
+        var left_revision_id = isNull(this.props.left) ? null : this.props.left.revision_id;
+        var right_revision_id = isNull(this.props.right)  ? null : this.props.right.revision_id;
 
         return {
             repository_id: this.props.repository_id,
@@ -138,3 +139,34 @@ function iframes_load(iframes, callback) {
         }
     });
 }
+
+
+function compare_view(repository_id, page, left, right, type) {
+    right = typeof right !== 'undefined' ? right : {};
+    type = typeof type !== 'undefined' ? type : null;
+    var url = Routes.compare_path({
+        user_id: current_user,
+        repository_id: repository_id,
+        left: left,
+        right: right,
+        page: page,
+        type: type
+    });
+    window.history.pushState({}, "", url);
+    React.renderComponent(
+        <CompareBox repository_id={repository_id}
+            left={{revision_id: left.revision_id}}
+            right={{revision_id: right.revision_id}}
+            page={page}
+            type={type} />
+        , document.getElementById('content')
+    )
+}
+
+function isNull(o) {
+    return !(typeof o !== "undefined" && o !== null)
+}
+
+//setTimeout(function () {
+//    compare_view(61, 'index.html', {revision_id: 1})
+//}, 10000);
