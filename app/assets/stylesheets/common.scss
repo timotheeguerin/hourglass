@@ -3,44 +3,36 @@
 }
 body {
   background: #F5F5F5;
-}
-.card {
-  padding: 1rem;
-  background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 .wrapper {
   display: flex;
 }
 .content {
   width: 100%;
+  flex: 1 1 auto;
 }
 #repositories, #files {
   width: 100%;
+  background: #EEEEEE;
 }
 .files {
   margin: 1rem;
 }
-
 .repositories {
   position: relative;
   height: 100%;
-}
-
-.sidebar-nav {
-  display: block;
-  padding: 1rem 1rem 0;
-  cursor: pointer;
 }
 .repository {
   padding: .6rem .9rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: .4rem;
   margin: 0 1rem;
   cursor: pointer;
   white-space: nowrap;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: none;
 }
 .repository span {
   width: calc(100% - 4.5rem);
@@ -48,10 +40,26 @@ body {
   text-overflow: ellipsis;
 }
 .repository:nth-child(2n+1) {
-  background: #F5F5F5;
+  background: #FFFFFF;
+}
+
+.repository:nth-child(2n) {
+  background: #FFFFFF;
+}
+
+.repository:first-child {
+  border-top-left-radius: .4rem;
+  border-top-right-radius: .4rem;
+}
+
+.repository:last-child {
+  border-bottom-left-radius: .4rem;
+  border-bottom-right-radius: .4rem;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .repository .fa-angle-right {
-  margin-left: .6rem;
+  margin-left: .4rem;
   color: #CCCCCC;
   vertical-align: middle;
 }

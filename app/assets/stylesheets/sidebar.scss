@@ -1,7 +1,7 @@
 .sidebar-container {
-  background-color: #EEE;
-  background: #FFFFFF;
+  background-color: #EEEEEE;
   width: 300px;
+  flex: 1 0 300px;
   height: calc(100vh - 4.5rem);
   border-right: 1px solid rgba(0,0,0,0.1);
   position: relative;
@@ -15,12 +15,35 @@
   height: 100%;
   position: relative;
 }
+
+.sidebar .fa {
+  color: #DDDDDD;
+  padding: .3rem;
+  border-radius: .5rem;
+  cursor: pointer;
+}
 .all-repositories, .all-files {
   position: relative;
   height: 100%;
   width: 50%;
 }
 
+.sidebar-nav {
+  display: block;
+  padding: .7rem 1rem;
+  background: #FFFFFF;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-nav .fa:hover {
+  color: dodgerblue;
+}
 .sidebar #repository {
   width: 50%;
   flex: 1;

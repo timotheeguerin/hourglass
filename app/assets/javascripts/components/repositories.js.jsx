@@ -35,9 +35,12 @@ var RepositoriesBox = React.createClass({
     render: function () {
         return (
             <div id="repositories">
-                <h2 className="sidebar-nav" onClick={this.navigateBack}>
-                    <i className="fa fa-angle-left fa-lg"></i>
-                Repositories</h2>
+                <h2 className="sidebar-nav">
+                    <span className="sidebar-title">Repositories</span>
+                    <span className="sidebar-button" onClick={this.navigateBack}>
+                        <i className="fa fa-angle-right fa-lg" ></i>
+                    </span>
+                </h2>
                 <RepositoriesList data={this.state.data} />
                 <div className="search-repositories">
                     <input type="search" placeholder="Search"/>

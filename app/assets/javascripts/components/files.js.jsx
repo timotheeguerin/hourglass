@@ -40,9 +40,12 @@ var FilesBox = React.createClass({
         });
         return (
             <div id="files">
-                <h2 className="sidebar-nav" onClick={this.navigateBack}>
-                    <i className="fa fa-angle-left fa-lg"></i>
-                Files
+                <h2 className="sidebar-nav">
+                    <i className="fa fa-angle-left fa-lg" id="fileBackwardButton" onClick={this.navigateBack}></i>
+                    <span className="sidebar-title">Files</span>
+                    <span className="sidebar-button">
+                        <i id="fileForwardButton" className="fa fa-angle-right fa-lg"></i>
+                    </span>
                 </h2>
                 <ol className="files">
                     {fileNodes}

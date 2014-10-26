@@ -8,6 +8,12 @@
       </div>
       <div class="header-right">
         <%= current_user.username %>
+        <ul>
+          <li>
+            <span><i class="fa fa-power-off fa-lg"></i> Logout</span>
+          </li>
+
+        </ul>
         <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
       </div>
   <% else %>
