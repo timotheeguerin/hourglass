@@ -4,9 +4,6 @@ class Revision < ActiveRecord::Base
 
 
   def local_path
-    self.hash
-    self.message
-    self.
-    File.join(repository.local_path, hash)
+    File.join(repository.local_path, sha)
   end
 end

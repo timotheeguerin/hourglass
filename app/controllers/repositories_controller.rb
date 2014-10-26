@@ -6,8 +6,15 @@ class RepositoriesController < ApplicationController
     render json: @repositories.to_json
   end
 
+  def sync
+    current_user.sync_repositories
+    return_json(true, 'Repositories synced')
+  end
+
   def enable
+    RepositoryPreprocessorWorker.sync(@repository) unless @repository.processing
     @repository.enabled = true
+    @repository.processing = true
     @repository.save
     return_json(true, 'Repository enabled')
   end

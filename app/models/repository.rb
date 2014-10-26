@@ -7,16 +7,17 @@ class Repository < ActiveRecord::Base
   validates_uniqueness_of :name, scope: :user_id
 
   def master
-    revision.order(:order).last
+    revisions.order(:order).last
   end
 
-  def sync_revision(octokit)
-    commits = octokit.commits("#{user.username}/#{name}")
+  def sync_revisions
+    # noinspection Rails3Deprecated
+    commits = Github.octokit.commits("#{user.username}/#{name}")
     commits.each_with_index do |commit, i|
-      if revisions.find_by_hash(commit.sha).nil?
+      if revisions.find_by_sha(commit.sha).nil?
         revision = Revision.new
         revision.order = commits.size - i
-        revision.hash = commit.sha
+        revision.sha = commit.sha
         revision.message = commit.commit.message
         revision.repository = self
         revision.save
@@ -25,11 +26,11 @@ class Repository < ActiveRecord::Base
   end
 
   def sync_pages
-    Dir.chdir(master.local_path) do
+    Dir.chdir(local_path) do
       Dir['**/*.html'].each do |html_page|
         if pages.find_by_path(html_page).nil?
           page = Page.new
-          page.name = html.basename
+          page.name = File.basename(html_page)
           page.path = html_page
           page.repository = self
           page.save
@@ -39,6 +40,6 @@ class Repository < ActiveRecord::Base
   end
 
   def local_path
-    File.join(ENV['repositories_base'], user.username, name)
+    File.join(user.local_path, name)
   end
 end

@@ -8,11 +8,19 @@ class WebShot
     @options = default_options.merge(options)
 
     @driver = Selenium::WebDriver.for(@options[:driver])
+    @driver.manage.timeouts.implicit_wait = @options[:timeout]
+    @driver.manage.timeouts.script_timeout = @options[:timeout]
+    @driver.manage.timeouts.page_load = @options[:timeout]
     @driver.manage.window.resize_to(@options[:viewport_width], @options[:viewport_heigth])
   end
 
   def screenshot(url, output)
-    @driver.navigate.to(url)
+    puts "Url: #{url}"
+    begin
+      @driver.navigate.to(url.to_s)
+    rescue Selenium::WebDriver::Error::TimeOutError
+
+    end
     @driver.save_screenshot(output)
   end
 
@@ -29,9 +37,9 @@ class WebShot
     img = Magick::Image::read(file.path).first
     thumb = img.scale(@options[:thumbnails_width], (@options[:thumbnails_width] * img.rows)/img.columns)
     if output.nil?
-      thumb.write(output)
+      StringIO.open(thumb.to_blob)
     else
-      thumb
+      thumb.write(output)
     end
   end
 
@@ -43,6 +51,6 @@ class WebShot
 
   private
   def default_options
-    {driver: :firefox, thumbnails_width: 256, viewport_width: 1280, viewport_heigth: 800}
+    {driver: :firefox, thumbnails_width: 256, viewport_width: 1280, viewport_heigth: 800, timeout: 5}
   end
 end
