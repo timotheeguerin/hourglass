@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
-  # get 'preview/:user_id/:repository/:revision/:path'
+  get 'preview/:user_id/:repository_id/:revision_id/:path' => 'preview#show', as: :preview, constraints: {path: /.*/}
 
   get 'test' => 'welcome#test'
   resources :users do
@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
       collection do
         get 'list'
+        get 'sync'
       end
     end
   end
