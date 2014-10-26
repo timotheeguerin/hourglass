@@ -21,6 +21,12 @@ body {
   border-radius: .4rem;
   cursor: pointer;
 }
+
+.repository span {
+  width: calc(100% - 4.5rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .repositories .repository:nth-child(2n+1) {
   background: #F5F5F5;
 }

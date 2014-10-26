@@ -1,5 +1,4 @@
 .sidebar {
-  //display: none;
   padding: 1rem;
   background-color: #EEE;
   background: #FFFFFF;
@@ -9,6 +8,7 @@
   position: relative;
   display: inline-block;
   vertical-align: middle;
+  overflow: hidden;
   overflow-y: scroll;
 }
 .sidebar ol {
