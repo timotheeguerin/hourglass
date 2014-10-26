@@ -164,7 +164,3 @@ function compare_view(repository_id, page, left_revision_id, right_revision_id, 
 function isNull(o) {
     return !(typeof o !== "undefined" && o !== null)
 }
-
-setTimeout(function () {
-    compare_view(61, 'index.html', 2)
-}, 3000);
