@@ -94,8 +94,14 @@ var DualView = React.createClass({
     },
     componentDidMount: function () {
         iframes = $(this.getDOMNode()).find('iframe');
-        iframes_load(iframes, function () {
 
+        iframes_load(iframes, function () {
+            iframes.each(function () {
+                var iframe = $(this)
+                $(this).contents().mousemove(function (e) {
+                    move_slider(e.pageX + iframe.offset().left);
+                });
+            });
             link_iframes(iframes.eq(0), iframes.eq(1));
         });
     },

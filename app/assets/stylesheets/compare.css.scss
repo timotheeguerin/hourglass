@@ -45,9 +45,10 @@
         z-index: 20;
         left: 50%;
         position: absolute;
-        width: 1px;
-        background-color: #000000;
+        width: 3px;
+        background-color: #444444;
         height: 100%;
+        cursor: pointer;
       }
     }
   }
