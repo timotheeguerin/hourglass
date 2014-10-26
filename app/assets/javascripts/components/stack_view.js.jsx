@@ -114,7 +114,6 @@ var DualView = React.createClass({
                     <iframe className={this.state.type} src={previewUrl(this.state, this.state.left.revision_id)}>
                     </iframe>
                 </div>
-
                 {slider}
                 <div className='right-iframe'>
                     <iframe className={this.state.type} src={previewUrl(this.state, this.state.right.revision_id)}>
