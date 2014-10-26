@@ -55,3 +55,5 @@ gem 'quiet_assets'
 gem 'react-rails', github: 'reactjs/react-rails'
 
 gem 'sidekiq'
+
+gem 'os'

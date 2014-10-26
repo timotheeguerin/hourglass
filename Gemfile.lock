@@ -118,6 +118,7 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
+    os (0.9.6)
     paperclip (4.2.0)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -221,6 +222,7 @@ DEPENDENCIES
   mysql2
   octokit
   omniauth-github
+  os
   paperclip
   puma
   quiet_assets

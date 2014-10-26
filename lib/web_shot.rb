@@ -2,9 +2,10 @@ class WebShot
   attr_accessor :options
 
   def initialize(options = {})
-    @headless = Headless.new
-    @headless.start
-
+    if OS.linux?
+      @headless = Headless.new
+      @headless.start
+    end
     @options = default_options.merge(options)
 
     @driver = Selenium::WebDriver.for(@options[:driver])
@@ -45,8 +46,11 @@ class WebShot
 
   def close
     @driver.quit
-    @headless.stop
-    @headless.destroy
+
+    if OS.linux?
+      @headless.stop
+      @headless.destroy
+    end
   end
 
   private
