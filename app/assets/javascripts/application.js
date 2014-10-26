@@ -45,8 +45,8 @@ $(document).ready(function () {
         $(this).addClass('dragging');
     });
 
-    $(document).on('mouseup', '.slider', function (e) {
-        $(this).removeClass('dragging');
+    $(document).on('mouseup', function (e) {
+        $('.slider.dragging').removeClass('dragging');
     });
 
 
