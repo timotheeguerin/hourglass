@@ -33,6 +33,7 @@ GEM
       execjs
     bcrypt (3.1.9)
     builder (3.2.2)
+    cancancan (1.9.2)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
@@ -179,6 +180,7 @@ PLATFORMS
 
 DEPENDENCIES
   autoprefixer-rails
+  cancancan
   coffee-rails (~> 4.0.0)
   devise
   figaro
