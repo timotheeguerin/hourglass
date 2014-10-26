@@ -1,0 +1,27 @@
+.thumbnail {
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: .4rem;
+}
+.thumbnail img {
+  width: 100%;
+}
+.scroll-container {
+  width: 100%;
+  max-height: 200px;
+  overflow-y: scroll;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.thumbnail-title {
+  font-size: .8rem;
+  padding: .3rem .5rem .3rem;
+  text-align: center;
+  display: block;
+  width: 100%;
+  z-index: 5;
+}
+.thumbnail:last-child {
+  padding: 0;
+}

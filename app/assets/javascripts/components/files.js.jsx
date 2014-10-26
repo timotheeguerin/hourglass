@@ -29,14 +29,13 @@ var FilesBox = React.createClass({
     },
     navigateBack: function () {
         console.log("Navigating backwards");
-        $(".all-repositories").animate({left: '-100%'}, 350);
-        $(".all-files").animate({left: '-100%'}, 350);
+        $(".sidebar").animate({left: '0'}, 350);
     },
     render: function () {
         var fileNodes = this.state.data.map(function (file) {
             return (
-                <Repository name={file.name} id={file.id}>
-                </Repository>
+                <File name={file.name} id={file.id} image={file.revisions[0].thumbnails}>
+                </File>
             );
         });
         return (
@@ -48,47 +47,23 @@ var FilesBox = React.createClass({
                 <ol className="files">
                     {fileNodes}
                 </ol>
+                <div className="search-repositories">
+                    <input type="search" placeholder="Search"/>
+                </div>
             </div>
         );
     }
 });
 
-var Repository = React.createClass({
-    toggleRepository: function (e) {
-        var id = this.props.id;
-        console.log("Enabling repository with id " + id);
-        var url = Routes.enable_user_repository_path(current_user, id);
-        if (e.checked) {
-            console.log('e is checked');
-        } else {
-            console.log('e is NOT checked');
-        }
-
-        $.post(url).done(function (data) {
-            console.log("Great succuss");
-        }).fail(function (xhr, status, err) {
-            console.log("Failure");
-            console.error(this.props.url, status, err.toString());
-        });
-    },
+var File = React.createClass({
     render: function () {
         return (
-            <li className="repository">
-            Bla bla: {this.props.name}
-                <div class="right">
-                    <input type="checkbox" checked='' onChange={this.toggleRepository} />
-                    <i className="fa fa-angle-right fa-lg"></i>
+            <div className="thumbnail">
+                <div className="scroll-container">
+                    <img src={this.props.image} />
                 </div>
-            </li>
+                <span className="thumbnail-title">{this.props.name}</span>
+            </div>
         );
     }
-});
-console.log(current_user);
-console.log(window.current_user);
-
-$(document).ready(function () {
-    //React.renderComponent(
-    //    <RepositoriesBox url={Routes.list_user_repositories_path({'user_id': current_user})} pollInterval={5000} />,
-    //    document.getElementById('repositories')
-    //);
 });

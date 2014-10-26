@@ -9,15 +9,15 @@
   overflow-x: hidden;
   overflow-y: scroll;
 }
-
 .sidebar {
   display: flex;
   width: 200%;
   height: 100%;
+  position: relative;
 }
-
 .all-repositories, .all-files {
   position: relative;
+  height: 100%;
   width: 50%;
 }
 
@@ -29,24 +29,17 @@
   -webkit-padding-start: 0px;
   list-style-type: none;
 }
-.sidebar ol li {
-  padding: 1rem 1.5rem;
-}
 .fa-angle-left {
   vertical-align: -7%;
   margin-right: .3rem;
 }
-.fa-angle-right {
-  margin-left: .6rem;
-  color: #CCCCCC;
-  vertical-align: middle;
-}
 .search-repositories {
   background: #00B7FF;
-  position: fixed;
-  bottom: 1px;
+  position: absolute;
+  bottom: 0;
   left: 0;
-  width: 300px;
+  right: 0;
+  width: 100%;
 }
 .search-repositories input {
   width: 100%;

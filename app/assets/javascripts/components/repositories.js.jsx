@@ -30,8 +30,7 @@ var RepositoriesBox = React.createClass({
     },
     navigateBack: function () {
         console.log("Navigating backwards");
-        $(".all-repositories").animate({left: '-100%'}, 350);
-        $(".all-files").animate({left: '-50%'}, 350);
+        $(".sidebar").animate({left: '-100%'}, 350);
     },
     render: function () {
         return (
@@ -40,6 +39,9 @@ var RepositoriesBox = React.createClass({
                     <i className="fa fa-angle-left fa-lg"></i>
                 Repositories</h2>
                 <RepositoriesList data={this.state.data} />
+                <div className="search-repositories">
+                    <input type="search" placeholder="Search"/>
+                </div>
             </div>
         );
     }
@@ -63,13 +65,17 @@ var RepositoriesList = React.createClass({
 
 var Repository = React.createClass({
     toggleRepository: function(e) {
+
         var id = this.props.id;
         console.log("Enabling repository with id " + id);
         var url = Routes.enable_user_repository_path(current_user, id);
-        if (e.checked) {
+        console.log(e.target.checked);
+        if (e.target.checked) {
             console.log('e is checked');
+            url = Routes.enable_user_repository_path(current_user, id);
         } else {
             console.log('e is NOT checked');
+            url = Routes.disable_user_repository_path(current_user, id);
         }
 
         $.post(url).done(function(data) {
@@ -85,7 +91,7 @@ var Repository = React.createClass({
                 <li className="repository">
                 {this.props.name}
                     <div class="right">
-                        <input type="checkbox" checked='checked' onChange={this.toggleRepository} />
+                        <input type="checkbox" defaultChecked onChange={this.toggleRepository} />
                         <i className="fa fa-angle-right fa-lg"></i>
                     </div>
                 </li>
@@ -95,7 +101,7 @@ var Repository = React.createClass({
             <li className="repository">
                 {this.props.name}
                 <div class="right">
-                    <input type="checkbox" checked='' onChange={this.toggleRepository} />
+                    <input type="checkbox" onChange={this.toggleRepository} />
                     <i className="fa fa-angle-right fa-lg"></i>
                 </div>
             </li>

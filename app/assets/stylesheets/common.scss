@@ -9,25 +9,22 @@ body {
   background: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
-
 .wrapper {
   display: flex;
 }
-
 .content {
   width: 100%;
 }
-
 #repositories, #files {
-  position: relative;
   width: 100%;
+}
+.files {
+  margin: 1rem;
 }
 
 .repositories {
   position: relative;
-}
-.repositories h2 {
-  text-align: center;
+  height: 100%;
 }
 
 .sidebar-nav {
@@ -35,28 +32,34 @@ body {
   padding: 1rem 1rem 0;
   cursor: pointer;
 }
-
-.repositories .repository {
-  display: block;
-  padding: .6rem 1rem;
+.repository {
+  padding: .6rem .9rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: .4rem;
-  margin: 0 .5rem;
+  margin: 0 1rem;
   cursor: pointer;
+  white-space: nowrap;
 }
-
 .repository span {
   width: calc(100% - 4.5rem);
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.repositories .repository:nth-child(2n+1) {
+.repository:nth-child(2n+1) {
   background: #F5F5F5;
 }
-.repositories .repository:hover {
-  background: dodgerblue;
+.repository .fa-angle-right {
+  margin-left: .6rem;
+  color: #CCCCCC;
+  vertical-align: middle;
+}
+.repository:hover {
+  background: #288aff;
+  color: #FFFFFF;
+}
+.repository:hover .fa-angle-right {
   color: #FFFFFF;
 }
 .repository .right {
