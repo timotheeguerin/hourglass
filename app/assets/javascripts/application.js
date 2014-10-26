@@ -19,9 +19,8 @@
 //= require_tree .
 
 
-$(window).load(function () {
-    link_iframes($('.left-side .iframe'), $('.right-side .iframe'))
-});
+//noinspection SillyAssignmentJS
+React = React;
 
 
 function link_iframes(iframe1, iframe2) {
