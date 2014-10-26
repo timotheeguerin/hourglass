@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<%= react_component('CompareBox', repository_id: 1, page: 'index.html', left: {revision_id: 1}) %>
-=======
 <%#= react_component('CompareBox', repository_id: 61, page: 'index.html', left: {revision_id: 1}) %>
-<%= react_component('CompareBox', repository_id: 61, page: 'index.html', type: :slide, left: {revision_id: 1}, right: {revision_id: 2}) %>
->>>>>>> d8dbb4c38c9f8c0e8b5e7b531919d2be24b3914a
+<%= react_component('CompareBox', repository_id: @params[:repository_id], page: @params[:page], type: @params[:type],
+                    left: @params[:left], right: @params[:right]) %>
