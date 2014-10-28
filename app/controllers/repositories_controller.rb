@@ -3,6 +3,9 @@ class RepositoriesController < ApplicationController
   load_and_authorize_resource through: :user
 
   def list
+    if params[:enabled]
+      @repositories = @repositories.where(enabled: params[:enabled])
+    end
     render json: @repositories.to_json
   end
 
