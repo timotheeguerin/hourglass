@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RepositoryControllerTest < ActionController::TestCase
+class RepositoriesControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end
