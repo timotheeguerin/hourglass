@@ -33,6 +33,13 @@ var RepositoriesBox = React.createClass({
         $(".sidebar").animate({left: '-100%'}, 350);
     },
     render: function () {
+        var boundClick = this.props.onClick;
+        var repositoryNodes = this.state.data.map(function (repository) {
+            return (
+                <Repository name={repository.name} id={repository.id} enabled={repository.enabled} onClick={boundClick}>
+                </Repository>
+            );
+        });
         return (
             <div id="repositories">
                 <h2 className="sidebar-nav">
@@ -41,7 +48,9 @@ var RepositoriesBox = React.createClass({
                         <i className="fa fa-angle-right fa-lg" ></i>
                     </span>
                 </h2>
-                <RepositoriesList data={this.state.data} />
+                <ol className="repositories">
+                    {repositoryNodes}
+                </ol>
                 <div className="search-repositories">
                     <input type="search" placeholder="Search"/>
                 </div>
@@ -50,29 +59,10 @@ var RepositoriesBox = React.createClass({
     }
 });
 
-var RepositoriesList = React.createClass({
-    render: function () {
-        var repositoryNodes = this.props.data.map(function (repository) {
-            return (
-                <Repository name={repository.name} id={repository.id} enabled={repository.enabled}>
-                </Repository>
-            );
-        });
-        return (
-            <ol className="repositories">
-                {repositoryNodes}
-            </ol>
-        );
-    }
-});
-
 var Repository = React.createClass({
     toggleRepository: function(e) {
-
         var id = this.props.id;
         console.log("Enabling repository with id " + id);
-        var url = Routes.enable_user_repository_path(current_user, id);
-        console.log(e.target.checked);
         if (e.target.checked) {
             console.log('e is checked');
             url = Routes.enable_user_repository_path(current_user, id);
@@ -88,10 +78,17 @@ var Repository = React.createClass({
             console.error(this.props.url, status, err.toString());
         });
     },
+    selectRepository: function () {
+        console.log("Repository clicked with id: " + this.props.id);
+        //console.log("Selecting repository " + this.props.id);
+        //console.log("Navigating backwards");
+        //$(".sidebar").animate({left: '-100%'}, 350);
+        this.props.onClick(this.props.id);
+    },
     render: function () {
         if (this.props.enabled) {
             return (
-                <li className="repository">
+                <li className="repository" onClick={this.selectRepository}>
                 {this.props.name}
                     <div class="right">
                         <input type="checkbox" defaultChecked onChange={this.toggleRepository} />
@@ -101,7 +98,7 @@ var Repository = React.createClass({
             );
         }
         return (
-            <li className="repository">
+            <li className="repository" onClick={this.selectRepository}>
                 {this.props.name}
                 <div class="right">
                     <input type="checkbox" onChange={this.toggleRepository} />
@@ -111,8 +108,6 @@ var Repository = React.createClass({
         );
     }
 });
-console.log(current_user);
-console.log(window.current_user);
 
 $(document).ready(function () {
     //React.renderComponent(

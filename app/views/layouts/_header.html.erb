@@ -7,20 +7,27 @@
 
       </div>
       <div class="header-right">
-        <%= current_user.username %>
+        <h3><%= current_user.username %></h3>
         <ul class="dropdown">
-          <li>
-            <span><i class="fa fa-power-off fa-lg"></i> Logout</span>
+          <li class="dropdown-title">
+            <h3>View</h3>
           </li>
           <li>
-            <span><i class="fa fa-power-off fa-lg"></i> Logout</span>
+            <div><i class="fa fa-file-o fa-2x"></i> <span>Single<span> <i class="right fa fa-2x"></i></div>
           </li>
           <li>
-            <span><i class="fa fa-power-off fa-lg"></i> Logout</span>
+            <div><i class="fa fa-files-o fa-2x"></i> <span>Stack<span> <i class="right fa fa-2x"></i></div>
+          </li>
+          <li class="selectedView">
+            <div><i class="fa fa-columns fa-2x"></i> <span>Split<span> <i class="right fa fa-check fa-2x"></i></div>
+          </li>
+          <li>
+            <div>
+              <i class="fa fa-power-off fa-2x"></i> <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+            </div>
           </li>
 
         </ul>
-        <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
       </div>
   <% else %>
       <%= link_to 'Sign in with Github', user_omniauth_authorize_path(:github) %>

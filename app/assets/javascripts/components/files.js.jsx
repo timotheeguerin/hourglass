@@ -23,13 +23,19 @@ var FilesBox = React.createClass({
         return {data: []};
     },
     componentDidMount: function () {
-        var pollInterval = 10000;
+        var pollInterval = 1000;
         this.loadFilesFromServer();
-        setInterval(this.loadFilesFromServer, pollInterval);
+        //setInterval(this.loadFilesFromServer, pollInterval);
     },
     navigateBack: function () {
         console.log("Navigating backwards");
         $(".sidebar").animate({left: '0'}, 350);
+    },
+    hideSidebar: function () {
+        console.log("Hiding Sidebar");
+        var animationSpeed = 300;
+        $(".sidebar-container").toggleClass('hidden-container', animationSpeed);
+        $("#content").toggleClass('wide-content', animationSpeed);
     },
     render: function () {
         var fileNodes = this.state.data.map(function (file) {
@@ -44,7 +50,7 @@ var FilesBox = React.createClass({
                     <i className="fa fa-angle-left fa-lg" id="fileBackwardButton" onClick={this.navigateBack}></i>
                     <span className="sidebar-title">Files</span>
                     <span className="sidebar-button">
-                        <i id="fileForwardButton" className="fa fa-angle-right fa-lg"></i>
+
                     </span>
                 </h2>
                 <ol className="files">
@@ -61,8 +67,8 @@ var FilesBox = React.createClass({
 var File = React.createClass({
     render: function () {
         return (
-            <div className="thumbnail">
-                <div className="scroll-container">
+            <div className="thumbnail" draggable="true">
+                <div className="scroll-container" draggable="false">
                     <img src={this.props.image} />
                 </div>
                 <span className="thumbnail-title">{this.props.name}</span>
