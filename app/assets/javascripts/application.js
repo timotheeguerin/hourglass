@@ -6,10 +6,12 @@
 //= require react_ujs
 //= require_tree .
 
-
 //noinspection SillyAssignmentJS
 React = React;
-
+//noinspection SillyAssignmentJS
+Routes = Routes;
+//noinspection SillyAssignmentJS
+current_user = current_user;
 
 function link_iframes(iframe1, iframe2) {
     var scrollTop = 0;

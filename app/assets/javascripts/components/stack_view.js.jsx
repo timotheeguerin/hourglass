@@ -2,17 +2,17 @@
 
 var CompareBox = React.createClass({
     getEngine: function () {
-        if (isNull(this.props.right)) {
+        if (isNull(this.props.right_revision_id)) {
             return (
                 <SimpleView repository_id={this.props.repository_id}
-                    revision_id={this.props.left.revision_id}
+                    revision_id={this.props.left_revision_id}
                     page={this.props.page}/>
             );
         } else {
             return (
                 <DualView repository_id={this.props.repository_id}
-                    left={{revision_id: this.props.left.revision_id}}
-                    right={{revision_id: this.props.right.revision_id}}
+                    left_revision_id= {this.props.left_revision_id}
+                    right_revision_id={ this.props.right_revision_id}
                     page={this.props.page}
                     type={this.props.type}>
                 </DualView>
@@ -41,29 +41,12 @@ var SimpleView = React.createClass({
 });
 
 var DualView = React.createClass({
-
-    getInitialState: function () {
-        var left_revision_id = this.props.left === undefined ? null : this.props.left.revision_id;
-        var right_revision_id = this.props.right === undefined ? null : this.props.right.revision_id;
-
-        return {
-            repository_id: this.props.repository_id,
-            page: this.props.page,
-            type: this.props.type,
-            left: {
-                revision_id: left_revision_id
-            },
-            right: {
-                revision_id: right_revision_id
-            }
-        }
-    },
     componentDidMount: function () {
-        iframes = $(this.getDOMNode()).find('iframe');
+        var iframes = $(this.getDOMNode()).find('iframe');
 
         iframes_load(iframes, function () {
             iframes.each(function () {
-                var iframe = $(this)
+                var iframe = $(this);
                 $(this).contents().mousemove(function (e) {
                     move_slider(e.pageX + iframe.offset().left);
                 });
@@ -73,21 +56,21 @@ var DualView = React.createClass({
     },
     render: function () {
         var slider;
-        if (this.state.type == 'slide') {
+        if (this.props.type == 'slide') {
             slider = (
                 <div className='slider'>
                 </div>
             )
         }
         return (
-            <div className={this.state.type + " dual-view"}>
+            <div className={this.props.type + " dual-view"}>
                 <div className='left-iframe'>
-                    <iframe className={this.state.type} src={previewUrl(this.state, this.state.left.revision_id)}>
+                    <iframe className={this.props.type} src={previewUrl(this.props, this.props.left_revision_id)}>
                     </iframe>
                 </div>
                 {slider}
                 <div className='right-iframe'>
-                    <iframe className={this.state.type} src={previewUrl(this.state, this.state.right.revision_id)}>
+                    <iframe className={this.props.type} src={previewUrl(this.props, this.props.right_revision_id)}>
                     </iframe>
                 </div>
             </div>
@@ -110,10 +93,9 @@ function iframes_load(iframes, callback) {
     });
 }
 
-
 function compare_view(repository_id, page, left_revision_id, right_revision_id, type) {
-    right_revision_id = typeof right !== 'undefined' ? right : null;
-    type = typeof type !== 'undefined' ? type : null;
+    right_revision_id = (isNull(right_revision_id) ? null : right_revision_id);
+    type = isNull(type) ? null : type;
     var url = Routes.compare_path({
         user_id: current_user,
         repository_id: repository_id,
@@ -122,17 +104,26 @@ function compare_view(repository_id, page, left_revision_id, right_revision_id, 
         page: page,
         type: type
     });
-    window.history.pushState({}, "", url);
     React.renderComponent(
-        <CompareBox repository_id={repository_id}
-            left={{revision_id: left_revision_id}}
-            right={{revision_id: right_revision_id}}
+        <CompareBox repository_id = {repository_id}
+            left_revision_id = {left_revision_id}
+            right_revision_id = {right_revision_id}
             page={page}
             type={type} />
         , document.getElementById('content')
-    )
+    );
+    window.history.pushState({}, "", url);
+
 }
 
+
+setTimeout(function () {
+    compare_view(61, 'index.html', 1, 2, 'split')
+}, 5000);
+
+setTimeout(function () {
+    compare_view(61, 'index.html', 1, 2, 'slide')
+}, 10000);
 function isNull(o) {
     return !(typeof o !== "undefined" && o !== null)
 }
