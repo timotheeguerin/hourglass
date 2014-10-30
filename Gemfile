@@ -5,15 +5,19 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.6'
 # Use mysql as the database for Active Record
 gem 'mysql2'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -30,13 +34,13 @@ gem 'puma'
 
 gem 'devise'
 
+gem 'cancancan'
+
+gem 'quiet_assets'
+
 gem 'omniauth-github'
 
-gem 'autoprefixer-rails'
-
-gem 'octokit'
-
-gem 'git'
+gem 'websocket-rails'
 
 gem 'paperclip'
 
@@ -46,14 +50,16 @@ gem 'headless'
 
 gem 'rmagick'
 
-gem 'cancancan'
-
+#Javascript library
 gem 'js-routes'
-
-gem 'quiet_assets'
-
 gem 'react-rails', github: 'reactjs/react-rails'
+gem 'autoprefixer-rails'
 
+#Background jobs
 gem 'sidekiq'
+gem 'sidekiq-status'
 
+#Utilities
 gem 'os'
+gem 'octokit'
+gem 'git'

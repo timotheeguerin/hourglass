@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141026062935) do
+ActiveRecord::Schema.define(version: 20141028145441) do
 
   create_table "page_revisions", force: true do |t|
     t.integer  "revision_id"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20141026062935) do
     t.boolean  "enabled",     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "processing",  default: false
+    t.integer  "processing",  default: 0
   end
 
   add_index "repositories", ["user_id"], name: "index_repositories_on_user_id", using: :btree

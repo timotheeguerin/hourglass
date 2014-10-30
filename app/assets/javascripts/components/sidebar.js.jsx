@@ -5,7 +5,7 @@ var Sidebar = React.createClass({
     loadFilesFromServer: function () {
     },
     getInitialState: function () {
-        return {current_repository_id: 3};
+        return {};
     },
     navigateBack: function () {
         console.log("Navigating backwards");
@@ -20,9 +20,8 @@ var Sidebar = React.createClass({
         console.log("Current user id: " + this.props.user_id);
         return (
             <div className="sidebar">
-                <RepositoriesBox user_id={this.props.user_id} onClick={this.selectRepository}></RepositoriesBox>
-
-                <FilesBox user_id={this.props.user_id} repository_id={this.state.current_repository_id}></FilesBox>
+                <RepositoriesBox user_id={this.props.user_id} onClick={this.selectRepository}/>
+                <FilesBox user_id={this.props.user_id} repository_id={this.state.current_repository_id}/>
             </div>
         );
     }

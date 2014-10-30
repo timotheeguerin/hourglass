@@ -3,8 +3,8 @@ class RepositoriesController < ApplicationController
   load_and_authorize_resource through: :user
 
   def list
-    if params[:enabled]
-      @repositories = @repositories.where(enabled: params[:enabled])
+    unless params[:enabled].nil?
+      @repositories = @repositories.where(enabled: (params[:enabled] == 'true'))
     end
     render json: @repositories.to_json
   end
@@ -15,9 +15,11 @@ class RepositoriesController < ApplicationController
   end
 
   def enable
-    RepositoryPreprocessorWorker.perform_async(@repository.id) unless @repository.processing
+    unless @repository.processing
+      job_id = RepositoryPreprocessorWorker.perform_async(@repository.id)
+      @repository.processing = job_id
+    end
     @repository.enabled = true
-    @repository.processing = true
     @repository.save
     return_json(true, 'Repository enabled')
   end

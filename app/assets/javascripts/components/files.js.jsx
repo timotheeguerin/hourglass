@@ -3,29 +3,30 @@
 
 var FilesBox = React.createClass({
     loadFilesFromServer: function () {
+        console.log('rendering')
+        if (isNull(this.props.repository_id)) {
+            return;
+        }
         var id = this.props.repository_id;
         var url = Routes.list_user_repository_pages_path(current_user, id);
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            success: function (data) {
-                this.setState({data: data});
-                if (data.length) {
-                    console.log("No files found in repository");
-                }
-            }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
-            }.bind(this)
-        });
+        $.get(url).success(function (data) {
+            this.setState({data: data});
+            console.log(data.length)
+            if (data.length) {
+                console.log("No files found in repository");
+            }
+        }.bind(this)).fail(function (xhr, status, err) {
+            console.error(this.props.url, status, err.toString());
+        }.bind(this))
     },
     getInitialState: function () {
         return {data: []};
     },
     componentDidMount: function () {
-        var pollInterval = 1000;
         this.loadFilesFromServer();
-        //setInterval(this.loadFilesFromServer, pollInterval);
+    },
+    componentDidUpdate: function () {
+        this.loadFilesFromServer();
     },
     navigateBack: function () {
         console.log("Navigating backwards");

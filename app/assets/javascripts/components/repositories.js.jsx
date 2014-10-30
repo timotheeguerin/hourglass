@@ -3,18 +3,13 @@
 
 var RepositoriesBox = React.createClass({
     loadCommentsFromServer: function () {
-        var url = Routes.list_user_repositories_path({'user_id': this.props.user_id});
+        var url = Routes.list_user_repositories_path({user_id: this.props.user_id, enabled: true});
         console.log("URL: " + url);
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            success: function (data) {
-                this.setState({data: data});
-            }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
-            }.bind(this)
-        });
+        $.get(url).success(function (data) {
+            this.setState({data: data});
+        }.bind(this)).fail(function (xhr, status, err) {
+            console.error(this.props.url, status, err.toString());
+        }.bind(this));
     },
     handleCommentSubmit: function (comment) {
         // TODO: submit to the server and refresh the list
@@ -26,7 +21,7 @@ var RepositoriesBox = React.createClass({
     componentDidMount: function () {
         var pollInterval = 10000;
         this.loadCommentsFromServer();
-        setInterval(this.loadCommentsFromServer, pollInterval);
+        //setInterval(this.loadCommentsFromServer, pollInterval);
     },
     navigateBack: function () {
         console.log("Navigating backwards");
@@ -60,7 +55,7 @@ var RepositoriesBox = React.createClass({
 });
 
 var Repository = React.createClass({
-    toggleRepository: function(e) {
+    toggleRepository: function (e) {
         var id = this.props.id;
         console.log("Enabling repository with id " + id);
         if (e.target.checked) {
@@ -71,7 +66,7 @@ var Repository = React.createClass({
             url = Routes.disable_user_repository_path(current_user, id);
         }
 
-        $.post(url).done(function(data) {
+        $.post(url).done(function (data) {
             console.log("Great succuss");
         }).fail(function (xhr, status, err) {
             console.log("Failure");
