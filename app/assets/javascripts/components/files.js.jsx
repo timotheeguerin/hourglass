@@ -9,10 +9,6 @@ var FilesBox = React.createClass({
         var url = Routes.list_user_repository_pages_path(current_user, repository_id);
         $.get(url).success(function (data) {
             this.setState({data: data});
-            console.log(data.length)
-            if (data.length) {
-                console.log("No files found in repository");
-            }
         }.bind(this)).fail(function (xhr, status, err) {
             console.error(this.props.url, status, err.toString());
         }.bind(this))
@@ -26,7 +22,7 @@ var FilesBox = React.createClass({
     shouldComponentUpdate: function (nextProps, nextState) {
         console.log(nextProps);
         if (nextProps.repository_id != this.props.repository_id) {
-            this.loadFilesFromServer(nextProps.repository_id );
+            this.loadFilesFromServer(nextProps.repository_id);
             return false;
         }
         return true;
