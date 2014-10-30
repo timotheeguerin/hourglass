@@ -1,54 +1,28 @@
 /** @jsx React.DOM */
 
 var CompareBox = React.createClass({
-    getInitialState: function () {
-        console.log(this.props);
-        var left_revision_id = isNull(this.props.left) ? null : this.props.left.revision_id;
-        var right_revision_id = isNull(this.props.right) ? null : this.props.right.revision_id;
-
-        return {
-            repository_id: this.props.repository_id,
-            page: this.props.page,
-            type: this.props.type,
-            left: {
-                revision_id: left_revision_id
-            },
-            right: {
-                revision_id: right_revision_id
-            },
-            engine: null
-        }
-    },
-    setEngine: function () {
-        if (this.state.right.revision_id === undefined || this.state.right.revision_id == null) {
-            this.setState({
-                engine: (
-                    <SimpleView repository_id={this.state.repository_id}
-                        revision_id={this.state.left.revision_id}
-                        page={this.state.page}/>
-                )
-            });
+    getEngine: function () {
+        if (isNull(this.props.right)) {
+            return (
+                <SimpleView repository_id={this.props.repository_id}
+                    revision_id={this.props.left.revision_id}
+                    page={this.props.page}/>
+            );
         } else {
-            this.setState({
-                engine: (
-                    <DualView repository_id={this.state.repository_id}
-                        left={{revision_id: this.state.left.revision_id}}
-                        right={{revision_id: this.state.right.revision_id}}
-                        page={this.state.page}
-                        type={this.state.type}>
-                    </DualView>
-                )
-            });
+            return (
+                <DualView repository_id={this.props.repository_id}
+                    left={{revision_id: this.props.left.revision_id}}
+                    right={{revision_id: this.props.right.revision_id}}
+                    page={this.props.page}
+                    type={this.props.type}>
+                </DualView>
+            );
         }
     },
-    componentDidMount: function () {
-        this.setEngine();
-    },
-
     render: function () {
         return (
             <div className="compare-view">
-                {this.state.engine}
+                {this.getEngine()}
             </div>
         );
     }
@@ -56,18 +30,10 @@ var CompareBox = React.createClass({
 
 
 var SimpleView = React.createClass({
-
-    getInitialState: function () {
-        return {
-            repository_id: this.props.repository_id,
-            revision_id: this.props.revision_id,
-            page: this.props.page
-        }
-    },
     render: function () {
         return (
             <div className="simple-view">
-                <iframe className="iframe" src={previewUrl(this.state, this.state.revision_id)}>
+                <iframe className="iframe" src={previewUrl(this.props, this.props.revision_id)}>
                 </iframe>
             </div>
         );

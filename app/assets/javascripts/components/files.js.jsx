@@ -2,13 +2,11 @@
 //= require global
 
 var FilesBox = React.createClass({
-    loadFilesFromServer: function () {
-        console.log('rendering')
-        if (isNull(this.props.repository_id)) {
+    loadFilesFromServer: function (repository_id) {
+        if (isNull(repository_id)) {
             return;
         }
-        var id = this.props.repository_id;
-        var url = Routes.list_user_repository_pages_path(current_user, id);
+        var url = Routes.list_user_repository_pages_path(current_user, repository_id);
         $.get(url).success(function (data) {
             this.setState({data: data});
             console.log(data.length)
@@ -22,11 +20,16 @@ var FilesBox = React.createClass({
     getInitialState: function () {
         return {data: []};
     },
-    componentDidMount: function () {
-        this.loadFilesFromServer();
+    componentWillMount: function () {
+        this.loadFilesFromServer(this.props.repository_id);
     },
-    componentDidUpdate: function () {
-        this.loadFilesFromServer();
+    shouldComponentUpdate: function (nextProps, nextState) {
+        console.log(nextProps);
+        if (nextProps.repository_id != this.props.repository_id) {
+            this.loadFilesFromServer(nextProps.repository_id );
+            return false;
+        }
+        return true;
     },
     navigateBack: function () {
         console.log("Navigating backwards");
