@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :users do
     resources :repositories do
       member do
-        post 'enable'
+        get 'enable'
         post 'disable'
       end
 

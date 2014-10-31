@@ -4,6 +4,7 @@
 //= require js-routes
 //= require react
 //= require react_ujs
+//= require websocket_rails/main
 //= require_tree .
 
 //noinspection SillyAssignmentJS
@@ -57,3 +58,5 @@ var move_slider = function (position) {
 
     });
 };
+
+

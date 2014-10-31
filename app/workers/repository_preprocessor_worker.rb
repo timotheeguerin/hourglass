@@ -4,26 +4,38 @@ class RepositoryPreprocessorWorker
   # @param [int] repository_id:
   def perform(repository_id)
     repository = Repository.find(repository_id)
+    channel = WebsocketChannel.find(:repository_processing, repository_id)
 
-    # Clone or pull the repo
-    GitUtils.sync(repository)
-
-    # Sync the revision
-    repository.sync_revisions
-
-    #Sync the pages
-    repository.sync_pages
-
-    #Take the screenshots
-    handler = PagePreviewHandler.new(repository)
-    handler.on 'page_rendered' do |page|
-
+    tracker = ProgressTracker.new
+    tracker.on_update do
+      channel.trigger(:updated,
+                      progress: tracker.ratio)
     end
-    handler.on 'revision_rendered' do |page|
 
+    tracker.run 1 do
+      # Clone or pull the repo
+      GitUtils.sync(repository)
     end
-    handler.compute_all
-    handler.close
+
+    tracker.run 1 do
+      # Sync the revision
+      repository.sync_revisions
+    end
+    tracker.run 1 do
+      #Sync the pages
+      repository.sync_pages
+    end
+
+    tracker.sub 97 do |sub_tracker|
+      handler = PagePreviewHandler.new(repository)
+      #Take the screenshots
+      page_to_render = handler.page_to_render
+      handler.on :page_rendered do |page|
+        sub_tracker.update(100.to_f/page_to_render)
+      end
+      handler.compute_all
+      handler.close
+    end
 
     repository.processing = 0
     repository.save

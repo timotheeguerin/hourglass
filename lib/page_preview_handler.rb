@@ -15,13 +15,13 @@ class PagePreviewHandler
   #                 * revision_rendered: When a revision has been rendered(Args: [Revision])
   # @param block: callback
   def on(event, &block)
-    @subscribers[event] ||= []
-    @subscribers[event] << block
+    @subscribers[event.to_sym] ||= []
+    @subscribers[event.to_sym] << block
   end
 
   def trigger(event, *args)
-    return if @subscribers[event].nil?
-    @subscribers[event].each do |block|
+    return if @subscribers[event.to_sym].nil?
+    @subscribers[event.to_sym].each do |block|
       block.call(*args)
     end
   end
@@ -42,20 +42,30 @@ class PagePreviewHandler
     pages = pages.where.not(id: revision.pages.pluck(:page_id)) unless override
     Dir.chdir(@repository.local_path) do
       pages.each do |page|
-        next unless File.file?(page.path)
-        page_revision = PageRevision.new
-        page_revision.revision = revision
-        page_revision.page = page
-        page_revision.thumbnails = @webshot.thumbnails(URI.join(ENV['processing_host'], page.url(revision)))
-        page_revision.save
-        trigger('page_rendered', page)
+        if File.file?(page.path)
+          page_revision = PageRevision.new
+          page_revision.revision = revision
+          page_revision.page = page
+          page_revision.thumbnails = @webshot.thumbnails(URI.join(ENV['processing_host'], page.url(revision)))
+          page_revision.save
+        end
+        trigger(:page_rendered, page)
       end
     end
-    trigger('revision_rendered', revision)
+    trigger(:revision_rendered, revision)
     self
   end
 
+
   def close
     @webshot.close
+  end
+
+  def page_to_render(override=false)
+    count = @repository.pages.size * @repository.revisions.size
+    unless override
+      count -= PageRevision.joins(:revision).where(revisions: {repository_id: @repository.id}).size
+    end
+    count
   end
 end

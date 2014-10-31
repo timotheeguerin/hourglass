@@ -15,7 +15,7 @@ class RepositoriesController < ApplicationController
   end
 
   def enable
-    unless @repository.processing
+    if @repository.processing == 0
       job_id = RepositoryPreprocessorWorker.perform_async(@repository.id)
       @repository.processing = job_id
     end
