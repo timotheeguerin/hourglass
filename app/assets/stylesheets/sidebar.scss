@@ -13,7 +13,6 @@ $sidebar-hidden-width: 50px;
   overflow-y: scroll;
   transition: all .3s ease-out;
   transition-timing-function: cubic-bezier(0.795, 0.520, 0.070, 0.975);
-  position: relative;
   left: $sidebar-hidden-width - $sidebar-width;
   z-index: 100;
 }
@@ -25,7 +24,7 @@ $sidebar-hidden-width: 50px;
 }
 
 #content {
-  width: calc(100% - ($sidebar-width - $sidebar-hidden-width));
+  width: calc(100% - (#{$sidebar-hidden-width}));
   left: $sidebar-hidden-width - $sidebar-width;
   position: relative;
   flex: 1 0 auto;

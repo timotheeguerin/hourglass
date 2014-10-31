@@ -117,13 +117,6 @@ function compare_view(repository_id, page, left_revision_id, right_revision_id, 
 }
 
 
-setTimeout(function () {
-    compare_view(61, 'index.html', 1, 2, 'split')
-}, 5000);
-
-setTimeout(function () {
-    compare_view(61, 'index.html', 1, 2, 'slide')
-}, 10000);
 function isNull(o) {
     return !(typeof o !== "undefined" && o !== null)
 }
