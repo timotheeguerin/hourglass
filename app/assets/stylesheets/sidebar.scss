@@ -22,6 +22,19 @@
   transition-timing-function: cubic-bezier(0.795, 0.520, 0.070, 0.975);
 }
 
+.sidebar-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-nav {
+
+}
+
+.sidebar-content {
+  overflow-y: scroll;
+  flex: 1;
+}
 .content {
   width: calc(100% - (#{$sidebar-hidden-width}));
   left: $sidebar-hidden-width - $sidebar-width;
@@ -77,10 +90,6 @@
   margin-right: .3rem;
 }
 .search-repositories {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 .search-repositories input {
   width: 100%;

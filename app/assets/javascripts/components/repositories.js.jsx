@@ -48,14 +48,14 @@ var RepositoriesBox = React.createClass({
             );
         });
         return (
-            <div id="repositories">
+            <div id="repositories" className="sidebar-column">
                 <h2 className="sidebar-nav">
                     <span className="sidebar-title">Repositories</span>
                     <a className="sidebar-button" href="/settings">
                         <i className="fa fa-cog" ></i>
                     </a>
                 </h2>
-                <ol className="repositories repository-alternate">
+                <ol className="repositories repository-alternate sidebar-content">
                     {repositoryNodes}
                 </ol>
                 <div className="search-repositories">

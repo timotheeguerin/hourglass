@@ -45,19 +45,13 @@ a {
 }
 
 #files {
-  position: relative;
-  width: 100%;
   background: $background-color;
-}
-.files {
-  margin: 1rem;
 }
 .section-header {
   @extend .flex;
 
   padding: 0.8rem 1rem;
   background: #FFFFFF;
-  //border-bottom: $thin-border;
 }
 .list {
   padding: 1rem;
