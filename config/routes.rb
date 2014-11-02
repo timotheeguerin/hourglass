@@ -7,9 +7,10 @@ Rails.application.routes.draw do
 
   get 'preview/:user_id/:repository_id/:revision_id/:path' => 'preview#show', as: :preview, constraints: {path: /.*/}
 
-  get 'compare/:user_id/:repository_id/:page' => 'compare#index', as: :compare, constraints: {page: /.*/}
+  get 'compare' => 'compare#index', as: :compare_index, constraints: {page: /.*/}
+  get 'compare/:user_id/:repository_id/:page' => 'compare#compare', as: :compare, constraints: {page: /.*/}
 
-  get 'settings' => 'settings#index', as: :settings, constraints: {page: /.*/}
+  get 'settings' => 'settings#index', as: :settings
 
   get 'test' => 'welcome#test'
 

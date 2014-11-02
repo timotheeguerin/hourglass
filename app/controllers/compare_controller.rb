@@ -1,5 +1,9 @@
 class CompareController < ApplicationController
   def index
+    
+  end
+
+  def compare
     authorize! :compare, Repository
 
     user = User.find(params[:user_id])

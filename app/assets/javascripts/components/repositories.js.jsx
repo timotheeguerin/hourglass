@@ -2,19 +2,23 @@
 //= require global
 
 var RepositoriesBox = React.createClass({
-    loadCommentsFromServer: function (callback) {
+    loadCommentsFromServer: function () {
         var url = Routes.list_user_repositories_path({user_id: this.props.user_id, enabled: true});
         console.log("URL: " + url);
         $.get(url).success(function (data) {
-            this.setState({data: data});
-            callback();
+            this.setState({repositories: data});
         }.bind(this)).fail(function (xhr, status, err) {
             console.error(this.props.url, status, err.toString());
-            callback();
+        }.bind(this));
+    },
+    getVisibleRepositories: function () {
+        console.log(this.state);
+        return this.state.repositories.filter(function (repository) {
+            return repository.name.indexOf(this.state.searchText) > -1;
         }.bind(this));
     },
     getInitialState: function () {
-        return {data: []};
+        return {repositories: [], searchText: ''};
     },
     componentDidMount: function () {
         var pollInterval = 10000;
@@ -26,22 +30,11 @@ var RepositoriesBox = React.createClass({
     },
     handleChange: function (event) {
         console.log("Searching Repositories...");
-        var searchKey = event.target.value;
-        console.log("Search key: " + searchKey);
-        var containsString = function (repository) {
-            return repository.name.indexOf(searchKey) > -1;
-        };
-        var allRepositories = this.state.data.map(function (repository) {
-            if (containsString(repository)) {
-
-            }
-        });
-        this.setState({data: allRepositories});
-        this.setState({data: this.state.data.filter(containsString)});
+        this.setState({searchText: event.target.value});
     },
     render: function () {
         var boundClick = this.props.onClick;
-        var repositoryNodes = this.state.data.map(function (repository) {
+        var repositoryNodes = this.getVisibleRepositories().map(function (repository) {
             return (
                 <Repository name={repository.name} id={repository.id} enabled={repository.enabled} onClick={boundClick}>
                 </Repository>
