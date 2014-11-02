@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+//= require components/repository_progress_bar
 //= require global
 
 var RepositoriesSettings = React.createClass({
@@ -59,9 +60,6 @@ var RepositorySetting = React.createClass({
             console.error(url, status, err.toString());
         });
     },
-    getInitialState: function () {
-        return {progress: 50};
-    },
     render: function () {
         var checked;
         if (this.props.enabled) {
@@ -73,7 +71,7 @@ var RepositorySetting = React.createClass({
         var progress;
         var isInProgress = this.props.enabled;
         if (isInProgress) {
-            progress = <progress className="progress-bar" value={this.state.progress} max="100"></progress>;
+            progress = <RepositoryProgressBar repository_id={this.props.id}/>;
         } else {
             progress = null;
         }

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'settings' => 'settings#index', as: :settings, constraints: {page: /.*/}
 
   get 'test' => 'welcome#test'
+
   resources :users do
     resources :repositories do
       member do

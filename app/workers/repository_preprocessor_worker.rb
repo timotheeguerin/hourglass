@@ -8,21 +8,21 @@ class RepositoryPreprocessorWorker
 
     tracker = ProgressTracker.new
     tracker.on_update do
-      channel.trigger(:updated,
-                      progress: tracker.ratio)
+      channel.trigger(:updated, progress: tracker.ratio)
     end
 
+    # Clone or pull the repo, estimated cost 1%
     tracker.run 1 do
-      # Clone or pull the repo
       GitUtils.sync(repository)
     end
 
+    # Sync the revision, estimated cost 1%
     tracker.run 1 do
-      # Sync the revision
       repository.sync_revisions
     end
+
+    #Sync the pages, estimated cost 1%
     tracker.run 1 do
-      #Sync the pages
       repository.sync_pages
     end
 
@@ -30,7 +30,7 @@ class RepositoryPreprocessorWorker
       handler = PagePreviewHandler.new(repository)
       #Take the screenshots
       page_to_render = handler.page_to_render
-      handler.on :page_rendered do |page|
+      handler.on :page_rendered do
         sub_tracker.update(100.to_f/page_to_render)
       end
       handler.compute_all
