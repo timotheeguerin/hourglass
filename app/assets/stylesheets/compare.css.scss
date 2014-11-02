@@ -18,12 +18,25 @@
     height: 100%;
     iframe.split {
       height: 100%;
-      width: 50%;
+      width: 100%;
     }
     iframe.slide {
       height: 100%;
       width: 100%;
 
+    }
+    &.split {
+      .left-iframe {
+        height: 100%;
+        width: 50%;
+        display: inline-block;
+      }
+
+      .right-iframe {
+        height: 100%;
+        width: 50%;
+        display: inline-block;
+      }
     }
     &.slide {
       .left-iframe {
