@@ -36,33 +36,31 @@ $sidebar-hidden-width: 50px;
   position: relative;
 }
 
-.sidebar .fa {
-  color: #DDDDDD;
+.fa {
+  color: #CCCCCC;
   padding: .3rem;
   border-radius: .5rem;
   cursor: pointer;
+}
+
+.fa:hover {
+  color: dodgerblue;
 }
 .all-repositories, .all-files {
   position: relative;
   height: 100%;
   width: 50%;
 }
-
 .sidebar-nav {
   display: block;
   padding: .7rem 1rem;
   background: #FFFFFF;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-
 .sidebar h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.sidebar-nav .fa:hover {
-  color: dodgerblue;
 }
 .sidebar #repository {
   width: 50%;
@@ -77,11 +75,10 @@ $sidebar-hidden-width: 50px;
   margin-right: .3rem;
 }
 .search-repositories {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  width: 299px;
 }
 .search-repositories input {
   width: 100%;
