@@ -21,7 +21,7 @@ var RepositoriesSettings = React.createClass({
     render: function () {
         var repositoryNodes = this.state.data.map(function (repository) {
             return (
-                <RepositorySetting name={repository.name} id={repository.id} enabled={repository.enabled}>
+                <RepositorySetting repository={repository}>
                 </RepositorySetting>
             );
         });
@@ -47,31 +47,43 @@ var RepositoriesSettings = React.createClass({
 var RepositorySetting = React.createClass({
     toggleRepository: function (e) {
         var url;
-        if (e.target.checked) {
-            url = Routes.enable_user_repository_path(current_user, this.props.id);
+        if (!this.state.enabled) {
+            url = Routes.enable_user_repository_path(current_user, this.props.repository.id);
         } else {
-            url = Routes.disable_user_repository_path(current_user, this.props.id);
+            url = Routes.disable_user_repository_path(current_user, this.props.repository.id);
         }
+        this.setState({
+            enabled: !this.state.enabled,
+            processing: (this.state.processing || !this.state.enabled)
+        });
 
         $.post(url).done(function (data) {
             console.log("Great succuss");
         }).fail(function (xhr, status, err) {
-            console.log("Failure");
+            console.error("Failure");
             console.error(url, status, err.toString());
         });
     },
+    getInitialState: function () {
+        return {
+            enabled: this.props.repository.enabled,
+            processing: this.props.repository.processing != 0
+        }
+    },
+    processingDone: function () {
+        this.setState({processing: false});
+    },
     render: function () {
         var checked;
-        if (this.props.enabled) {
+        if (this.state.enabled) {
             checked = <input type="checkbox" defaultChecked onChange={this.toggleRepository} />;
         } else {
             checked = <input type="checkbox" onChange={this.toggleRepository} />;
         }
 
         var progress;
-        var isInProgress = this.props.enabled;
-        if (isInProgress) {
-            progress = <RepositoryProgressBar repository_id={this.props.id}/>;
+        if (this.state.processing) {
+            progress = <RepositoryProgressBar repository_id={this.props.repository.id} onDone={this.processingDone}/>;
         } else {
             progress = null;
         }
@@ -79,7 +91,7 @@ var RepositorySetting = React.createClass({
             <li className="list-item" onClick={this.selectRepository}>
                 <div className="flex">
                     <div className="full-width">
-                        <h3>{this.props.name} -
+                        <h3>{this.props.repository.name} -
                             <small> Updated 3 days ago</small>
                         </h3>
                     </div>

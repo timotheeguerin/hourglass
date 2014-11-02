@@ -4,7 +4,7 @@ class AuthorizationController < WebsocketRails::BaseController
     # The channel name will be passed inside the message Hash
     puts message
     channel = WebsocketRails[message[:channel]]
-    if channel.name.match(/\A[a-zA-Z_]+_\d+\Z/)
+    if channel.name.to_s.match(/\A[a-zA-Z_]+_\d+\Z/)
       array = channel.name.split('_')
       id = array[-1]
       channel = array[0...-1].join('_')

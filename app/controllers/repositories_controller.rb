@@ -15,7 +15,12 @@ class RepositoriesController < ApplicationController
   end
 
   def enable
-    if @repository.processing == 0
+    status = if @repository.processing == 0
+               nil
+             else
+               Sidekiq::Status::status(@repository.processing)
+             end
+    if status.nil? or status.complete? or status.failed?
       job_id = RepositoryPreprocessorWorker.perform_async(@repository.id)
       @repository.processing = job_id
     end

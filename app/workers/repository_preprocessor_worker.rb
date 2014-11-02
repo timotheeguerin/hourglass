@@ -8,7 +8,7 @@ class RepositoryPreprocessorWorker
 
     tracker = ProgressTracker.new
     tracker.on_update do
-      channel.trigger(:updated, progress: tracker.ratio)
+      channel.trigger(:updated, progress: tracker.ratio, done: false)
     end
 
     # Clone or pull the repo, estimated cost 1%
@@ -36,9 +36,10 @@ class RepositoryPreprocessorWorker
       handler.compute_all
       handler.close
     end
-
+    repository.reload
     repository.processing = 0
     repository.save
+    channel.trigger(:updated, progress: 1, done: true)
   end
 end
 
