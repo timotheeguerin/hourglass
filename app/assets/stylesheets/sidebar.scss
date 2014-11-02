@@ -25,12 +25,8 @@
 .sidebar-column {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
-
-.sidebar-nav {
-
-}
-
 .sidebar-content {
   overflow-y: scroll;
   flex: 1;
