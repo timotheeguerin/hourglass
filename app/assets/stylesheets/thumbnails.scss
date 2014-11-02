@@ -1,8 +1,12 @@
 .thumbnail {
   overflow: hidden;
-  margin-bottom: 1rem;
+  margin: .8rem;
   border: $thin-border;
   border-radius: $border-radius;
+}
+
+.thumbnail:last-child {
+  margin-bottom: .8rem;
 }
 .thumbnail img {
   width: 100%;

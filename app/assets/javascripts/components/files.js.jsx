@@ -45,7 +45,7 @@ var FilesBox = React.createClass({
             );
         });
         return (
-            <div id="files">
+            <div id="files" className="sidebar-column">
                 <h2 className="sidebar-nav">
                     <i className="fa fa-angle-left fa-lg" id="fileBackwardButton" onClick={this.navigateBack}></i>
                     <span className="sidebar-title">Files</span>
@@ -53,7 +53,7 @@ var FilesBox = React.createClass({
 
                     </span>
                 </h2>
-                <ol className="files">
+                <ol className="files sidebar-content">
                     {fileNodes}
                 </ol>
                 <div className="search-repositories">
