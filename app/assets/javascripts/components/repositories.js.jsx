@@ -2,18 +2,16 @@
 //= require global
 
 var RepositoriesBox = React.createClass({
-    loadCommentsFromServer: function () {
+    loadCommentsFromServer: function (callback) {
         var url = Routes.list_user_repositories_path({user_id: this.props.user_id, enabled: true});
         console.log("URL: " + url);
         $.get(url).success(function (data) {
             this.setState({data: data});
+            callback();
         }.bind(this)).fail(function (xhr, status, err) {
             console.error(this.props.url, status, err.toString());
+            callback();
         }.bind(this));
-    },
-    handleCommentSubmit: function (comment) {
-        // TODO: submit to the server and refresh the list
-        log("TODO: Save the comment \"" + comment + "\" to the server");
     },
     getInitialState: function () {
         return {data: []};
@@ -21,14 +19,25 @@ var RepositoriesBox = React.createClass({
     componentDidMount: function () {
         var pollInterval = 10000;
         this.loadCommentsFromServer();
-        //setInterval(this.loadCommentsFromServer, pollInterval);
     },
     navigateBack: function () {
         console.log("Navigating backwards");
         $(".sidebar").animate({left: '-100%'}, 350);
     },
-    openSettings: function () {
-        console.log("Opening repository settings page");
+    handleChange: function (event) {
+        console.log("Searching Repositories...");
+        var searchKey = event.target.value;
+        console.log("Search key: " + searchKey);
+        var containsString = function (repository) {
+            return repository.name.indexOf(searchKey) > -1;
+        };
+        var allRepositories = this.state.data.map(function (repository) {
+            if (containsString(repository)) {
+
+            }
+        });
+        this.setState({data: allRepositories});
+        this.setState({data: this.state.data.filter(containsString)});
     },
     render: function () {
         var boundClick = this.props.onClick;
@@ -38,12 +47,11 @@ var RepositoriesBox = React.createClass({
                 </Repository>
             );
         });
-        var settingsURL = "/settings/" + this.props.user_id;
         return (
             <div id="repositories">
                 <h2 className="sidebar-nav">
                     <span className="sidebar-title">Repositories</span>
-                    <a className="sidebar-button" href={settingsURL}>
+                    <a className="sidebar-button" href="/settings">
                         <i className="fa fa-cog" ></i>
                     </a>
                 </h2>
@@ -51,7 +59,7 @@ var RepositoriesBox = React.createClass({
                     {repositoryNodes}
                 </ol>
                 <div className="search-repositories">
-                    <input type="search" placeholder="Search" />
+                    <input type="search" placeholder="Search" onChange={this.handleChange}/>
                 </div>
             </div>
         );

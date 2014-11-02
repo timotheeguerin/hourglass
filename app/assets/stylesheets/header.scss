@@ -1,17 +1,15 @@
 header {
+  @extend .flex;
+
   background: #FFFFFF;
-  padding: 0rem 2rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  height: 4.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 0rem 1rem;
+  border-bottom: $thin-border;
+  height: $header-height;
 }
 
 .header-right {
   position: relative;
   padding: .5rem;
-
 }
 
 .header-right h3 {

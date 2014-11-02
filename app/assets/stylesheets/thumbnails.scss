@@ -1,8 +1,8 @@
 .thumbnail {
   overflow: hidden;
   margin-bottom: 1rem;
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: .4rem;
+  border: $thin-border;
+  border-radius: $border-radius;
 }
 .thumbnail img {
   width: 100%;
@@ -12,7 +12,7 @@
   max-height: 200px;
   overflow-y: scroll;
   overflow: hidden;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-bottom: $thin-border;
 }
 .thumbnail-title {
   font-size: .8rem;

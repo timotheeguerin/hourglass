@@ -1,22 +1,25 @@
 .dropdown {
   display: none;
   position: absolute;
-  top: 65%;
+  top: 100%;
   right: 0%;
   background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: $thin-border;
+  width: 260px;
+  border-radius: $border-radius;
+  z-index: 1000;
+
+  padding: 1rem;
+}
+
+.dropdown ul {
   list-style-type: none;
   margin-left: 0;
   padding: 0;
-  width: 230px;
-  border-radius: .4rem;
-  z-index: 1000;
 }
-
 .dropdown li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @extend .flex;
+
   display: inline-block;
   vertical-align: middle;
 }
@@ -33,20 +36,15 @@
   color: #222222;
 }
 
-.dropdown li:hover .fa {
-
-}
 .dropdown li span {
   display: inline-block;
   vertical-align: middle;
 }
 
 .dropdown .fa {
-  width: 2rem;
   color: #CCCCCC;
   display: inline-block;
   vertical-align: middle;
-  font-size: 1.7rem;
 }
 .dropdown:after, .dropdown:before {
   bottom: 100%;
@@ -73,7 +71,6 @@
 
 .dropdown .dropdown-title {
   margin: 0 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: .5rem;
 }
 
@@ -85,11 +82,19 @@
 }
 
 .selectedView {
-  background: #0ACDFF;
+  background: $primary-color;
   color: #FFFFFF;
 }
 
 .selectedView .fa {
-  color: #0ACDFF;
   color: #FFFFFF;
+}
+
+.dropdown .button {
+  width: 100%;
+  margin-bottom: .5rem;
+}
+
+.dropdown .button:last-child {
+  margin: 0;
 }

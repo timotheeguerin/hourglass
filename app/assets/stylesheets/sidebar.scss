@@ -1,11 +1,10 @@
-$sidebar-width: 330px;
-$sidebar-hidden-width: 50px;
+
 
 .sidebar-container {
-  background-color: #EEEEEE;
+  background-color: $background-color;
   width: $sidebar-width;
   flex: 1 0 $sidebar-width;
-  height: calc(100vh - 4.5rem);
+  height: calc(100vh - #{$header-height});
   border-right: 1px solid rgba(0,0,0,0.1);
   position: relative;
   vertical-align: middle;
@@ -23,11 +22,16 @@ $sidebar-hidden-width: 50px;
   transition-timing-function: cubic-bezier(0.795, 0.520, 0.070, 0.975);
 }
 
-#content {
+.content {
   width: calc(100% - (#{$sidebar-hidden-width}));
   left: $sidebar-hidden-width - $sidebar-width;
   position: relative;
   flex: 1 0 auto;
+}
+
+.no-sidebar {
+  width: 100%;
+  left: 0;
 }
 .sidebar {
   display: flex;
@@ -43,8 +47,8 @@ $sidebar-hidden-width: 50px;
   cursor: pointer;
 }
 
-.fa:hover {
-  color: dodgerblue;
+.sidebar .fa:hover {
+  color: $primary-color;
 }
 .all-repositories, .all-files {
   position: relative;
@@ -55,12 +59,10 @@ $sidebar-hidden-width: 50px;
   display: block;
   padding: .7rem 1rem;
   background: #FFFFFF;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: $thin-border;
 }
 .sidebar h2 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @extend .flex;
 }
 .sidebar #repository {
   width: 50%;
@@ -84,7 +86,7 @@ $sidebar-hidden-width: 50px;
   width: 100%;
   box-sizing: border-box;
   border: none;
-  border-top: 1px solid rgba(0,0,0,0.1);
+  border-top: $thin-border;
   padding: .5rem .5rem;
   outline: none;
   background: #FFFFFF;

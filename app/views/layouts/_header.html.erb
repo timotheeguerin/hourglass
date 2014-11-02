@@ -1,35 +1,35 @@
 <header>
   <% if user_signed_in? %>
       <div class="header-left">
+        <a href="/"><h1>Hourglass</h1></a>
+      </div>
+      <div class="header-middle">
+        <div class="field">
+          <input type="search" placeholder="Search" value="index.html"/>
+        </div>
+      </div>
+      <div class="header-right">
+        <h3><%= current_user.username %></h3>
+
+        <div class="dropdown">
+          <div class="select">
+            <span><i class="fa fa-file-o fa-lg"></i> Single</span>
+            <span class="selected"><i class="fa fa-files-o fa-lg"></i> Stack</span>
+            <span><i class="fa fa-columns fa-lg"></i> Split</span>
+          </div>
+          <a href="/settings" class="button simple-button">Settings</a>
+          <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "button secondary-button" %>
+        </div>
+      </div>
+  <% else %>
+      <div class="header-left">
         <h1>Hourglass</h1>
       </div>
       <div class="header-middle">
 
       </div>
       <div class="header-right">
-        <h3><%= current_user.username %></h3>
-        <ul class="dropdown">
-          <li class="dropdown-title">
-            <h3>View</h3>
-          </li>
-          <li>
-            <div><i class="fa fa-file-o fa-2x"></i> <span>Single<span> <i class="right fa fa-2x"></i></div>
-          </li>
-          <li>
-            <div><i class="fa fa-files-o fa-2x"></i> <span>Stack<span> <i class="right fa fa-2x"></i></div>
-          </li>
-          <li class="selectedView">
-            <div><i class="fa fa-columns fa-2x"></i> <span>Split<span> <i class="right fa fa-check fa-2x"></i></div>
-          </li>
-          <li>
-            <div>
-              <i class="fa fa-power-off fa-2x"></i> <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
-            </div>
-          </li>
-
-        </ul>
+        <%= link_to 'Sign in with Github', user_omniauth_authorize_path(:github), class: "primary-button" %>
       </div>
-  <% else %>
-      <%= link_to 'Sign in with Github', user_omniauth_authorize_path(:github) %>
   <% end %>
 </header>

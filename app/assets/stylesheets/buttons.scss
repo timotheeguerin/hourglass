@@ -1,0 +1,34 @@
+.button {
+  background: limegreen;
+  color: #FFFFFF;
+  border-radius: $border-radius;
+  border-radius: .3rem;
+  padding: .5rem 1rem;
+  font-weight: 700;
+  display: inline-block;
+  text-align: center;
+}
+
+.primary-button {
+  @extend .button;
+
+  background: $primary-color;
+}
+
+.secondary-button {
+  @extend .button;
+
+  background: $secondary-color;
+}
+
+.simple-button {
+  @extend .button;
+
+  background: #F5F5F5;
+  color: #999999;
+}
+
+.simple-button:hover {
+  background: #E5E5E5;
+  color: #777777;
+}

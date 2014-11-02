@@ -9,13 +9,13 @@ Rails.application.routes.draw do
 
   get 'compare/:user_id/:repository_id/:page' => 'compare#index', as: :compare, constraints: {page: /.*/}
 
-  get 'settings/:user_id' => 'settings#index', as: :settings, constraints: {page: /.*/}
+  get 'settings' => 'settings#index', as: :settings, constraints: {page: /.*/}
 
   get 'test' => 'welcome#test'
   resources :users do
     resources :repositories do
       member do
-        get 'enable'
+        post 'enable'
         post 'disable'
       end
 

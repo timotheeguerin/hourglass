@@ -1,3 +1,78 @@
-// Place all the styles related to the repository controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#repositories {
+  position: relative;
+  width: 100%;
+  background: $background-color;
+}
+
+.repositories {
+  position: relative;
+  height: 100%;
+}
+
+.repository {
+  @extend .flex;
+
+  margin: 0 .7rem;
+  padding: .6rem .9rem;
+
+  cursor: pointer;
+  white-space: nowrap;
+  border: $thin-border;
+  border-bottom: none;
+  background: #FFFFFF;
+}
+
+.repository span {
+  width: calc(100% - 4.5rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.repository:first-child {
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+}
+
+.repository:last-child {
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+
+  border-bottom: $thin-border;
+}
+
+.repository .fa-angle-right {
+  margin-left: .4rem;
+  color: #CCCCCC;
+  vertical-align: middle;
+}
+
+.repository:hover {
+  background: $primary-color;
+  color: #FFFFFF;
+}
+
+.repository:hover .fa-angle-right {
+  color: #FFFFFF;
+}
+
+.repository .right {
+  float: right;
+}
+
+.repository-alternate .repository {
+  margin: 0;
+  border-radius: 0;
+
+  border: none;
+  border-bottom: $thin-border;
+}
+
+.repositories-settings {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+  border: $thin-border;
+  border-radius: $border-radius;
+  overflow: hidden;
+}

@@ -10,11 +10,30 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require lib/normalize
- *= require_tree .
  *= require_self
  */
 
 .content {
   height: calc(100vh - 4.5rem);
 }
+
+@import 'lib/normalize';
+@import 'variables';
+@import 'colors';
+@import 'layout';
+@import 'checkbox';
+@import 'forms';
+@import 'buttons';
+@import 'common';
+@import 'compare';
+@import 'drag-and-drop';
+@import 'dropdown';
+@import 'header';
+@import 'pages';
+@import 'preview';
+@import 'repository';
+@import 'sidebar';
+@import 'split-view';
+@import 'thumbnails';
+@import 'typography';
+@import 'welcome';

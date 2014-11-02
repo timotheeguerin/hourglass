@@ -30,7 +30,7 @@ var RepositoriesSettings = React.createClass({
                     <span className="sidebar-button">
                         <i className="fa fa-plus fa-lg" ></i>
                     </span>
-                    <h2 className="sidebar-title">Repositories</h2>
+                    <h2>Repositories</h2>
                     <span className="sidebar-button">
                         <i className="fa fa-close fa-lg" ></i>
                     </span>
@@ -59,6 +59,9 @@ var RepositorySetting = React.createClass({
             console.error(url, status, err.toString());
         });
     },
+    getInitialState: function () {
+        return {progress: 50};
+    },
     render: function () {
         var checked;
         if (this.props.enabled) {
@@ -67,19 +70,26 @@ var RepositorySetting = React.createClass({
             checked = <input type="checkbox" onChange={this.toggleRepository} />;
         }
 
+        var progress;
+        var isInProgress = this.props.enabled;
+        if (isInProgress) {
+            progress = <progress className="progress-bar" value={this.state.progress} max="100"></progress>;
+        } else {
+            progress = null;
+        }
         return (
             <li className="list-item" onClick={this.selectRepository}>
                 <div className="flex">
                     <div className="full-width">
                         <h3>{this.props.name} -
-                            <small>Updated 3 days ago</small>
+                            <small> Updated 3 days ago</small>
                         </h3>
-                        <span className="single-line">A clean website for the design/development agency</span>
                     </div>
                     <div>
                         {checked}
                     </div>
                 </div>
+                {progress}
             </li>
         );
     }

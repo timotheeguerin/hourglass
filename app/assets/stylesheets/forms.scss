@@ -1,0 +1,41 @@
+.field {
+  @extend .flex;
+}
+
+.field input {
+  width: 300px;
+  border-radius: $border-radius;
+  border: none;
+  //border: $thin-border;
+  padding: .5rem 1rem;
+  outline: none;
+  background-color: #F0F0F0;
+  text-align: center;
+  display: inline-block;
+}
+
+.select {
+  @extend .flex;
+  margin-bottom: .5rem;
+}
+
+.select span {
+  color: #CCCCCC;
+  padding: .8rem .8rem;
+  text-align: center;
+  border-radius: $border-radius;
+  cursor: pointer;
+}
+
+.select span:hover {
+  background: #F5F5F5;
+}
+
+.select span.selected {
+  background: #FFFFFF;
+  color: $primary-color;
+}
+
+.select span.selected i {
+  color: $primary-color;
+}
