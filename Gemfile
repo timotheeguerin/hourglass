@@ -55,6 +55,8 @@ gem 'js-routes'
 gem 'react-rails', github: 'reactjs/react-rails'
 gem 'autoprefixer-rails'
 
+gem 'font-awesome-rails'
+
 #Background jobs
 gem 'sidekiq'
 gem 'sidekiq-status'

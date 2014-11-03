@@ -11,6 +11,7 @@
  * file per style scope.
  *
  *= require_self
+ *= require font-awesome
  */
 
 .content {
@@ -37,3 +38,5 @@
 @import 'thumbnails';
 @import 'typography';
 @import 'welcome';
+
+@import 'notifications';
