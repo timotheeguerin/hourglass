@@ -10,6 +10,8 @@ input[type="checkbox"] {
   transition: border .25s .15s, box-shadow .25s .3s, padding .25s;
   width: 44px;
   vertical-align: top;
+
+  display: inline-block;
 }
 
 input[type="checkbox"]:after {

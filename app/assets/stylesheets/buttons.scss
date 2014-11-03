@@ -7,6 +7,8 @@
   font-weight: 700;
   display: inline-block;
   text-align: center;
+  border: none;
+  outline: none;
 }
 
 .primary-button {
@@ -30,5 +32,10 @@
 
 .simple-button:hover {
   background: #E5E5E5;
-  color: #777777;
+  color: #444444;
+}
+
+button {
+  @extend .simple-button;
+
 }

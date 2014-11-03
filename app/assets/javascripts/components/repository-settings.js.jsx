@@ -72,6 +72,12 @@ var RepositorySetting = React.createClass({
     },
     processingDone: function () {
         this.setState({processing: false});
+        EventManager.trigger('notification', {
+            id: Math.random(),
+            type: 'success',
+            title: 'Processing Completed',
+            body: 'Finished processing thumbnails for ' + this.props.repository.name
+        });
     },
     render: function () {
         var checked;
@@ -91,12 +97,12 @@ var RepositorySetting = React.createClass({
             <li className="list-item" onClick={this.selectRepository}>
                 <div className="flex">
                     <div className="full-width">
-                        <h3>{this.props.repository.name} -
-                            <small> Updated 3 days ago</small>
+                        <h3>{this.props.repository.name}
                         </h3>
                     </div>
+                    <small>3 days ago</small>
                     <div>
-                        {checked}
+                         {checked}
                     </div>
                 </div>
                 {progress}

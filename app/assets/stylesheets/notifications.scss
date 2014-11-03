@@ -1,0 +1,74 @@
+.notifications {
+  position: fixed;
+  right: .5rem;
+  top: 5rem;
+  z-index: 999;
+}
+
+.notification {
+  @extend .flex;
+
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: .8rem;
+  border-radius: $border-radius;
+  width: 400px;
+  margin-bottom: .8rem;
+
+  justify-content: flex-start;
+  position: relative;
+  cursor: pointer;
+}
+
+.notification-image {
+  width: 30px;
+  height: 30px;
+  margin-right: 1rem;
+  font-size: 1.3rem;
+}
+
+.notification-title {
+  display: block;
+  font-weight: 700;
+}
+
+.notification-body {
+
+}
+
+.notification .fa-check {
+  color: $green;
+}
+
+.notification .fa-close {
+  color: $red;
+}
+
+.dismissed {
+  height: 0;
+  transform: scaleY(0);
+  transition: all .4s ease-in-out;
+}
+
+.notification-enter {
+  opacity: 0.01;
+  left: 100%;
+  transition: all .4s ease-in-out;
+}
+
+.notification-enter.notification-enter-active {
+  opacity: 1;
+  left: 0;
+}
+
+.notification-leave {
+  opacity: 1;
+  transition: all .4s ease-in-out;
+  left: 0;
+}
+
+.notification-leave.notification-leave-active {
+  opacity: 0.01;
+  left: 100%;
+}
