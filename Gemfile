@@ -40,7 +40,7 @@ gem 'quiet_assets'
 
 gem 'omniauth-github'
 
-gem 'websocket-rails'
+gem 'websocket-rails', github: 'timcolonel/websocket-rails'
 
 gem 'paperclip'
 

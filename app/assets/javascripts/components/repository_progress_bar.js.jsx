@@ -6,6 +6,7 @@ var RepositoryProgressBar = React.createClass({
         }
     },
     componentDidMount: function () {
+        this.counter = counter;
         this.channel = websocket.subscribe_private('repository_processing_' + this.props.repository_id);
         this.channel.on_success = function (current_user) {
             console.log(current_user.email + " has joined the channel");
@@ -17,15 +18,16 @@ var RepositoryProgressBar = React.createClass({
         }.bind(this);
 
         this.channel.bind('updated', function (data) {
-            console.log(data);
-            this.setState({progress: data.progress * 100})
+            this.setState({progress: data.progress * 100});
             if (data.done) {
                 this.props.onDone();
             }
         }.bind(this));
 
+
     },
     componentWillUnmount: function () {
+        this.channel.unbind('updated');
     },
     render: function () {
         return (

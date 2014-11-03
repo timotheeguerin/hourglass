@@ -21,7 +21,6 @@ var RepositoriesBox = React.createClass({
         return {repositories: [], searchText: ''};
     },
     componentDidMount: function () {
-        var pollInterval = 10000;
         this.loadCommentsFromServer();
     },
     navigateBack: function () {
@@ -63,12 +62,9 @@ var Repository = React.createClass({
     toggleRepository: function (e) {
         var id = this.props.id;
         var url;
-        console.log("Enabling repository with id " + id);
         if (e.target.checked) {
-            console.log('e is checked');
             url = Routes.enable_user_repository_path(current_user, id);
         } else {
-            console.log('e is NOT checked');
             url = Routes.disable_user_repository_path(current_user, id);
         }
 
@@ -80,7 +76,6 @@ var Repository = React.createClass({
         });
     },
     selectRepository: function () {
-        console.log("Repository clicked with id: " + this.props.id);
         this.props.onClick(this.props.id);
     },
     render: function () {
