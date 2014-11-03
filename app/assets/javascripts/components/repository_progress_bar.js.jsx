@@ -16,7 +16,7 @@ var RepositoryProgressBar = React.createClass({
             console.log(reason)
         }.bind(this);
 
-        this.channel.bind('updat    ed', function (data) {
+        this.channel.bind('updated', function (data) {
             this.setState({progress: data.progress * 100});
             if (data.done) {
                 this.props.onDone();
