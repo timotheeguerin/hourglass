@@ -42,10 +42,10 @@ ActiveRecord::Schema.define(version: 20141104155059) do
     t.integer  "user_id"
     t.text     "description"
     t.string   "url"
-    t.boolean  "enabled",               default: false
+    t.boolean "enabled", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "processing",  limit: 8, default: 0
+    t.integer "processing", default: 0
     t.datetime "sync_at"
   end
 
