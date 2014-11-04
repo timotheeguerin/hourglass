@@ -102,7 +102,7 @@ var RepositorySetting = React.createClass({
                         </h3>
                     </div>
                     <small>
-                        <TimeFromNow date={this.state.repository.sync_at}/>
+                        <TimeFromNow date={this.state.repository.sync_at} format='Synced {0}'/>
                     </small>
                     <div>
                          {checked}
@@ -115,6 +115,11 @@ var RepositorySetting = React.createClass({
 });
 
 var TimeFromNow = React.createClass({
+    getDefaultProps: function () {
+        return {
+            format: '{0}'
+        };
+    },
     getInitialState: function () {
         return {
             date: this.getFromTime(this.props.date)
@@ -139,7 +144,7 @@ var TimeFromNow = React.createClass({
         this.tick();
     },
     tick: function () {
-        if(!isNull(this.ticker)) {
+        if (!isNull(this.ticker)) {
             clearInterval(this.ticker);
         }
         this.ticker = setInterval(this.updateTime, 60000);
@@ -152,7 +157,7 @@ var TimeFromNow = React.createClass({
     },
     render: function () {
         return (
-            <span>{this.state.date}</span>
+            <span>{this.state.date == null ? null : this.props.format.format(this.state.date)}</span>
         );
     }
 });
