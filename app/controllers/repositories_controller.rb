@@ -22,17 +22,18 @@ class RepositoriesController < ApplicationController
              end
     if status.nil? or status.complete? or status.failed?
       job_id = RepositoryPreprocessorWorker.perform_async(@repository.id)
+      @repository.sync_at = Time.now
       @repository.processing = job_id
     end
     @repository.enabled = true
     @repository.save
-    return_json(true, 'Repository enabled')
+    return_json(true, message: 'Repository enabled', data: @repository)
   end
 
   def disable
     @repository.enabled = false
     @repository.save
-    return_json(true, 'Repository disabled')
+    return_json(true, message: 'Repository disabled', data: @repository)
   end
 
   private

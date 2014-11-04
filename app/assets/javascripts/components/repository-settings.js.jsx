@@ -47,27 +47,28 @@ var RepositoriesSettings = React.createClass({
 var RepositorySetting = React.createClass({
     toggleRepository: function (e) {
         var url;
-        if (!this.state.enabled) {
+        if (!this.state.repository.enabled) {
             url = Routes.enable_user_repository_path(current_user, this.props.repository.id);
         } else {
             url = Routes.disable_user_repository_path(current_user, this.props.repository.id);
         }
-        this.setState({
-            enabled: !this.state.enabled,
-            processing: (this.state.processing || !this.state.enabled)
-        });
 
         $.post(url).done(function (data) {
-            console.log("Great succuss");
-        }).fail(function (xhr, status, err) {
+            console.log(data);
+            this.setState({
+                processing: data.data.processing,
+                repository: data.data
+
+            })
+        }.bind(this)).fail(function (xhr, status, err) {
             console.error("Failure");
             console.error(url, status, err.toString());
         });
     },
     getInitialState: function () {
         return {
-            enabled: this.props.repository.enabled,
-            processing: this.props.repository.processing != 0
+            processing: this.props.repository.processing != 0,
+            repository: this.props.repository
         }
     },
     processingDone: function () {
@@ -81,7 +82,7 @@ var RepositorySetting = React.createClass({
     },
     render: function () {
         var checked;
-        if (this.state.enabled) {
+        if (this.state.repository.enabled) {
             checked = <input type="checkbox" defaultChecked onChange={this.toggleRepository} />;
         } else {
             checked = <input type="checkbox" onChange={this.toggleRepository} />;
@@ -100,13 +101,58 @@ var RepositorySetting = React.createClass({
                         <h3>{this.props.repository.name}
                         </h3>
                     </div>
-                    <small>3 days ago</small>
+                    <small>
+                        <TimeFromNow date={this.state.repository.sync_at}/>
+                    </small>
                     <div>
                          {checked}
                     </div>
                 </div>
                 {progress}
             </li>
+        );
+    }
+});
+
+var TimeFromNow = React.createClass({
+    getInitialState: function () {
+        return {
+            date: this.getFromTime(this.props.date)
+        }
+    },
+    updateTime: function (date) {
+        if (isNull(date)) {
+            date = this.props.date;
+        }
+        this.setState({
+            date: this.getFromTime(date)
+        })
+    },
+    getFromTime: function (date) {
+        if (isNull(date)) {
+            return null;
+        } else {
+            return moment.utc(date, "YYYY-MM-DD hh:mm:ss").fromNow()
+        }
+    },
+    componentDidMount: function () {
+        this.tick();
+    },
+    tick: function () {
+        if(!isNull(this.ticker)) {
+            clearInterval(this.ticker);
+        }
+        this.ticker = setInterval(this.updateTime, 60000);
+    },
+    componentWillReceiveProps: function (nextProps) {
+        if (nextProps.date != this.props.date) {
+            this.updateTime(nextProps.date);
+            this.tick();
+        }
+    },
+    render: function () {
+        return (
+            <span>{this.state.date}</span>
         );
     }
 });

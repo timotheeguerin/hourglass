@@ -54,6 +54,7 @@ gem 'rmagick'
 gem 'js-routes'
 gem 'react-rails', github: 'reactjs/react-rails'
 gem 'autoprefixer-rails'
+gem 'momentjs-rails'
 
 gem 'font-awesome-rails'
 
@@ -65,3 +66,4 @@ gem 'sidekiq-status'
 gem 'os'
 gem 'octokit'
 gem 'git'
+

@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def return_json(success=true, message='')
-    render json: {success: success, message: message}.to_json
+  def return_json(success=true, message: '', data: {})
+    render json: {success: success, message: message, data: data}.to_json
   end
 end

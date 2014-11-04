@@ -4,6 +4,7 @@
 //= require js-routes
 //= require react
 //= require react_ujs
+//= require moment
 //= require websocket_rails/main
 //= require_tree .
 
@@ -13,6 +14,14 @@ React = React;
 Routes = Routes;
 //noinspection SillyAssignmentJS
 current_user = current_user;
+
+//noinspection BadExpressionStatementJS
+(function () {
+    this.getInitialState();
+    this.componentDidMount();
+    this.componentWillUnmount();
+});
+
 
 function link_iframes(iframe1, iframe2) {
     var scrollTop = 0;
@@ -49,9 +58,9 @@ $(document).ready(function () {
 var move_slider = function (position) {
     $('.slider.dragging').each(function () {
         var parent = $(this).parent();
-        var left_iframe = parent.find('.left-iframe')
+        var left_iframe = parent.find('.left-iframe');
         if (position >= parent.offset().left && position <= parent.offset().left + parent.width()) {
-            $(this).offset({left: position})
+            $(this).offset({left: position});
             left_iframe.css({width: position - parent.offset().left})
             left_iframe.find('iframe').css({width: parent.width()})
         }
@@ -59,4 +68,17 @@ var move_slider = function (position) {
     });
 };
 
+
+var guid = (function () {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+
+    return function () {
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
+    };
+})();
 
