@@ -20,7 +20,6 @@ var FilesBox = React.createClass({
         this.loadFilesFromServer(this.props.repository_id);
     },
     shouldComponentUpdate: function (nextProps, nextState) {
-        console.log(nextProps);
         if (nextProps.repository_id != this.props.repository_id) {
             this.loadFilesFromServer(nextProps.repository_id);
             return false;
@@ -28,11 +27,9 @@ var FilesBox = React.createClass({
         return true;
     },
     navigateBack: function () {
-        console.log("Navigating backwards");
         $(".sidebar").animate({left: '0'}, 350);
     },
     hideSidebar: function () {
-        console.log("Hiding Sidebar");
         var animationSpeed = 300;
         $(".sidebar-container").toggleClass('hidden-container', animationSpeed);
         $("#content").toggleClass('wide-content', animationSpeed);

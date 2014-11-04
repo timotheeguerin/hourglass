@@ -5,7 +5,6 @@
 var RepositoriesSettings = React.createClass({
     loadCommentsFromServer: function () {
         var url = Routes.list_user_repositories_path({user_id: this.props.user_id});
-        console.log("URL: " + url);
         $.get(url).success(function (data) {
             this.setState({data: data});
         }.bind(this)).fail(function (xhr, status, err) {
@@ -54,7 +53,6 @@ var RepositorySetting = React.createClass({
         }
 
         $.post(url).done(function (data) {
-            console.log(data);
             this.setState({
                 processing: data.data.processing,
                 repository: data.data

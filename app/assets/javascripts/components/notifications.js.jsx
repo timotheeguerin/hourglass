@@ -2,40 +2,20 @@
 //= require global
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-var NotificationTypes = {
-    "notificationsRunning": {
-        id: Math.random(),
-        type: 'success',
-        title: 'Notification System Ready',
-        body: 'Click on me to dismiss'
-    },
-    "test": {
-        id: Math.random(),
-        type: 'failure',
-        title: 'A Test',
-        body: 'This is a failure test notification'
-    }
-};
 
 var Notifications = React.createClass({
     componentDidMount: function () {
-        console.log("Notification System ready");
         //this.add(NotificationTypes.notificationsRunning);
 
         this.notification_event = EventManager.on('notification', function (notification) {
-            console.log('notification event received: ' + notification);
             this.add(notification);
         }.bind(this));
-
-        EventManager.trigger('notification', NotificationTypes.notificationsRunning);
-
     },
     add: function (newNotification) {
         var newNotifications = this.state.notifications.concat(newNotification);
         this.setState({notifications: newNotifications});
     },
     handleRemove: function (i) {
-        console.log("Removing item " + i);
         var newNotifications = this.state.notifications;
         newNotifications.splice(i, 1);
         setTimeout(function () {

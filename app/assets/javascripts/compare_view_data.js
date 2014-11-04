@@ -1,5 +1,6 @@
 var CompareViewData = function () {
 };
+
 CompareViewData.data = {};
 CompareViewData.setData = function (data) {
     $.extend(CompareViewData.data, data);
@@ -13,6 +14,7 @@ CompareViewData.onUpdate = function (callback) {
 CompareViewData.isValid = function () {
     return !(isNull(CompareViewData.data.repository_id)
     || isNull(CompareViewData.data.page)
+    || isNull(CompareViewData.data.type)
     || isNull(CompareViewData.data.left_revision_id))
 };
 

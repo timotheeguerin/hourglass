@@ -4,7 +4,6 @@
 var RepositoriesBox = React.createClass({
     loadCommentsFromServer: function () {
         var url = Routes.list_user_repositories_path({user_id: this.props.user_id, enabled: true});
-        console.log("URL: " + url);
         $.get(url).success(function (data) {
             this.setState({repositories: data});
         }.bind(this)).fail(function (xhr, status, err) {
@@ -12,7 +11,6 @@ var RepositoriesBox = React.createClass({
         }.bind(this));
     },
     getVisibleRepositories: function () {
-        console.log(this.state);
         return this.state.repositories.filter(function (repository) {
             return repository.name.indexOf(this.state.searchText) > -1;
         }.bind(this));
@@ -24,11 +22,9 @@ var RepositoriesBox = React.createClass({
         this.loadCommentsFromServer();
     },
     navigateBack: function () {
-        console.log("Navigating backwards");
         $(".sidebar").animate({left: '-100%'}, 350);
     },
     handleChange: function (event) {
-        console.log("Searching Repositories...");
         this.setState({searchText: event.target.value});
     },
     render: function () {
@@ -69,7 +65,6 @@ var Repository = React.createClass({
         }
 
         $.post(url).done(function (data) {
-            console.log("Great succuss");
         }).fail(function (xhr, status, err) {
             console.log("Failure");
             console.error(url, status, err.toString());

@@ -6,7 +6,7 @@ var CompareBox = React.createClass({
             repository_id: this.props.repository_id,
             page: this.props.page,
             type: this.props.type,
-            dual_type: this.dual_type,
+            dual_type: this.props.dual_type,
             left_revision_id: this.props.left_revision_id,
             right_revision_id: this.props.right_revision_id
         }

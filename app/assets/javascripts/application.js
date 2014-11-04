@@ -6,6 +6,9 @@
 //= require react_ujs
 //= require moment
 //= require websocket_rails/main
+//= require helper
+//= require events
+//= require compare_view_data
 //= require_tree .
 
 //noinspection SillyAssignmentJS
@@ -70,21 +73,3 @@ var move_slider = function (position) {
     });
 };
 
-
-var guid = (function () {
-    function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-    }
-
-    return function () {
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-            s4() + '-' + s4() + s4() + s4();
-    };
-})();
-
-
-function isNull(o) {
-    return !(typeof o !== "undefined" && o !== null)
-}
