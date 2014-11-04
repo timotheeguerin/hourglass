@@ -10,28 +10,37 @@ var Notifications = React.createClass({
         this.notification_event = EventManager.on('notification', function (notification) {
             this.add(notification);
         }.bind(this));
+
+        EventManager.trigger('notification', {
+            type: 'success',
+            title: 'SOme title',
+            body: 'Some body,'
+        });
     },
-    add: function (newNotification) {
-        var newNotifications = this.state.notifications.concat(newNotification);
+    add: function (notification) {
+        var id = guid();
+        var newNotifications = this.state.notifications;
+        newNotifications[id] = $.extend(notification, {id: id});
         this.setState({notifications: newNotifications});
     },
-    handleRemove: function (i) {
+    handleRemove: function (id) {
         var newNotifications = this.state.notifications;
-        newNotifications.splice(i, 1);
+        delete newNotifications[id];
         setTimeout(function () {
             this.setState({notifications: newNotifications});
         }.bind(this), 0);
     },
     getInitialState: function () {
-        return {notifications: []};
+        return {notifications: {}};
     },
     componentWillUnmount: function () {
         this.notification_event.destroy();
     },
     render: function () {
-        var notificationNodes = this.state.notifications.map(function (notification, i) {
+        var notificationNodes = Object.keys(this.state.notifications).map(function (id) {
+            var notification = this.state.notifications[id];
             return (
-                <Notification key={notification.id} notification={notification} onClick={this.handleRemove.bind(this, i)}>
+                <Notification key={id} notification={notification} onClick={this.handleRemove.bind(this, id)}>
                 </Notification>
             );
         }.bind(this));

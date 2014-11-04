@@ -1,5 +1,4 @@
 /** @jsx React.DOM */
-//= require components/repository_progress_bar
 //= require global
 
 var RepositoriesSettings = React.createClass({
@@ -73,7 +72,6 @@ var RepositorySetting = React.createClass({
     processingDone: function () {
         this.setState({processing: false});
         EventManager.trigger('notification', {
-            id: Math.random(),
             type: 'success',
             title: 'Processing Completed',
             body: 'Finished processing thumbnails for ' + this.props.repository.name
