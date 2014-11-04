@@ -52,7 +52,6 @@ var RepositorySetting = React.createClass({
         }
 
         $.post(url).done(function (data) {
-            console.log(data);
             this.setState({
                 processing: !isNull(data.data.processing),
                 repository: data.data
