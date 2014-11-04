@@ -37,7 +37,7 @@ class RepositoryPreprocessorWorker
       handler.close
     end
     repository.reload
-    repository.processing = 0
+    repository.processing = nil
     repository.save
     channel.trigger(:updated, progress: 1, done: true)
   end

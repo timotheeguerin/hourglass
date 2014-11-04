@@ -15,7 +15,7 @@ class RepositoriesController < ApplicationController
   end
 
   def enable
-    status = if @repository.processing == 0
+    status = if @repository.processing.nil?
                nil
              else
                Sidekiq::Status::status(@repository.processing)

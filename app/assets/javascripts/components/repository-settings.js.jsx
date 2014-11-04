@@ -53,8 +53,9 @@ var RepositorySetting = React.createClass({
         }
 
         $.post(url).done(function (data) {
+            console.log(data);
             this.setState({
-                processing: data.data.processing,
+                processing: !isNull(data.data.processing),
                 repository: data.data
 
             })
@@ -65,7 +66,7 @@ var RepositorySetting = React.createClass({
     },
     getInitialState: function () {
         return {
-            processing: this.props.repository.processing != 0,
+            processing: !isNull(this.props.repository.processing),
             repository: this.props.repository
         }
     },

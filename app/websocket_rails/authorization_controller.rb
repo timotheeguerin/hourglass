@@ -5,7 +5,7 @@ class AuthorizationController < WebsocketRails::BaseController
     puts message
     channel = WebsocketRails[message[:channel]]
     if channel.name.to_s.match(/\A[a-zA-Z_]+_\d+\Z/)
-      array = channel.name.split('_')
+      array = channel.name.to_s.split('_')
       id = array[-1]
       channel = array[0...-1].join('_')
       model_class = channel_model(channel)
@@ -28,3 +28,4 @@ class AuthorizationController < WebsocketRails::BaseController
     {repository_processing: Repository}[channel.to_sym]
   end
 end
+
