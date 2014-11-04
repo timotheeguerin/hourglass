@@ -22,7 +22,7 @@ var Notifications = React.createClass({
         console.log("Notification System ready");
         //this.add(NotificationTypes.notificationsRunning);
 
-        EventManager.on('notification', function (notification) {
+        this.notification_event = EventManager.on('notification', function (notification) {
             console.log('notification event received: ' + notification);
             this.add(notification);
         }.bind(this));
@@ -44,6 +44,9 @@ var Notifications = React.createClass({
     },
     getInitialState: function () {
         return {notifications: []};
+    },
+    componentWillUnmount: function () {
+        this.notification_event.destroy();
     },
     render: function () {
         var notificationNodes = this.state.notifications.map(function (notification, i) {
