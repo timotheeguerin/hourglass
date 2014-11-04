@@ -100,11 +100,14 @@ var RepositorySetting = React.createClass({
                         <h3>{this.props.repository.name}
                         </h3>
                     </div>
-                    <small>
-                        <TimeFromNow date={this.state.repository.sync_at} format='Synced {0}'/>
-                    </small>
-                    <div>
+
+                    <div className="flex">
+                        <small>
+                            <TimeFromNow date={this.state.repository.sync_at} format='{0}'/>
+                        </small>
+                        <div>
                          {checked}
+                        </div>
                     </div>
                 </div>
                 {progress}
