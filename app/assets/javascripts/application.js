@@ -20,6 +20,8 @@ current_user = current_user;
     this.getInitialState();
     this.componentDidMount();
     this.componentWillUnmount();
+    this.componentWillReceiveProps();
+    this.getDefaultProps();
 });
 
 
@@ -82,3 +84,7 @@ var guid = (function () {
     };
 })();
 
+
+function isNull(o) {
+    return !(typeof o !== "undefined" && o !== null)
+}
