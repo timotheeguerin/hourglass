@@ -10,17 +10,6 @@ var Notifications = React.createClass({
         this.notification_event = EventManager.on('notification', function (notification) {
             this.add(notification);
         }.bind(this));
-
-        EventManager.trigger('notification', {
-            type: 'success',
-            title: 'SOme title',
-            body: 'Some body,'
-        });
-        EventManager.trigger('notification', {
-            type: 'success',
-            title: 'SOme title',
-            body: 'Some body,'
-        });
     },
     add: function (notification) {
         var id = guid();
