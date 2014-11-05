@@ -10,7 +10,7 @@ class RevisionsController < ApplicationController
 
   def list
     @revisions = @revisions.eager_load(:pages).where('page_revisions.page_id = ?', page_id)
-    render json: @revisions.as_json(methods: :pages)
+      render json: @revisions.as_json(methods: :pages)
   end
 
   def page_id

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141104203915) do
+ActiveRecord::Schema.define(version: 20141105183249) do
 
   create_table "page_revisions", force: true do |t|
     t.integer  "revision_id"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20141104203915) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "date"
   end
 
   add_index "revisions", ["repository_id"], name: "index_revisions_on_repository_id", using: :btree

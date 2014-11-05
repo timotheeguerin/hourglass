@@ -1,8 +1,8 @@
 class Repository < ActiveRecord::Base
   belongs_to :user, class_name: User
 
-  has_many :revisions, class_name: Revision
-  has_many :pages, class_name: Page
+  has_many :revisions, class_name: Revision, dependent: :destroy
+  has_many :pages, class_name: Page, dependent: :destroy
 
   validates_uniqueness_of :name, scope: :user_id
 
@@ -11,17 +11,17 @@ class Repository < ActiveRecord::Base
   end
 
   def sync_revisions
-    # noinspection Rails3Deprecated
     commits = Github.octokit.commits("#{user.username}/#{name}")
     commits.each_with_index do |commit, i|
-      if revisions.find_by_sha(commit.sha).nil?
-        revision = Revision.new
-        revision.order = commits.size - i
-        revision.sha = commit.sha
-        revision.message = commit.commit.message
-        revision.repository = self
-        revision.save
+      revision = revisions.find_by_sha(commit.sha)
+      if revision.nil?
+        revision = self.revisions.build
       end
+      revision.order = commits.size - i
+      revision.sha = commit.sha
+      revision.message = commit.commit.message
+      revision.date = commit.commit.committer.date
+      revision.save
     end
   end
 
