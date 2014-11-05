@@ -9,6 +9,7 @@ class Ability
 
     can [:list, :sync, :enable, :disable, :subscribe], Repository, user_id: user.id
     can [:list], Page, repository: {user_id: user.id}
+    can [:list], Revision, repository: {user_id: user.id}
 
     can :compare, Repository
   end

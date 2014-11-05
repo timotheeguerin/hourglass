@@ -27,10 +27,12 @@ Rails.application.routes.draw do
       end
 
       resources :pages do
-
-        member do
-          get 'show'
+        collection do
+          get 'list'
         end
+      end
+
+      resources :revisions do
         collection do
           get 'list'
         end

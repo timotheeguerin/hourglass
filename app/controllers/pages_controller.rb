@@ -4,7 +4,7 @@ class PagesController < ApplicationController
   load_and_authorize_resource through: :repository
 
   def show
-    @page.revisions = @page.revisions.load.where('page_revisions.revision_id = ?', revision_id)
+    @page.revisions = @page.revisions.load#.where('page_revisions.revision_id = ?', revision_id)
     render json: @page.as_json(methods: :revisions)
   end
 
