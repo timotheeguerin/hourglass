@@ -2,23 +2,34 @@
 //= require global
 
 var Sidebar = React.createClass({
-    loadFilesFromServer: function () {
-    },
     getInitialState: function () {
         return {};
     },
-    navigateBack: function () {
+    navigateToFilesView: function () {
         $(".sidebar").animate({left: '-100%'}, 350);
     },
+    navigateToRevisionsView: function () {
+        $(".sidebar").animate({left: '-200%'}, 350);
+    },
     selectRepository: function (id) {
-        this.setState({current_repository_id: id});
-        this.navigateBack();
+        this.setState({repository_id: id});
+        this.navigateToFilesView();
+    },
+    selectFile: function (repository_id, page_id) {
+        console.log("Selecting file in sidebar");
+        console.log("Using repository_id: " + repository_id + "\tpage_id: " + page_id);
+        this.setState({
+            repository_id: repository_id,
+            page_id: page_id
+        });
+        this.navigateToRevisionsView();
     },
     render: function () {
         return (
             <div className="sidebar">
-                <RepositoriesBox user_id={this.props.user_id} onClick={this.selectRepository}/>
-                <FilesBox user_id={this.props.user_id} repository_id={this.state.current_repository_id}/>
+                <RepositoriesBox user_id={this.props.user_id} onClick={this.selectRepository} />
+                <FilesBox user_id={this.props.user_id} onClick={this.selectFile} repository_id={this.state.repository_id} />
+                <Revisions user_id={this.props.user_id} repository_id={this.state.repository_id} page_id={this.state.page_id} />
             </div>
         );
     }

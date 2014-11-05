@@ -1,12 +1,12 @@
 /** @jsx React.DOM */
 //= require global
 
-var FilesBox = React.createClass({
-    loadFilesFromServer: function (repository_id) {
+var Revisions = React.createClass({
+    loadRevisionsFromServer: function (repository_id, page_id) {
         if (isNull(repository_id)) {
             return;
         }
-        var url = Routes.list_user_repository_pages_path(current_user, repository_id);
+        var url = Routes.list_user_repository_revisions_path(current_user, repository_id, {page_id: page_id});
         $.get(url).success(function (data) {
             this.setState({data: data});
         }.bind(this)).fail(function (xhr, status, err) {
@@ -17,17 +17,17 @@ var FilesBox = React.createClass({
         return {data: []};
     },
     componentWillMount: function () {
-        this.loadFilesFromServer(this.props.repository_id);
+        this.loadRevisionsFromServer(this.props.repository_id, this.props.page_id);
     },
     shouldComponentUpdate: function (nextProps, nextState) {
-        if (nextProps.repository_id != this.props.repository_id) {
-            this.loadFilesFromServer(nextProps.repository_id);
+        if (nextProps.repository_id != this.props.repository_id || nextProps.page_id != this.props.page_id) {
+            this.loadRevisionsFromServer(nextProps.repository_id, nextProps.page_id);
             return false;
         }
         return true;
     },
     navigateBack: function () {
-        $(".sidebar").animate({left: '0'}, 350);
+        $(".sidebar").animate({left: '-100%'}, 350);
     },
     hideSidebar: function () {
         var animationSpeed = 300;
@@ -35,18 +35,17 @@ var FilesBox = React.createClass({
         $("#content").toggleClass('wide-content', animationSpeed);
     },
     render: function () {
-        var boundClick = this.props.onClick;
-        var fileNodes = this.state.data.map(function (file) {
+        var fileNodes = this.state.data.map(function (revision) {
             return (
-                <File name={file.name} id={file.id} repository_id={file.repository_id} image={file.revisions[0].thumbnails} onClick={boundClick}>
-                </File>
+                <Revision revision={revision} id={revision.id} image={revision.pages[0].thumbnails}>
+                </Revision>
             );
         });
         return (
-            <div id="files" className="sidebar-column">
+            <div id="revisions" className="sidebar-column">
                 <h2 className="sidebar-nav">
                     <i className="fa fa-angle-left fa-lg" id="fileBackwardButton" onClick={this.navigateBack}></i>
-                    <span className="sidebar-title">Pages</span>
+                    <span className="sidebar-title">Revisions</span>
                     <span className="sidebar-button">
 
                     </span>
@@ -62,18 +61,14 @@ var FilesBox = React.createClass({
     }
 });
 
-var File = React.createClass({
-    selectFile: function () {
-        console.log("Selecting file with id: " + this.props.id);
-        this.props.onClick(this.props.repository_id, this.props.id);
-    },
+var Revision = React.createClass({
     render: function () {
         return (
-            <div className="thumbnail" draggable="true" onClick={this.selectFile}>
+            <div className="thumbnail" draggable="true">
                 <div className="scroll-container" draggable="false">
                     <img src={this.props.image} />
                 </div>
-                <span className="thumbnail-title">{this.props.name}</span>
+                <span className="thumbnail-title">{this.props.revision.message}</span>
             </div>
         );
     }
