@@ -3,6 +3,7 @@
   margin: .8rem;
   border: $thin-border;
   border-radius: $border-radius;
+  cursor: pointer;
 }
 
 .thumbnail:last-child {
@@ -19,13 +20,22 @@
   border-bottom: $thin-border;
 }
 .thumbnail-title {
-  font-size: .8rem;
+  @extend .text-overflow;
+
+  font-size: .9rem;
+  font-weight: 400;
   padding: .3rem .5rem .3rem;
   text-align: center;
   display: block;
   width: 100%;
   z-index: 5;
   background: #FFFFFF;
+}
+
+.revision-title {
+  @extend .thumbnail-title;
+
+  text-align: left;
 }
 .thumbnail:last-child {
   padding: 0;

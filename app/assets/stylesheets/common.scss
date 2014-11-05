@@ -87,3 +87,22 @@ small {
 .hidden {
   display: none;
 }
+
+.nowrap {
+  white-space: nowrap;
+  padding-right: 1rem;
+  max-width: 100%;
+}
+
+.light {
+  color: #BBBBBB;
+}
+
+.light span {
+  color: #AAAAAA;
+}
+
+.text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

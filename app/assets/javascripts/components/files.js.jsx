@@ -69,7 +69,7 @@ var File = React.createClass({
     },
     render: function () {
         return (
-            <div className="thumbnail" draggable="true" onClick={this.selectFile}>
+            <div className="thumbnail" onClick={this.selectFile}>
                 <div className="scroll-container" draggable="false">
                     <img src={this.props.image} />
                 </div>

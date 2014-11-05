@@ -91,7 +91,7 @@ var RepositorySetting = React.createClass({
             progress = null;
         }
         return (
-            <li className="list-item" onClick={this.selectRepository}>
+            <li className="list-item">
                 <div className="flex">
                     <div className="full-width">
                         <h3>{this.props.repository.name}

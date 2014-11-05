@@ -68,7 +68,13 @@ var Revision = React.createClass({
                 <div className="scroll-container" draggable="false">
                     <img src={this.props.image} />
                 </div>
-                <span className="thumbnail-title">{this.props.revision.message}</span>
+                <span className="thumbnail-title revision-title">
+                    <span className="nowrap" title={this.props.revision.message}>{this.props.revision.message}</span>
+                    <br/>
+                    <span className="light">
+                        <TimeFromNow date={this.props.revision.updated_at} format='{0}'/>
+                    </span>
+                </span>
             </div>
         );
     }
