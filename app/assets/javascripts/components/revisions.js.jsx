@@ -72,7 +72,7 @@ var Revision = React.createClass({
                     <span className="nowrap" title={this.props.revision.message}>{this.props.revision.message}</span>
                     <br/>
                     <span className="light">
-                        <TimeFromNow date={this.props.revision.updated_at} format='{0}'/>
+                        <TimeFromNow date={this.props.revision.date} format='{0}'/>
                     </span>
                 </span>
             </div>
