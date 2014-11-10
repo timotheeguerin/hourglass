@@ -62,16 +62,20 @@ var Revisions = React.createClass({
 });
 
 var Revision = React.createClass({
+    drag: function (ev) {
+        console.log("Handling drag start event: " + event);
+        ev.dataTransfer.setData("id", this.props.revision.id);
+    },
     render: function () {
         return (
-            <div className="thumbnail" draggable="true">
+            <div className="thumbnail" draggable="true" onDragStart={this.drag}>
                 <div className="scroll-container" draggable="false">
                     <img src={this.props.image} />
                 </div>
                 <span className="thumbnail-title revision-title">
                     <span className="nowrap" title={this.props.revision.message}>{this.props.revision.message}</span>
                     <br/>
-                    <span className="light">
+                    <span className="light" title={this.props.revision.date}>
                         <TimeFromNow date={this.props.revision.date} format='{0}'/>
                     </span>
                 </span>

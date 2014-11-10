@@ -16,8 +16,6 @@ var Sidebar = React.createClass({
         this.navigateToFilesView();
     },
     selectFile: function (repository_id, page_id) {
-        console.log("Selecting file in sidebar");
-        console.log("Using repository_id: " + repository_id + "\tpage_id: " + page_id);
         this.setState({
             repository_id: repository_id,
             page_id: page_id

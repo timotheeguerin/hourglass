@@ -32,11 +32,17 @@ var CompareBox = React.createClass({
     componentDidMount: function () {
         CompareViewData.setData(this.getInitialState());
         this.compare_view_data_event = CompareViewData.onUpdate(function (data) {
+            console.log("CompareViewData.onUpdate");
+            console.log(data);
             this.setState(data);
-        }.bind(this))
+        }.bind(this));
+        this.view_type_change_event = EventManager.on('some', function (myarg) {
+            console.log('called: ' + myarg);
+        }.bind(this));
     },
     componentWillUnmount: function () {
         this.compare_view_data_event.destroy();
+        this.view_type_change_event.destroy();
     },
     render: function () {
         return (
@@ -77,6 +83,21 @@ var DualView = React.createClass({
             link_iframes(iframes.eq(0), iframes.eq(1));
         });
     },
+    allowDrop: function (ev) {
+        ev.preventDefault();
+    },
+    dropLeft: function (ev) {
+        ev.preventDefault();
+        var revisionId = ev.dataTransfer.getData("id");
+        console.log("Updating left revision id to: " + revisionId);
+        CompareViewData.setData({left_revision_id: revisionId});
+    },
+    dropRight: function (ev) {
+        ev.preventDefault();
+        var revisionId = ev.dataTransfer.getData("id");
+        console.log("Updating left revision id to: " + revisionId);
+        CompareViewData.setData({right_revision_id: revisionId});
+    },
     render: function () {
         var slider;
         if (this.props.type == 'slide') {
@@ -87,12 +108,12 @@ var DualView = React.createClass({
         }
         return (
             <div className={this.props.type + " dual-view"}>
-                <div className='left-iframe'>
+                <div className='left-iframe revision-box' onDrop={this.dropLeft} onDragOver={this.allowDrop}>
                     <PreviewBox repository_id={this.props.repository_id} page={this.props.page}
                         revision_id={this.props.left_revision_id}/>
                 </div>
                 {slider}
-                <div className='right-iframe'>
+                <div className='right-iframe revision-box' onDrop={this.dropRight} onDragOver={this.allowDrop}>
                     <PreviewBox repository_id={this.props.repository_id} page={this.props.page}
                         revision_id={this.props.right_revision_id}/>
                 </div>
@@ -108,7 +129,7 @@ var PreviewBox = React.createClass({
     render: function () {
         if (isNull(this.props.revision_id)) {
             return (
-                <div> Drag the revision you want to see!
+                <div className="drop-description"> Drag a revision here
                 </div>
             );
         } else {

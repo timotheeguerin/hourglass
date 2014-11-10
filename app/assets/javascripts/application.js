@@ -72,4 +72,3 @@ var move_slider = function (position) {
 
     });
 };
-

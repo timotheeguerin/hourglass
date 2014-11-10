@@ -2,7 +2,7 @@ header {
   @extend .flex;
 
   background: #FFFFFF;
-  padding: 0rem 1rem;
+  padding: 0rem .8rem;
   border-bottom: $thin-border;
   height: $header-height;
 }
@@ -18,4 +18,19 @@ header {
 
 .header-right:hover .dropdown {
   display: block;
+}
+
+header.alternate {
+  background: $blue;
+  color: #FFFFFF;
+
+  h1 {
+    color: #FFFFFF;
+    font-weight: 400;
+  }
+
+  .field input {
+    background: $dark-blue;
+    font-size: 1.1rem;
+  }
 }
