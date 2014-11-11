@@ -64,7 +64,7 @@ var Revisions = React.createClass({
 var Revision = React.createClass({
     drag: function (ev) {
         console.log("Handling drag start event: " + event);
-        ev.dataTransfer.setData("id", this.props.revision.id);
+        ev.dataTransfer.setData("revision", JSON.stringify(this.props.revision));
         EventManager.trigger('dragging_revision', true)
     },
     render: function () {

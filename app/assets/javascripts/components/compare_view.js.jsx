@@ -2,27 +2,20 @@
 
 var CompareBox = React.createClass({
     getInitialState: function () {
-        return {
-            repository_id: this.props.repository_id,
-            page: this.props.page,
-            type: this.props.type,
-            dual_type: this.props.dual_type,
-            left_revision_id: this.props.left_revision_id,
-            right_revision_id: this.props.right_revision_id
-        }
+        return $.extend({}, this.props);
     },
     getEngine: function () {
         if (this.state.type !== 'dual') {
             return (
-                <SimpleView repository_id={this.state.repository_id}
-                    revision_id={this.state.left_revision_id}
+                <SimpleView repository={this.state.repository}
+                    revision={this.state.left_revision}
                     page={this.state.page}/>
             );
         } else {
             return (
-                <DualView repository_id={this.state.repository_id}
-                    left_revision_id= {this.state.left_revision_id}
-                    right_revision_id={ this.state.right_revision_id}
+                <DualView repository={this.state.repository}
+                    left_revision= {this.state.left_revision}
+                    right_revision={ this.state.right_revision}
                     page={this.state.page}
                     type={this.state.dual_type}>
                 </DualView>
@@ -54,8 +47,8 @@ var SimpleView = React.createClass({
     render: function () {
         return (
             <div className="simple-view">
-                <PreviewBox repository_id={this.props.repository_id} page={this.props.page}
-                    revision_id={this.props.revision_id}/>
+                <PreviewBox repository={this.props.repository} page={this.props.page}
+                    revision={this.props.revision_id}/>
             </div>
         );
     }
@@ -69,33 +62,34 @@ var DualView = React.createClass({
     },
     getInitialState: function () {
         return ({
-            slider_position: '50%'
+            slider_position: '50%',
+            scrollTop: 0
         })
     },
     componentDidMount: function () {
         if (this.props.type == 'slide') {
             var container = $(this.refs.container.getDOMNode());
             var left_iframe = $(this.refs.left_iframe.getDOMNode());
+            var right_iframe = $(this.refs.right_iframe.getDOMNode());
             left_iframe.find('iframe').css({width: container.width()});
+            right_iframe.find('iframe').css({width: container.width()});
         }
         this.iframeLoading = 2;
     },
 
     allowDrop: function (ev) {
-        console.log('allow ');
         ev.preventDefault();
     },
     dropLeft: function (ev) {
-        console.log('dropping left');
         ev.preventDefault();
-        var revisionId = ev.dataTransfer.getData("id");
-        CompareViewData.setData({left_revision_id: revisionId});
+        var revision = JSON.parse(ev.dataTransfer.getData("revision"));
+        CompareViewData.setData({left_revision: revision});
         EventManager.trigger('dragging_revision', false);
     },
     dropRight: function (ev) {
         ev.preventDefault();
-        var revisionId = ev.dataTransfer.getData("id");
-        CompareViewData.setData({right_revision_id: revisionId});
+        var revision = JSON.parse(ev.dataTransfer.getData("revision"));
+        CompareViewData.setData({right_revision: revision});
         EventManager.trigger('dragging_revision', false);
     },
     onMouseMove: function (e) {
@@ -121,13 +115,8 @@ var DualView = React.createClass({
     sliderStopDragging: function () {
         this.dragging_slider = false;
     },
-    onIframeLoaded: function () {
-        this.iframeLoading--;
-        if (this.iframeLoading == 0) {
-            var left_iframe = $(this.refs.left_iframe.getDOMNode()).find('iframe');
-            var right_iframe = $(this.refs.right_iframe.getDOMNode()).find('iframe');
-            link_iframes(left_iframe, right_iframe);
-        }
+    iframeScrolling: function (scrollTop) {
+        this.setState({scrollTop: scrollTop})
     },
     render: function () {
         var slider;
@@ -142,14 +131,16 @@ var DualView = React.createClass({
             <div className={this.props.type + " dual-view"} onMouseMove={this.onMouseMove} onMouseUp={this.sliderStopDragging}
                 onMouseLeave={this.sliderStopDragging} ref='container'>
                 <div className='left-iframe revision-box' onDrop={this.dropLeft} onDragOver={this.allowDrop} ref='left_iframe'
-                    style={{width: this.state.slider_position}} >
-                    <PreviewBox repository_id={this.props.repository_id} page={this.props.page}
-                        revision_id={this.props.left_revision_id} onMouseMove={this.onMouseMoveInIframe} onLoad={this.onIframeLoaded}/>
+                    style={{'flex-basis': this.state.slider_position + 'px'}} >
+                    <PreviewBox repository={this.props.repository} page={this.props.page}
+                        revision={this.props.left_revision} onMouseMove={this.onMouseMoveInIframe}
+                        onScroll={this.iframeScrolling} scrollTop={this.state.scrollTop}/>
                 </div>
                 {slider}
                 <div className='right-iframe revision-box' onDrop={this.dropRight} onDragOver={this.allowDrop} ref='right_iframe'>
-                    <PreviewBox repository_id={this.props.repository_id} page={this.props.page}
-                        revision_id={this.props.right_revision_id} onMouseMove={this.onMouseMoveInIframe} onLoad={this.onIframeLoaded}/>
+                    <PreviewBox repository={this.props.repository} page={this.props.page}
+                        revision={this.props.right_revision} onMouseMove={this.onMouseMoveInIframe}
+                        onScroll={this.iframeScrolling} scrollTop={this.state.scrollTop}/>
                 </div>
             </div>
         );
@@ -164,20 +155,27 @@ var PreviewBox = React.createClass({
     },
     getDefaultProps: function () {
         return {
+            scrollTop: 0,
             onLoad: function () {
             },
             onMouseMove: function () {
+            },
+            onScroll: function () {
             }
         }
     },
     previewUrl: function () {
-        return Routes.preview_path(current_user, this.props.repository_id, this.props.revision_id, this.props.page)
+        return Routes.preview_path(current_user, this.props.repository.id, this.props.revision.id, this.props.page.path)
     },
     iframeLoaded: function (iframe) {
         iframe.contents().mousemove(function (e) {
             var mousePosition = e.pageX + iframe.offset().left;
             this.props.onMouseMove(mousePosition)
         }.bind(this));
+        var props = this.props;
+        $(iframe.contents()).scroll(function () {
+            props.onScroll($(this).scrollTop())
+        });
     },
     componentDidMount: function () {
         if (!isNull(this.refs.iframe)) {
@@ -191,19 +189,28 @@ var PreviewBox = React.createClass({
             this.setState({dragging_revision: dragging});
         }.bind(this));
     },
+    componentWillReceiveProps: function (newProps) {
+        this.updateIframeScroll(newProps.scrollTop)
+    },
     componentWillUnmount: function () {
         this.dragging_listener.destroy();
     },
+    updateIframeScroll: function (scrollTop) {
+        if (!isNull(this.refs.iframe)) {
+            var iframe = $(this.refs.iframe.getDOMNode());
+            $(iframe.contents()).scrollTop(scrollTop);
+        }
+    },
     render: function () {
         var iframe;
-        if (!isNull(this.props.revision_id)) {
+        if (!isNull(this.props.revision)) {
             iframe = (
                 <iframe src={this.previewUrl()} ref='iframe' className={this.state.dragging_revision ? 'hidden' : ''}>
                 </iframe>
             );
         }
         var dragging_box;
-        if (isNull(this.props.revision_id) || this.state.dragging_revision) {
+        if (isNull(this.props.revision) || this.state.dragging_revision) {
             dragging_box = (
                 <div className='drop-container'>
                     <div className="drop-description"> Drag a revision here
@@ -224,13 +231,13 @@ var PreviewBox = React.createClass({
 CompareViewData.onUpdate(function (data) {
     var params = {
         user_id: current_user,
-        repository_id: data.repository_id,
-        page: data.page,
+        repository_id: data.repository.id,
+        page: data.page.path,
         type: data.type
     };
     if (!isNull(data.dual_type)) params.dual_type = data.dual_type;
-    if (!isNull(data.left_revision_id)) params.left = data.left_revision_id;
-    if (!isNull(data.right_revision_id)) params.right = data.right_revision_id;
+    if (!isNull(data.left_revision)) params.left = data.left_revision.id;
+    if (!isNull(data.right_revision)) params.right = data.right_revision.id;
     var url = Routes.compare_path(params);
     window.history.pushState({}, "", url);
 });

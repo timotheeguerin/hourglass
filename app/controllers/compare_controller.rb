@@ -7,12 +7,15 @@ class CompareController < ApplicationController
 
     user = User.find(params[:user_id])
     repository = Repository.find(params[:repository_id])
+    page = repository.pages.find_by_path(params[:page])
+    left_revision = repository.revisions.find_by_id(params[:left])
+    right_revision = repository.revisions.find_by_id(params[:right])
     authorize! :compare, repository
-    @params = {user_id: user.id,
-               repository_id: repository.id,
-               page: params[:page],
-               left_revision_id: params[:left],
-               right_revision_id: params[:right],
+    @params = {user: user.as_json,
+               repository: repository.as_json,
+               page: page.as_json,
+               left_revision: left_revision.as_json,
+               right_revision: right_revision.as_json,
                type: params[:type],
                dual_type: params[:dual_type]}
   end

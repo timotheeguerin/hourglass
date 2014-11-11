@@ -3,7 +3,6 @@ var CompareViewData = function () {
 
 CompareViewData.data = {};
 CompareViewData.setData = function (data) {
-    console.log("Setting compare view data");
     $.extend(CompareViewData.data, data);
     EventManager.trigger('compare_view_data_updated', CompareViewData.data)
 };

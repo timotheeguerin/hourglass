@@ -26,21 +26,3 @@ current_user = current_user;
     this.componentWillReceiveProps();
     this.getDefaultProps();
 });
-
-
-function link_iframes(iframe1, iframe2) {
-    var scrollTop = 0;
-
-    function updateScroll(iframe) {
-        $(iframe.contents()).scrollTop(scrollTop);
-    }
-    console.log($(iframe1.contents()));
-    $(iframe1.contents()).scroll(function () {
-        scrollTop = $(this).scrollTop();
-        updateScroll(iframe2)
-    });
-    $(iframe2.contents()).scroll(function () {
-        scrollTop = $(this).scrollTop();
-        updateScroll(iframe1)
-    })
-}

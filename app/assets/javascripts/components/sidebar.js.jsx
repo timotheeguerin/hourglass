@@ -22,6 +22,18 @@ var Sidebar = React.createClass({
         });
         this.navigateToRevisionsView();
     },
+    componentDidMount: function () {
+        this.compare_listener = CompareViewData.onUpdate(function (data) {
+            if (!isNull(data.page)) {
+                this.selectFile(data.repository.id, data.page.id)
+            } else if (!isNull(data.repository_id)) {
+                this.selectRepository(data.repository.id)
+            }
+        }.bind(this));
+    },
+    componentWillUnmount: function () {
+        this.compare_listener.destroy()
+    },
     render: function () {
         return (
             <div className="sidebar">
