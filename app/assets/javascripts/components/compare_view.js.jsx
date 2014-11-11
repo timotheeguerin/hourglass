@@ -72,12 +72,12 @@ var DualView = React.createClass({
     },
     componentDidMount: function () {
         var iframes = $(this.getDOMNode()).find('iframe');
-
+        init_sliders();
         iframes_load(iframes, function () {
             iframes.each(function () {
                 var iframe = $(this);
                 $(this).contents().mousemove(function (e) {
-                    move_slider(e.pageX + iframe.offset().left);
+                    move_sliders(e.pageX + iframe.offset().left);
                 });
             });
             link_iframes(iframes.eq(0), iframes.eq(1));
@@ -129,7 +129,9 @@ var PreviewBox = React.createClass({
     render: function () {
         if (isNull(this.props.revision_id)) {
             return (
-                <div className="drop-description"> Drag a revision here
+                <div className='drop-container'>
+                    <div className="drop-description"> Drag a revision here
+                    </div>
                 </div>
             );
         } else {
@@ -141,11 +143,6 @@ var PreviewBox = React.createClass({
     }
 });
 
-//function previewUrl(state, revision_id) {
-//    return Routes.preview_path(current_user, state.repository_id, revision_id, state.page)
-//}
-
-
 function iframes_load(iframes, callback) {
     var count = iframes.length;
     iframes.load(function () {
@@ -156,39 +153,17 @@ function iframes_load(iframes, callback) {
     });
 }
 
-function compare_view(repository_id, page, left_revision_id, right_revision_id, type) {
-    right_revision_id = (isNull(right_revision_id) ? null : right_revision_id);
-    type = isNull(type) ? null : type;
-    var url = Routes.compare_path({
-        user_id: current_user,
-        repository_id: repository_id,
-        left_revision_id: left_revision_id,
-        right_revision_Id: right_revision_id,
-        page: page,
-        type: type
-    });
-    React.renderComponent(
-        <CompareBox repository_id = {repository_id}
-            left_revision_id = {left_revision_id}
-            right_revision_id = {right_revision_id}
-            page={page}
-            type={type} />
-        , document.getElementById('content')
-    );
-    window.history.pushState({}, "", url);
-
-}
-
-
+// Change the compare url when the compare data is changed
 CompareViewData.onUpdate(function (data) {
-    var url = Routes.compare_path({
+    params = {
         user_id: current_user,
         repository_id: data.repository_id,
-        left_revision_id: data.left_revision_id,
-        right_revision_Id: data.right_revision_id,
         page: data.page,
-        type: data.type,
-        dual_type: data.dual_type
-    });
+        type: data.type
+    };
+    if (!isNull(data.dual_type)) params.dual_type = data.dual_type;
+    if (!isNull(data.left_revision_id)) params.left = data.left_revision_id;
+    if (!isNull(data.right_revision_id)) params.right = data.right_revision_id;
+    var url = Routes.compare_path(params);
     window.history.pushState({}, "", url);
 });

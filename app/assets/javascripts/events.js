@@ -30,15 +30,8 @@ EventManager.unbind = function (id) {
 };
 
 var EventListener = function () {
-    this.id = guid;
+    this.id = guid();
     this.destroy = function () {
         EventManager.unbind(this.id)
     }
 };
-
-//Ex
-//EventManager.on('some', function (myarg) {
-//    console.log('called: ' + myarg);
-//});
-//
-//EventManager.trigger('some', 'custom val');

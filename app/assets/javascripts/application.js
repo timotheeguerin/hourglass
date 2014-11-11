@@ -56,19 +56,29 @@ $(document).ready(function () {
 
 
     $(document).mousemove(function (e) {
-        move_slider(e.pageX);
+        move_sliders(e.pageX);
     });
 });
 
-var move_slider = function (position) {
+var move_sliders = function (position) {
     $('.slider.dragging').each(function () {
-        var parent = $(this).parent();
-        var left_iframe = parent.find('.left-iframe');
-        if (position >= parent.offset().left && position <= parent.offset().left + parent.width()) {
-            $(this).offset({left: position});
-            left_iframe.css({width: position - parent.offset().left})
-            left_iframe.find('iframe').css({width: parent.width()})
-        }
-
+        move_slider($(this), position)
     });
+};
+
+var init_sliders = function () {
+    $('.slider').each(function () {
+        move_slider($(this))
+    });
+};
+
+
+var move_slider = function (slider, position) {
+    var parent = slider.parent();
+    var left_iframe = parent.find('.left-iframe');
+    left_iframe.find('iframe').css({width: parent.width()});
+    if (!isNull(position) && position >= parent.offset().left && position <= parent.offset().left + parent.width()) {
+        slider.offset({left: position});
+        left_iframe.css({width: position - parent.offset().left});
+    }
 };
