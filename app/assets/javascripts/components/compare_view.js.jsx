@@ -74,7 +74,6 @@ var DualView = React.createClass({
             left_iframe.find('iframe').css({width: container.width()});
             right_iframe.find('iframe').css({width: container.width()});
         }
-        this.iframeLoading = 2;
     },
 
     allowDrop: function (ev) {
