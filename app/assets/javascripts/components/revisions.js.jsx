@@ -65,13 +65,13 @@ var Revision = React.createClass({
     drag: function (ev) {
         console.log("Handling drag start event: " + event);
         ev.dataTransfer.setData("revision", JSON.stringify(this.props.revision));
-        EventManager.trigger('dragging_revision', true)
+        EventManager.trigger('dragging_revision', true);
     },
     render: function () {
         return (
             <div className="thumbnail" draggable="true" onDragStart={this.drag}>
                 <div className="scroll-container" draggable="false">
-                    <img src={this.props.image} />
+                    <img src={this.props.image} draggable="false"/>
                 </div>
                 <span className="thumbnail-title revision-title">
                     <span className="nowrap" title={this.props.revision.message}>{this.props.revision.message}</span>
@@ -83,4 +83,14 @@ var Revision = React.createClass({
             </div>
         );
     }
+});
+
+
+$(document).on('dragover', function (e) {
+    e.preventDefault();
+});
+
+$(document).on('drop', function (e) {
+    e.preventDefault();
+    EventManager.trigger('dragging_revision', false);
 });

@@ -48,7 +48,7 @@ var SimpleView = React.createClass({
         return (
             <div className="simple-view">
                 <PreviewBox repository={this.props.repository} page={this.props.page}
-                    revision={this.props.revision_id}/>
+                    revision={this.props.revision}/>
             </div>
         );
     }
@@ -239,5 +239,7 @@ CompareViewData.onUpdate(function (data) {
     if (!isNull(data.left_revision)) params.left = data.left_revision.id;
     if (!isNull(data.right_revision)) params.right = data.right_revision.id;
     var url = Routes.compare_path(params);
-    window.history.pushState({}, "", url);
+    if (url !== document.URL) {
+        window.history.pushState({}, "", url);
+    }
 });
