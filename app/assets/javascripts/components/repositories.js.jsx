@@ -77,7 +77,7 @@ var Repository = React.createClass({
         return (
             <li className="repository" onClick={this.selectRepository}>
                 {this.props.name}
-                <div class="right">
+                <div className="right">
                     <i className="fa fa-angle-right fa-lg"></i>
                 </div>
             </li>

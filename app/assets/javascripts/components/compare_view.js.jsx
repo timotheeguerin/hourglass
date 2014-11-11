@@ -32,12 +32,9 @@ var CompareBox = React.createClass({
     componentDidMount: function () {
         CompareViewData.setData(this.getInitialState());
         this.compare_view_data_event = CompareViewData.onUpdate(function (data) {
-            console.log("CompareViewData.onUpdate");
-            console.log(data);
             this.setState(data);
         }.bind(this));
         this.view_type_change_event = EventManager.on('some', function (myarg) {
-            console.log('called: ' + myarg);
         }.bind(this));
     },
     componentWillUnmount: function () {
@@ -70,18 +67,19 @@ var DualView = React.createClass({
             type: 'split'
         }
     },
+    getInitialState: function () {
+        return ({
+
+            slider_position: '50%'
+        })
+    },
     componentDidMount: function () {
-        var iframes = $(this.getDOMNode()).find('iframe');
-        init_sliders();
-        iframes_load(iframes, function () {
-            iframes.each(function () {
-                var iframe = $(this);
-                $(this).contents().mousemove(function (e) {
-                    move_sliders(e.pageX + iframe.offset().left);
-                });
-            });
-            link_iframes(iframes.eq(0), iframes.eq(1));
-        });
+        if (this.props.type == 'slide') {
+            var container = $(this.refs.container.getDOMNode());
+            var left_iframe = $(this.refs.left_iframe.getDOMNode());
+            left_iframe.find('iframe').css({width: container.width()});
+        }
+        this.iframeLoading = 2;
     },
     allowDrop: function (ev) {
         ev.preventDefault();
@@ -89,33 +87,64 @@ var DualView = React.createClass({
     dropLeft: function (ev) {
         ev.preventDefault();
         var revisionId = ev.dataTransfer.getData("id");
-        console.log("Updating left revision id to: " + revisionId);
         CompareViewData.setData({left_revision_id: revisionId});
     },
     dropRight: function (ev) {
         ev.preventDefault();
         var revisionId = ev.dataTransfer.getData("id");
-        console.log("Updating left revision id to: " + revisionId);
         CompareViewData.setData({right_revision_id: revisionId});
+    },
+    onMouseMove: function (e) {
+        this.handleMouseMove(e.pageX);
+    },
+    onMouseMoveInIframe: function (positionX) {
+        this.handleMouseMove(positionX);
+    },
+    handleMouseMove: function (positionX) {
+        if (this.props.type == 'slide') {
+            if (this.dragging_slider) {
+                var container = $(this.refs.container.getDOMNode());
+                if (!isNull(positionX) && positionX >= container.offset().left && positionX <= container.offset().left + container.width()) {
+                    this.setState({slider_position: positionX - container.offset().left})
+                }
+            }
+        }
+    },
+    sliderStartDragging: function () {
+        this.dragging_slider = true;
+    },
+    sliderStopDragging: function () {
+        this.dragging_slider = false;
+    },
+    onIframeLoaded: function () {
+        this.iframeLoading--;
+        if (this.iframeLoading == 0) {
+            var left_iframe = $(this.refs.left_iframe.getDOMNode()).find('iframe');
+            var right_iframe = $(this.refs.right_iframe.getDOMNode()).find('iframe');
+            link_iframes(left_iframe, right_iframe);
+        }
     },
     render: function () {
         var slider;
         if (this.props.type == 'slide') {
             slider = (
-                <div className='slider'>
+                <div className='slider' ref='slider' style={{left: this.state.slider_position}}
+                    onMouseDown={this.sliderStartDragging}>
                 </div>
             )
         }
         return (
-            <div className={this.props.type + " dual-view"}>
-                <div className='left-iframe revision-box' onDrop={this.dropLeft} onDragOver={this.allowDrop}>
+            <div className={this.props.type + " dual-view"} onMouseMove={this.onMouseMove} onMouseUp={this.sliderStopDragging}
+                onMouseLeave={this.sliderStopDragging} ref='container'>
+                <div className='left-iframe revision-box' onDrop={this.dropLeft} onDragOver={this.allowDrop} ref='left_iframe'
+                    style={{width: this.state.slider_position}} >
                     <PreviewBox repository_id={this.props.repository_id} page={this.props.page}
-                        revision_id={this.props.left_revision_id}/>
+                        revision_id={this.props.left_revision_id} onMouseMove={this.onMouseMoveInIframe} onLoad={this.onIframeLoaded}/>
                 </div>
                 {slider}
-                <div className='right-iframe revision-box' onDrop={this.dropRight} onDragOver={this.allowDrop}>
+                <div className='right-iframe revision-box' onDrop={this.dropRight} onDragOver={this.allowDrop} ref='right_iframe'>
                     <PreviewBox repository_id={this.props.repository_id} page={this.props.page}
-                        revision_id={this.props.right_revision_id}/>
+                        revision_id={this.props.right_revision_id} onMouseMove={this.onMouseMoveInIframe} onLoad={this.onIframeLoaded}/>
                 </div>
             </div>
         );
@@ -123,8 +152,31 @@ var DualView = React.createClass({
 });
 
 var PreviewBox = React.createClass({
+    getDefaultProps: function () {
+        return {
+            onLoad: function () {
+            },
+            onMouseMove: function () {
+            }
+        }
+    },
     previewUrl: function () {
         return Routes.preview_path(current_user, this.props.repository_id, this.props.revision_id, this.props.page)
+    },
+    iframeLoaded: function (iframe) {
+        iframe.contents().mousemove(function (e) {
+            var mousePosition = e.pageX + iframe.offset().left;
+            this.props.onMouseMove(mousePosition)
+        }.bind(this));
+    },
+    componentDidMount: function () {
+        if (!isNull(this.refs.iframe)) {
+            var iframe = $(this.refs.iframe.getDOMNode());
+            iframe.load(function () {
+                this.iframeLoaded(iframe);
+                this.props.onLoad(iframe);
+            }.bind(this))
+        }
     },
     render: function () {
         if (isNull(this.props.revision_id)) {
@@ -136,26 +188,16 @@ var PreviewBox = React.createClass({
             );
         } else {
             return (
-                <iframe src={this.previewUrl()}>
+                <iframe src={this.previewUrl()} ref='iframe'>
                 </iframe>
             );
         }
     }
 });
 
-function iframes_load(iframes, callback) {
-    var count = iframes.length;
-    iframes.load(function () {
-        count--;
-        if (count == 0) {
-            callback();
-        }
-    });
-}
-
 // Change the compare url when the compare data is changed
 CompareViewData.onUpdate(function (data) {
-    params = {
+    var params = {
         user_id: current_user,
         repository_id: data.repository_id,
         page: data.page,

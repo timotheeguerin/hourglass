@@ -34,8 +34,9 @@ function link_iframes(iframe1, iframe2) {
     function updateScroll(iframe) {
         $(iframe.contents()).scrollTop(scrollTop);
     }
-
+    console.log($(iframe1.contents()));
     $(iframe1.contents()).scroll(function () {
+        console.log('scrolling');
         scrollTop = $(this).scrollTop();
         updateScroll(iframe2)
     });
@@ -44,41 +45,3 @@ function link_iframes(iframe1, iframe2) {
         updateScroll(iframe1)
     })
 }
-
-$(document).ready(function () {
-    $(document).on('mousedown', '.slider', function (e) {
-        $(this).addClass('dragging');
-    });
-
-    $(document).on('mouseup', function (e) {
-        $('.slider.dragging').removeClass('dragging');
-    });
-
-
-    $(document).mousemove(function (e) {
-        move_sliders(e.pageX);
-    });
-});
-
-var move_sliders = function (position) {
-    $('.slider.dragging').each(function () {
-        move_slider($(this), position)
-    });
-};
-
-var init_sliders = function () {
-    $('.slider').each(function () {
-        move_slider($(this))
-    });
-};
-
-
-var move_slider = function (slider, position) {
-    var parent = slider.parent();
-    var left_iframe = parent.find('.left-iframe');
-    left_iframe.find('iframe').css({width: parent.width()});
-    if (!isNull(position) && position >= parent.offset().left && position <= parent.offset().left + parent.width()) {
-        slider.offset({left: position});
-        left_iframe.css({width: position - parent.offset().left});
-    }
-};
