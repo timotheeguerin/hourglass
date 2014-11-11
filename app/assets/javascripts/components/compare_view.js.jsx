@@ -69,7 +69,6 @@ var DualView = React.createClass({
     },
     getInitialState: function () {
         return ({
-
             slider_position: '50%'
         })
     },
@@ -81,18 +80,23 @@ var DualView = React.createClass({
         }
         this.iframeLoading = 2;
     },
+
     allowDrop: function (ev) {
+        console.log('allow ');
         ev.preventDefault();
     },
     dropLeft: function (ev) {
+        console.log('dropping left');
         ev.preventDefault();
         var revisionId = ev.dataTransfer.getData("id");
         CompareViewData.setData({left_revision_id: revisionId});
+        EventManager.trigger('dragging_revision', false);
     },
     dropRight: function (ev) {
         ev.preventDefault();
         var revisionId = ev.dataTransfer.getData("id");
         CompareViewData.setData({right_revision_id: revisionId});
+        EventManager.trigger('dragging_revision', false);
     },
     onMouseMove: function (e) {
         this.handleMouseMove(e.pageX);
@@ -104,7 +108,8 @@ var DualView = React.createClass({
         if (this.props.type == 'slide') {
             if (this.dragging_slider) {
                 var container = $(this.refs.container.getDOMNode());
-                if (!isNull(positionX) && positionX >= container.offset().left && positionX <= container.offset().left + container.width()) {
+                var left_offset = container.offset().left;
+                if (!isNull(positionX) && positionX >= left_offset && positionX <= left_offset + container.width()) {
                     this.setState({slider_position: positionX - container.offset().left})
                 }
             }
@@ -152,6 +157,11 @@ var DualView = React.createClass({
 });
 
 var PreviewBox = React.createClass({
+    getInitialState: function () {
+        return ({
+            dragging_revision: false
+        })
+    },
     getDefaultProps: function () {
         return {
             onLoad: function () {
@@ -177,21 +187,36 @@ var PreviewBox = React.createClass({
                 this.props.onLoad(iframe);
             }.bind(this))
         }
+        this.dragging_listener = EventManager.on('dragging_revision', function (dragging) {
+            this.setState({dragging_revision: dragging});
+        }.bind(this));
+    },
+    componentWillUnmount: function () {
+        this.dragging_listener.destroy();
     },
     render: function () {
-        if (isNull(this.props.revision_id)) {
-            return (
+        var iframe;
+        if (!isNull(this.props.revision_id)) {
+            iframe = (
+                <iframe src={this.previewUrl()} ref='iframe' className={this.state.dragging_revision ? 'hidden' : ''}>
+                </iframe>
+            );
+        }
+        var dragging_box;
+        if (isNull(this.props.revision_id) || this.state.dragging_revision) {
+            dragging_box = (
                 <div className='drop-container'>
                     <div className="drop-description"> Drag a revision here
                     </div>
                 </div>
             );
-        } else {
-            return (
-                <iframe src={this.previewUrl()} ref='iframe'>
-                </iframe>
-            );
         }
+        return (
+            <div className='iframe-container'>
+            {dragging_box}
+            {iframe}
+            </div>
+        );
     }
 });
 

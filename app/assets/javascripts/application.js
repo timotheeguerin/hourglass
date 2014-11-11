@@ -36,7 +36,6 @@ function link_iframes(iframe1, iframe2) {
     }
     console.log($(iframe1.contents()));
     $(iframe1.contents()).scroll(function () {
-        console.log('scrolling');
         scrollTop = $(this).scrollTop();
         updateScroll(iframe2)
     });
