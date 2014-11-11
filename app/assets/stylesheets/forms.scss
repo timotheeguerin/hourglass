@@ -1,5 +1,7 @@
+@import 'variables';
+
 .field {
-  @extend .flex;
+  @include flex;
 }
 
 .field input {
@@ -15,7 +17,7 @@
 }
 
 .select {
-  @extend .flex;
+  @include flex;
   margin-bottom: .5rem;
 }
 

@@ -1,5 +1,7 @@
+@import 'variables';
+
 .row {
-  @extend .flex;
+  @include flex;
 }
 
 .half {

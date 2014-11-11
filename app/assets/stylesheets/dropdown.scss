@@ -1,3 +1,5 @@
+@import 'variables';
+
 .dropdown {
   display: none;
   position: absolute;
@@ -18,7 +20,7 @@
   padding: 0;
 }
 .dropdown li {
-  @extend .flex;
+  @include flex;
 
   display: inline-block;
   vertical-align: middle;

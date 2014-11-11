@@ -165,6 +165,9 @@ var PreviewBox = React.createClass({
         }
     },
     previewUrl: function () {
+        if (isNull(this.props.revision)) {
+            return '';
+        }
         return Routes.preview_path(current_user, this.props.repository.id, this.props.revision.id, this.props.page.path)
     },
     iframeLoaded: function (iframe) {
@@ -202,13 +205,7 @@ var PreviewBox = React.createClass({
         }
     },
     render: function () {
-        var iframe;
-        if (!isNull(this.props.revision)) {
-            iframe = (
-                <iframe src={this.previewUrl()} ref='iframe' className={this.state.dragging_revision ? 'hidden' : ''}>
-                </iframe>
-            );
-        }
+        var hide_iframe = isNull(this.props.revision) || this.state.dragging_revision;
         var dragging_box;
         if (isNull(this.props.revision) || this.state.dragging_revision) {
             dragging_box = (
@@ -220,8 +217,9 @@ var PreviewBox = React.createClass({
         }
         return (
             <div className='iframe-container'>
-            {dragging_box}
-            {iframe}
+                {dragging_box}
+                <iframe src={this.previewUrl()} ref='iframe' className={hide_iframe ? 'hidden' : ''}>
+                </iframe>
             </div>
         );
     }

@@ -12,10 +12,10 @@ CompareViewData.onUpdate = function (callback) {
 };
 
 CompareViewData.isValid = function () {
-    return !(isNull(CompareViewData.data.repository_id)
+    return !(isNull(CompareViewData.data.repository)
     || isNull(CompareViewData.data.page)
     || isNull(CompareViewData.data.type)
-    || isNull(CompareViewData.data.left_revision_id))
+    || isNull(CompareViewData.data.left_revision))
 };
 
 CompareViewData.isSimpleView = function () {

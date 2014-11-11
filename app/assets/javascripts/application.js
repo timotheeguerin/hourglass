@@ -22,6 +22,7 @@ current_user = current_user;
 (function () {
     this.getInitialState();
     this.componentDidMount();
+    this.componentWillMount();
     this.componentWillUnmount();
     this.componentWillReceiveProps();
     this.getDefaultProps();

@@ -1,11 +1,11 @@
-
+@import 'variables';
 
 .sidebar-container {
   background-color: $background-color;
   width: $sidebar-width;
   flex: 1 0 $sidebar-width;
   height: calc(100vh - #{$header-height});
-  border-right: 1px solid rgba(0,0,0,0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
   position: relative;
   vertical-align: middle;
   overflow-x: hidden;
@@ -27,10 +27,12 @@
   flex-direction: column;
   width: 100%;
 }
+
 .sidebar-content {
   overflow-y: scroll;
   flex: 1;
 }
+
 .content {
   width: calc(100% - (#{$sidebar-hidden-width}));
   left: $sidebar-hidden-width - $sidebar-width;
@@ -42,6 +44,7 @@
   width: 100%;
   left: 0;
 }
+
 .sidebar {
   display: flex;
   width: 300%;
@@ -59,34 +62,42 @@
 .sidebar .fa:hover {
   color: $primary-color;
 }
+
 .all-repositories, .all-files {
   position: relative;
   height: 100%;
   width: 50%;
 }
+
 .sidebar-nav {
   display: block;
   padding: .7rem 1rem;
   background: #FFFFFF;
   border-bottom: $thin-border;
 }
+
 .sidebar h2 {
-  @extend .flex;
+  @include flex;
 }
+
 .sidebar #repository {
   width: 50%;
   flex: 1;
 }
+
 .sidebar ol {
   -webkit-padding-start: 0px;
   list-style-type: none;
 }
+
 .fa-angle-left {
   vertical-align: -7%;
   margin-right: .3rem;
 }
+
 .search-repositories {
 }
+
 .search-repositories input {
   width: 100%;
   box-sizing: border-box;

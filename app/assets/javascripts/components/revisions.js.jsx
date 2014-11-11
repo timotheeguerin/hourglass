@@ -19,7 +19,7 @@ var Revisions = React.createClass({
     componentWillMount: function () {
         this.loadRevisionsFromServer(this.props.repository_id, this.props.page_id);
     },
-    shouldComponentUpdate: function (nextProps, nextState) {
+    shouldComponentUpdate: function (nextProps) {
         if (nextProps.repository_id != this.props.repository_id || nextProps.page_id != this.props.page_id) {
             this.loadRevisionsFromServer(nextProps.repository_id, nextProps.page_id);
             return false;

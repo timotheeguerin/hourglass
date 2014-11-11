@@ -1,3 +1,5 @@
+@import 'variables';
+
 #repositories {
   position: relative;
   width: 100%;
@@ -9,15 +11,13 @@
 }
 
 .repository {
-  @extend .flex;
-
+  @include flex;
+  position: relative;
   margin: 0 .7rem;
   padding: .6rem .9rem;
 
   cursor: pointer;
   white-space: nowrap;
-  border: $thin-border;
-  border-bottom: none;
   background: #FFFFFF;
 }
 

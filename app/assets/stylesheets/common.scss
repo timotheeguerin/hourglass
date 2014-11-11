@@ -1,12 +1,16 @@
+@import 'variables';
+
 * {
   box-sizing: border-box;
 }
+
 body {
   background: $background-color;
   color: #444444;
   overflow: hidden;
   font-size: 16px;
 }
+
 ol {
   margin: 0;
   padding: 0;
@@ -18,13 +22,13 @@ a {
 }
 
 .flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex;
 }
+
 .wrapper {
   display: flex;
 }
+
 .content {
 
   padding: 1rem;
@@ -54,21 +58,25 @@ a {
 #files {
   background: $background-color;
 }
+
 .section-header {
-  @extend .flex;
+  @include flex;
 
   padding: 0.8rem 1rem;
   background: #FFFFFF;
 }
+
 .list {
   padding: 1rem;
   background: #FFFFFF;
 }
+
 .list-item {
   position: relative;
   list-style-type: none;
   padding: .7rem 1rem;
 }
+
 .list-item .progress {
   display: block;
   flex: none;
@@ -79,14 +87,17 @@ a {
   width: 100%;
   overflow: hidden;
 }
+
 .progress-bar {
   width: 100%;
 }
+
 .full-width {
   text-overflow: ellipsis;
   padding-right: .5rem;
   overflow: hidden;
 }
+
 small {
   font-size: 0.8em;
 }

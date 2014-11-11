@@ -1,5 +1,7 @@
+@import 'variables';
+
 header {
-  @extend .flex;
+  @include flex;
 
   background: #FFFFFF;
   padding: 0rem .8rem;

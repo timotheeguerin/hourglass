@@ -12,32 +12,10 @@
  *
  *= require_self
  *= require font-awesome
+ *= require lib/normalize
+ *= require_tree .
  */
 
 .content {
   height: calc(100vh - 4.5rem);
 }
-
-@import 'lib/normalize';
-@import 'variables';
-@import 'colors';
-@import 'layout';
-@import 'checkbox';
-@import 'forms';
-@import 'buttons';
-@import 'common';
-@import 'compare';
-@import 'drag-and-drop';
-@import 'dropdown';
-@import 'header';
-@import 'pages';
-@import 'preview';
-@import 'repository';
-@import 'sidebar';
-@import 'split-view';
-@import 'thumbnails';
-@import 'typography';
-@import 'welcome';
-
-@import 'notifications';
-@import 'animations';
