@@ -130,7 +130,7 @@ var DualView = React.createClass({
             <div className={this.props.type + " dual-view"} onMouseMove={this.onMouseMove} onMouseUp={this.sliderStopDragging}
                 onMouseLeave={this.sliderStopDragging} ref='container'>
                 <div className='left-iframe revision-box' onDrop={this.dropLeft} onDragOver={this.allowDrop} ref='left_iframe'
-                    style={{'flex-basis': this.state.slider_position + 'px'}} >
+                    style={{'flex-basis': this.state.slider_position}} >
                     <PreviewBox repository={this.props.repository} page={this.props.page}
                         revision={this.props.left_revision} onMouseMove={this.onMouseMoveInIframe}
                         onScroll={this.iframeScrolling} scrollTop={this.state.scrollTop}/>
@@ -217,7 +217,7 @@ var PreviewBox = React.createClass({
         return (
             <div className='iframe-container'>
                 {dragging_box}
-                <iframe src={this.previewUrl()} ref='iframe' className={hide_iframe ? 'hidden' : ''}>
+                <iframe src={this.previewUrl()} ref='iframe' className={hide_iframe ? 'hidden' : ''} >
                 </iframe>
             </div>
         );

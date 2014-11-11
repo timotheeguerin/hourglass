@@ -43,13 +43,21 @@
       width: 50%;
     }
 
+    &.split .left-iframe {
+      iframe {
+        -ms-overflow-style: none;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
     &.slide {
       float: right;
       .left-iframe {
         height: 100%;
         z-index: 10;
         overflow: hidden;
-        flex: 0 0 50%
+        flex: 0 0 50%;
       }
 
       .right-iframe {
