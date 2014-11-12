@@ -1,9 +1,12 @@
 @import 'variables';
+.sidebar-wrapper {
+  width: $sidebar-width;
+  flex: 1 0 $sidebar-width;
+}
 
 .sidebar-container {
   background-color: $background-color;
   width: $sidebar-width;
-  flex: 1 0 $sidebar-width;
   height: calc(100vh - #{$header-height});
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   position: relative;
@@ -16,7 +19,7 @@
   z-index: 100;
 }
 
-.sidebar-container:hover {
+.sidebar-container.display, .sidebar-container:hover  {
   transform: translateX($sidebar-width - $sidebar-hidden-width);
   transition: all .3s ease-out;
   transition-timing-function: cubic-bezier(0.795, 0.520, 0.070, 0.975);

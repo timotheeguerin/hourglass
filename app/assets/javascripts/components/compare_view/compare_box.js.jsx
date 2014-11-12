@@ -54,7 +54,7 @@ var CompareBox = React.createClass({
         } else if (isNull(this.state.page)) {
             return (
                 <div className='flex-center full-height'>
-                    <div>PPlease select a page</div>
+                    <div>Please select a page</div>
                 </div>
             )
         } else {
