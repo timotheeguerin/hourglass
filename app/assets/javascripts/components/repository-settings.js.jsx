@@ -43,7 +43,7 @@ var RepositoriesSettings = React.createClass({
 });
 
 var RepositorySetting = React.createClass({
-    toggleRepository: function (e) {
+    toggleRepository: function () {
         var url;
         if (!this.state.repository.enabled) {
             url = Routes.enable_user_repository_path(current_user, this.props.repository.id);
@@ -147,6 +147,11 @@ var TimeFromNow = React.createClass({
             clearInterval(this.ticker);
         }
         this.ticker = setInterval(this.updateTime, 60000);
+    },
+    componentWillUnmount: function () {
+        if (!isNull(this.ticker)) {
+            clearInterval(this.ticker);
+        }
     },
     componentWillReceiveProps: function (nextProps) {
         if (nextProps.date != this.props.date) {
