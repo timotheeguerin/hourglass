@@ -12,6 +12,10 @@ var guid = (function () {
 })();
 
 
+function isDefined(o) {
+    return (typeof o !== "undefined" && o !== null)
+}
+
 function isNull(o) {
-    return !(typeof o !== "undefined" && o !== null)
+    return !isDefined(o)
 }

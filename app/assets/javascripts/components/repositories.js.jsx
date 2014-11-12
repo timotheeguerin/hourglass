@@ -31,8 +31,7 @@ var RepositoriesBox = React.createClass({
         var boundClick = this.props.onClick;
         var repositoryNodes = this.getVisibleRepositories().map(function (repository) {
             return (
-                <Repository name={repository.name} id={repository.id} enabled={repository.enabled} onClick={boundClick}>
-                </Repository>
+                <Repository key={repository.id} name={repository.name} repository={repository} onClick={boundClick}/>
             );
         });
         return (
@@ -56,7 +55,7 @@ var RepositoriesBox = React.createClass({
 
 var Repository = React.createClass({
     toggleRepository: function (e) {
-        var id = this.props.id;
+        var id = this.props.repository.id;
         var url;
         if (e.target.checked) {
             url = Routes.enable_user_repository_path(current_user, id);
@@ -71,7 +70,7 @@ var Repository = React.createClass({
         });
     },
     selectRepository: function () {
-        this.props.onClick(this.props.id);
+        this.props.onClick(this.props.repository);
     },
     render: function () {
         return (

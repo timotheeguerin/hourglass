@@ -2,11 +2,11 @@
 //= require global
 
 var FilesBox = React.createClass({
-    loadFilesFromServer: function (repository_id) {
-        if (isNull(repository_id)) {
+    loadFilesFromServer: function (repository) {
+        if (isNull(repository)) {
             return;
         }
-        var url = Routes.list_user_repository_pages_path(current_user, repository_id);
+        var url = Routes.list_user_repository_pages_path(current_user, repository.id);
         $.get(url).success(function (data) {
             this.setState({data: data});
         }.bind(this)).fail(function (xhr, status, err) {
@@ -17,11 +17,11 @@ var FilesBox = React.createClass({
         return {data: []};
     },
     componentWillMount: function () {
-        this.loadFilesFromServer(this.props.repository_id);
+        this.loadFilesFromServer(this.props.repository);
     },
-    shouldComponentUpdate: function (nextProps, nextState) {
-        if (nextProps.repository_id != this.props.repository_id) {
-            this.loadFilesFromServer(nextProps.repository_id);
+    shouldComponentUpdate: function (nextProps) {
+        if (nextProps.repository != this.props.repository) {
+            this.loadFilesFromServer(nextProps.repository);
             return false;
         }
         return true;
@@ -38,10 +38,10 @@ var FilesBox = React.createClass({
         var boundClick = this.props.onClick;
         var fileNodes = this.state.data.map(function (file) {
             return (
-                <File name={file.name} id={file.id} repository_id={file.repository_id} image={file.revisions[0].thumbnails} onClick={boundClick}>
+                <File key={file.id} name={file.name} file={file} repository={this.props.repository} onClick={boundClick}>
                 </File>
             );
-        });
+        }.bind(this));
         return (
             <div id="files" className="sidebar-column">
                 <h2 className="sidebar-nav">
@@ -64,14 +64,14 @@ var FilesBox = React.createClass({
 
 var File = React.createClass({
     selectFile: function () {
-        console.log("Selecting file with id: " + this.props.id);
-        this.props.onClick(this.props.repository_id, this.props.id);
+        this.props.onClick(this.props.repository, this.props.file);
     },
     render: function () {
+        var image = this.props.file.revisions[0].thumbnails;
         return (
             <div className="thumbnail" onClick={this.selectFile}>
                 <div className="scroll-container" draggable="false">
-                    <img src={this.props.image} />
+                    <img src={image} />
                 </div>
                 <span className="thumbnail-title">{this.props.name}</span>
             </div>

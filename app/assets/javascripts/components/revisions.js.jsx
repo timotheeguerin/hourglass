@@ -2,11 +2,11 @@
 //= require global
 
 var Revisions = React.createClass({
-    loadRevisionsFromServer: function (repository_id, page_id) {
-        if (isNull(repository_id)) {
+    loadRevisionsFromServer: function (repository, page) {
+        if (isNull(repository) || isNull(page)) {
             return;
         }
-        var url = Routes.list_user_repository_revisions_path(current_user, repository_id, {page_id: page_id});
+        var url = Routes.list_user_repository_revisions_path(current_user, repository.id, {page_id: page.id});
         $.get(url).success(function (data) {
             this.setState({data: data});
         }.bind(this)).fail(function (xhr, status, err) {
@@ -17,11 +17,11 @@ var Revisions = React.createClass({
         return {data: []};
     },
     componentWillMount: function () {
-        this.loadRevisionsFromServer(this.props.repository_id, this.props.page_id);
+        this.loadRevisionsFromServer(this.props.repository, this.props.page);
     },
     shouldComponentUpdate: function (nextProps) {
-        if (nextProps.repository_id != this.props.repository_id || nextProps.page_id != this.props.page_id) {
-            this.loadRevisionsFromServer(nextProps.repository_id, nextProps.page_id);
+        if (nextProps.repository !== this.props.repository || nextProps.page !== this.props.page) {
+            this.loadRevisionsFromServer(nextProps.repository, nextProps.page);
             return false;
         }
         return true;
@@ -37,7 +37,7 @@ var Revisions = React.createClass({
     render: function () {
         var fileNodes = this.state.data.map(function (revision) {
             return (
-                <Revision revision={revision} id={revision.id} image={revision.pages[0].thumbnails}>
+                <Revision key={revision.id}  revision={revision}>
                 </Revision>
             );
         });
@@ -62,16 +62,16 @@ var Revisions = React.createClass({
 });
 
 var Revision = React.createClass({
-    drag: function (ev) {
-        console.log("Handling drag start event: " + event);
-        ev.dataTransfer.setData("revision", JSON.stringify(this.props.revision));
+    drag: function (e) {
+        e.dataTransfer.setData("revision", JSON.stringify(this.props.revision));
         EventManager.trigger('dragging_revision', true);
     },
     render: function () {
+        var image = this.props.revision.pages[0].thumbnails;
         return (
             <div className="thumbnail" draggable="true" onDragStart={this.drag}>
                 <div className="scroll-container" draggable="false">
-                    <img src={this.props.image} draggable="false"/>
+                    <img src={image} draggable="false"/>
                 </div>
                 <span className="thumbnail-title revision-title">
                     <span className="nowrap" title={this.props.revision.message}>{this.props.revision.message}</span>

@@ -25,6 +25,11 @@ a {
   @include flex;
 }
 
+.flex-center {
+  @include flex;
+  justify-content: center;
+}
+
 .wrapper {
   display: flex;
 }
@@ -96,6 +101,10 @@ a {
   text-overflow: ellipsis;
   padding-right: .5rem;
   overflow: hidden;
+}
+
+.full-height {
+  height: 100%;
 }
 
 small {

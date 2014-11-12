@@ -3,6 +3,11 @@ var CompareViewData = function () {
 
 CompareViewData.data = {};
 CompareViewData.setData = function (data) {
+    if (data.type == 'simple') {
+        delete data.dual_type;
+        delete CompareViewData.data.dual_type;
+        delete CompareViewData.data.right_revision;
+    }
     $.extend(CompareViewData.data, data);
     EventManager.trigger('compare_view_data_updated', CompareViewData.data)
 };

@@ -7,16 +7,16 @@
         <div class="field">
           <input type="search" placeholder="Search" value="index.html"/>
         </div>
+
       </div>
       <div class="header-right">
+        <%= react_component('SelectCompareType') %>
+      </div>
+      <div class="header-right">
+
         <h3><%= current_user.username %></h3>
 
         <div class="dropdown">
-          <div class="select">
-            <span><i class="fa fa-file-o fa-lg"></i> Single</span>
-            <span class="selected"><i class="fa fa-files-o fa-lg"></i> Stack</span>
-            <span><i class="fa fa-columns fa-lg"></i> Split</span>
-          </div>
           <%= link_to 'Settings', settings_path, class: 'button simple-button' %>
           <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'button secondary-button' %>
         </div>

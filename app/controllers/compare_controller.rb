@@ -4,19 +4,16 @@ class CompareController < ApplicationController
   end
 
   def compare
+    @params = {}
+    @params[:type] = params[:type] if params.has_key?(:type)
+    @params[:dual_type] = params[:dual_type] if params.has_key?(:dual_type)
 
-    user = User.find(params[:user_id])
-    repository = Repository.find(params[:repository_id])
-    page = repository.pages.find_by_path(params[:page])
-    left_revision = repository.revisions.find_by_id(params[:left])
-    right_revision = repository.revisions.find_by_id(params[:right])
-    authorize! :compare, repository
-    @params = {user: user.as_json,
-               repository: repository.as_json,
-               page: page.as_json,
-               left_revision: left_revision.as_json,
-               right_revision: right_revision.as_json,
-               type: params[:type],
-               dual_type: params[:dual_type]}
+    @params[:user] = User.find_by_id(params[:user_id]) if params.has_key?(:user_id)
+    @params[:repository] = @params[:user].repositories.find_by_id(params[:repository_id]) if @params.has_key?(:user)
+    @params[:page] = @params[:repository].pages.find_by_path(params[:page]) if @params.has_key?(:repository)
+    @params[:left_revision] = @params[:repository].revisions.find_by_id(params[:left]) if @params.has_key?(:repository)
+    @params[:right_revision] = @params[:repository].revisions.find_by_id(params[:right]) if @params.has_key?(:repository)
+    authorize! :compare, @params[:repository] if @params.has_key?(:repository)
+
   end
 end

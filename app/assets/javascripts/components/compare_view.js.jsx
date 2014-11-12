@@ -1,59 +1,5 @@
 /** @jsx React.DOM */
 
-var CompareBox = React.createClass({
-    getInitialState: function () {
-        return $.extend({}, this.props);
-    },
-    getEngine: function () {
-        if (this.state.type !== 'dual') {
-            return (
-                <SimpleView repository={this.state.repository}
-                    revision={this.state.left_revision}
-                    page={this.state.page}/>
-            );
-        } else {
-            return (
-                <DualView repository={this.state.repository}
-                    left_revision= {this.state.left_revision}
-                    right_revision={ this.state.right_revision}
-                    page={this.state.page}
-                    type={this.state.dual_type}>
-                </DualView>
-            );
-        }
-    },
-    componentDidMount: function () {
-        CompareViewData.setData(this.getInitialState());
-        this.compare_view_data_event = CompareViewData.onUpdate(function (data) {
-            this.setState(data);
-        }.bind(this));
-        this.view_type_change_event = EventManager.on('some', function (myarg) {
-        }.bind(this));
-    },
-    componentWillUnmount: function () {
-        this.compare_view_data_event.destroy();
-        this.view_type_change_event.destroy();
-    },
-    render: function () {
-        return (
-            <div className="compare-view">
-                {this.getEngine()}
-            </div>
-        );
-    }
-});
-
-var SimpleView = React.createClass({
-    render: function () {
-        return (
-            <div className="simple-view">
-                <PreviewBox repository={this.props.repository} page={this.props.page}
-                    revision={this.props.revision}/>
-            </div>
-        );
-    }
-});
-
 var DualView = React.createClass({
     getDefaultProps: function () {
         return {
@@ -76,18 +22,18 @@ var DualView = React.createClass({
         }
     },
 
-    allowDrop: function (ev) {
-        ev.preventDefault();
+    allowDrop: function (e) {
+        e.preventDefault();
     },
-    dropLeft: function (ev) {
-        ev.preventDefault();
-        var revision = JSON.parse(ev.dataTransfer.getData("revision"));
+    dropLeft: function (e) {
+        e.preventDefault();
+        var revision = JSON.parse(e.dataTransfer.getData("revision"));
         CompareViewData.setData({left_revision: revision});
         EventManager.trigger('dragging_revision', false);
     },
-    dropRight: function (ev) {
-        ev.preventDefault();
-        var revision = JSON.parse(ev.dataTransfer.getData("revision"));
+    dropRight: function (e) {
+        e.preventDefault();
+        var revision = JSON.parse(e.dataTransfer.getData("revision"));
         CompareViewData.setData({right_revision: revision});
         EventManager.trigger('dragging_revision', false);
     },
@@ -226,16 +172,22 @@ var PreviewBox = React.createClass({
 
 // Change the compare url when the compare data is changed
 CompareViewData.onUpdate(function (data) {
-    var params = {
-        user_id: current_user,
-        repository_id: data.repository.id,
-        page: data.page.path,
-        type: data.type
-    };
-    if (!isNull(data.dual_type)) params.dual_type = data.dual_type;
-    if (!isNull(data.left_revision)) params.left = data.left_revision.id;
-    if (!isNull(data.right_revision)) params.right = data.right_revision.id;
-    var url = Routes.compare_path(params);
+    var url = '/compare';
+    var params = {};
+    if (isDefined(data.type)) url += '/' + data.type;
+    if (isDefined(data.repository)) {
+        url += '/' + current_user;
+        url += '/' + data.repository.id;
+    }
+
+    if (isDefined(data.page)) url += '/' + data.page.path;
+    if (isDefined(data.dual_type)) params.dual_type = data.dual_type;
+    if (isDefined(data.left_revision)) params.left = data.left_revision.id;
+    if (isDefined(data.right_revision)) params.right = data.right_revision.id;
+    if (Object.keys(params).length > 0) {
+        url += '?' + $.param(params);
+    }
+
     if (url !== document.URL) {
         window.history.pushState({}, "", url);
     }

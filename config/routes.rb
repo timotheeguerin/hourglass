@@ -7,8 +7,8 @@ Rails.application.routes.draw do
 
   get 'preview/:user_id/:repository_id/:revision_id/:path' => 'preview#show', as: :preview, constraints: {path: /.*/}
 
-  get 'compare' => 'compare#index', as: :compare_index, constraints: {page: /.*/}
-  get 'compare/:type/:user_id/:repository_id/:page' => 'compare#compare', as: :compare, constraints: {page: /.*/}
+  # get 'compare' => 'compare#index', as: :compare_index, constraints: {page: /.*/}
+  get 'compare(/:type/(:user_id/:repository_id(/:page)))' => 'compare#compare', as: :compare, constraints: {page: /.*/}
 
   get 'settings' => 'settings#index', as: :settings
 

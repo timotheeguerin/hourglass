@@ -11,23 +11,22 @@ var Sidebar = React.createClass({
     navigateToRevisionsView: function () {
         $(".sidebar").animate({left: '-200%'}, 350);
     },
-    selectRepository: function (id) {
-        this.setState({repository_id: id});
-        this.navigateToFilesView();
+    selectRepository: function (repository) {
+        CompareViewData.setData({repository: repository});
     },
-    selectFile: function (repository_id, page_id) {
-        this.setState({
-            repository_id: repository_id,
-            page_id: page_id
-        });
-        this.navigateToRevisionsView();
+    selectFile: function (repository, page) {
+        CompareViewData.setData({repository: repository, page: page});
     },
     componentDidMount: function () {
         this.compare_listener = CompareViewData.onUpdate(function (data) {
-            if (!isNull(data.page)) {
-                this.selectFile(data.repository.id, data.page.id)
-            } else if (!isNull(data.repository_id)) {
-                this.selectRepository(data.repository.id)
+            this.setState({
+                repository: data.repository,
+                page: data.page
+            });
+            if (isDefined(data.page)) {
+                this.navigateToRevisionsView();
+            } else if (isDefined(data.repository)) {
+                this.navigateToFilesView();
             }
         }.bind(this));
     },
@@ -38,8 +37,8 @@ var Sidebar = React.createClass({
         return (
             <div className="sidebar">
                 <RepositoriesBox user_id={this.props.user_id} onClick={this.selectRepository} />
-                <FilesBox user_id={this.props.user_id} onClick={this.selectFile} repository_id={this.state.repository_id} />
-                <Revisions user_id={this.props.user_id} repository_id={this.state.repository_id} page_id={this.state.page_id} />
+                <FilesBox user_id={this.props.user_id} onClick={this.selectFile} repository={this.state.repository} />
+                <Revisions user_id={this.props.user_id} repository={this.state.repository} page={this.state.page} />
             </div>
         );
     }
