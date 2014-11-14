@@ -87,29 +87,24 @@ iframe {
 
 .revision-box {
   @extend .transition;
-
-  //  display: flex;
-  //  align-items: center;
-  //  justify-content: center;
-  //  text-align: center;
-  background: rgba(0, 0, 0, 0.1);
 }
 
 .drop-container {
+  @extend .transition;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  background-color: $background-color;
+  &:hover, &.drag-hover {
+    @extend .transition;
+    transition: all .2s;
+    background: $secondary-color;
+  }
 }
 
-.revision-box:hover {
-  @extend .transition;
 
-  transition: all .2s;
-  background: rgba(0, 0, 0, 0.2);
-  background: $secondary-color;
-}
 
 .revision-box:hover .drop-description {
   @extend .transition;
@@ -130,3 +125,4 @@ iframe {
   max-width: 270px;
   text-align: center;
 }
+

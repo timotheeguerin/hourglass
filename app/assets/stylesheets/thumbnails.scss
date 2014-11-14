@@ -1,4 +1,7 @@
 @import 'variables';
+.dragging-element {
+  cursor: grabbing !important;
+}
 
 .thumbnail {
   overflow: hidden;
@@ -10,6 +13,14 @@
   .scroll-container {
     pointer-events: none;
   }
+
+  &[draggable] {
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
 }
 
 .thumbnail:last-child {

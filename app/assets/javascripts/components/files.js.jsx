@@ -38,7 +38,7 @@ var FilesBox = React.createClass({
         var boundClick = this.props.onClick;
         var fileNodes = this.state.data.map(function (file) {
             return (
-                <File key={file.id} name={file.name} file={file} repository={this.props.repository} onClick={boundClick}>
+                <File key={file.id}     name={file.name} file={file} repository={this.props.repository} onClick={boundClick}>
                 </File>
             );
         }.bind(this));

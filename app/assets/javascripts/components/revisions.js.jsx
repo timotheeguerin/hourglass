@@ -62,14 +62,14 @@ var Revisions = React.createClass({
 });
 
 var Revision = React.createClass({
-    drag: function (e) {
+    dragStart: function (e) {
         e.dataTransfer.setData("revision", JSON.stringify(this.props.revision));
         EventManager.trigger('dragging_revision', true);
     },
     render: function () {
         var image = this.props.revision.pages[0].thumbnails;
         return (
-            <div className="thumbnail" draggable="true" onDragStart={this.drag}>
+            <div className="thumbnail" draggable="true" onDragStart={this.dragStart}>
                 <div className="scroll-container" draggable="false">
                     <img src={image} draggable="false"/>
                 </div>
@@ -85,12 +85,6 @@ var Revision = React.createClass({
     }
 });
 
-
-$(document).on('dragover', function (e) {
-    e.preventDefault();
-});
-
-$(document).on('drop', function (e) {
-    e.preventDefault();
+$(document).on('dragend', function () {
     EventManager.trigger('dragging_revision', false);
 });

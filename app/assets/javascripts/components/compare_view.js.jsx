@@ -21,21 +21,11 @@ var DualView = React.createClass({
             right_iframe.find('iframe').css({width: container.width()});
         }
     },
-
-    allowDrop: function (e) {
-        e.preventDefault();
-    },
-    dropLeft: function (e) {
-        e.preventDefault();
-        var revision = JSON.parse(e.dataTransfer.getData("revision"));
+    onDropLeft: function (revision) {
         CompareViewData.setData({left_revision: revision});
-        EventManager.trigger('dragging_revision', false);
     },
-    dropRight: function (e) {
-        e.preventDefault();
-        var revision = JSON.parse(e.dataTransfer.getData("revision"));
+    onDropRight: function (revision) {
         CompareViewData.setData({right_revision: revision});
-        EventManager.trigger('dragging_revision', false);
     },
     onMouseMove: function (e) {
         this.handleMouseMove(e.pageX);
@@ -75,15 +65,15 @@ var DualView = React.createClass({
         return (
             <div className={this.props.type + " dual-view"} onMouseMove={this.onMouseMove} onMouseUp={this.sliderStopDragging}
                 onMouseLeave={this.sliderStopDragging} ref='container'>
-                <div className='left-iframe revision-box' onDrop={this.dropLeft} onDragOver={this.allowDrop} ref='left_iframe'
+                <div className='left-iframe revision-box' ref='left_iframe'
                     style={{'flex-basis': this.state.slider_position}} >
-                    <PreviewBox repository={this.props.repository} page={this.props.page}
+                    <PreviewBox repository={this.props.repository} page={this.props.page} onRevisionSelected={this.onDropLeft}
                         revision={this.props.left_revision} onMouseMove={this.onMouseMoveInIframe}
                         onScroll={this.iframeScrolling} scrollTop={this.state.scrollTop}/>
                 </div>
                 {slider}
-                <div className='right-iframe revision-box' onDrop={this.dropRight} onDragOver={this.allowDrop} ref='right_iframe'>
-                    <PreviewBox repository={this.props.repository} page={this.props.page}
+                <div className='right-iframe revision-box' ref='right_iframe'>
+                    <PreviewBox repository={this.props.repository} page={this.props.page} onRevisionSelected={this.onDropRight}
                         revision={this.props.right_revision} onMouseMove={this.onMouseMoveInIframe}
                         onScroll={this.iframeScrolling} scrollTop={this.state.scrollTop}/>
                 </div>
@@ -95,6 +85,7 @@ var DualView = React.createClass({
 var PreviewBox = React.createClass({
     getInitialState: function () {
         return ({
+            dragover: false,
             dragging_revision: false
         })
     },
@@ -106,6 +97,8 @@ var PreviewBox = React.createClass({
             onMouseMove: function () {
             },
             onScroll: function () {
+            },
+            onRevisionSelected: function () {
             }
         }
     },
@@ -149,12 +142,32 @@ var PreviewBox = React.createClass({
             $(iframe.contents()).scrollTop(scrollTop);
         }
     },
+    onDragOver: function (e) {
+        e.preventDefault();
+    },
+    onDragEnter: function () {
+        this.setState({dragover: true});
+    },
+    onDragLeave: function () {
+        this.setState({dragover: false});
+    },
+    onRevisionDrop: function (e) {
+        e.preventDefault();
+        var revision = JSON.parse(e.dataTransfer.getData("revision"));
+        this.props.onRevisionSelected(revision);
+        this.setState({dragover: false});
+    },
     render: function () {
         var hide_iframe = isNull(this.props.revision) || this.state.dragging_revision;
         var dragging_box;
         if (isNull(this.props.revision) || this.state.dragging_revision) {
+            var classes = React.addons.classSet({
+                'drop-container': true,
+                'drag-hover': this.state.dragover
+            });
             dragging_box = (
-                <div className='drop-container'>
+                <div className={classes} onDrop={this.onRevisionDrop}
+                    onDragOver={this.onDragOver} onDragEnter={this.onDragEnter} onDragLeave={this.onDragLeave}>
                     <div className="drop-description"> Drag a revision here
                     </div>
                 </div>
