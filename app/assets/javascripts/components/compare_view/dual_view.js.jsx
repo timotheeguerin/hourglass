@@ -22,12 +22,17 @@ var DualView = React.createClass({
         var container = $(this.refs.container.getDOMNode());
         var left_iframe = $(this.refs.left_iframe.getDOMNode()).find('iframe');
         var right_iframe = $(this.refs.right_iframe.getDOMNode()).find('iframe');
-        if (this.props.type == 'slide') {
+        if (this.props.type === 'slide') {
             left_iframe.css({width: container.width()});
             right_iframe.css({width: container.width()});
         } else {
             left_iframe.css({width: '100%'});
             right_iframe.css({width: '100%'});
+        }
+    },
+    componentWillReceiveProps: function (newProps) {
+        if (newProps.type !== 'slide') {
+            this.setState({slider_position: '50%'});
         }
     },
     onDropLeft: function (revision) {
