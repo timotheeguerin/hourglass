@@ -26,5 +26,6 @@ current_user = current_user;
     this.componentWillUnmount();
     this.componentWillReceiveProps();
     this.shouldComponentUpdate();
+    this.componentDidUpdate();
     this.getDefaultProps();
 });
