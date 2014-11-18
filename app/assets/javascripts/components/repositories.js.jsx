@@ -31,7 +31,8 @@ var RepositoriesBox = React.createClass({
         var boundClick = this.props.onClick;
         var repositoryNodes = this.getVisibleRepositories().map(function (repository) {
             return (
-                <Repository key={repository.id} name={repository.name} repository={repository} onClick={boundClick}/>
+                <Repository key={repository.id} name={repository.name} repository={repository}
+                    onClick={boundClick}/>
             );
         });
         return (
@@ -54,6 +55,11 @@ var RepositoriesBox = React.createClass({
 });
 
 var Repository = React.createClass({
+    getInitialState: function () {
+        return {
+            loading: false
+        };
+    },
     toggleRepository: function (e) {
         var id = this.props.repository.id;
         var url;
@@ -70,14 +76,26 @@ var Repository = React.createClass({
         });
     },
     selectRepository: function () {
-        this.props.onClick(this.props.repository);
+        this.setState({loading: true});
+        this.props.onClick(this.props.repository, this);
     },
     render: function () {
+        var right_icon;
+        if (this.state.loading) {
+            right_icon = (
+                <Spinner/>
+            );
+        } else {
+            right_icon = (
+                <i className="fa fa-angle-right fa-lg"></i>
+            );
+        }
+
         return (
             <li className="repository" onClick={this.selectRepository}>
                 {this.props.name}
                 <div className="right">
-                    <i className="fa fa-angle-right fa-lg"></i>
+                {right_icon}
                 </div>
             </li>
         );

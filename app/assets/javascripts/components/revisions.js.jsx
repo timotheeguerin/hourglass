@@ -9,6 +9,7 @@ var Revisions = React.createClass({
         var url = Routes.list_user_repository_revisions_path(current_user, repository.id, {page_id: page.id});
         $.get(url).success(function (data) {
             this.setState({data: data});
+            this.props.onRevisionsLoaded();
         }.bind(this)).fail(function (xhr, status, err) {
             console.error(this.props.url, status, err.toString());
         }.bind(this))
@@ -18,6 +19,12 @@ var Revisions = React.createClass({
     },
     componentWillMount: function () {
         this.loadRevisionsFromServer(this.props.repository, this.props.page);
+    },
+    getDefaultProps: function () {
+        return {
+            onRevisionsLoaded: function () {
+            }
+        }
     },
     shouldComponentUpdate: function (nextProps) {
         if (nextProps.repository !== this.props.repository || nextProps.page !== this.props.page) {

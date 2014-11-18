@@ -9,12 +9,19 @@ var FilesBox = React.createClass({
         var url = Routes.list_user_repository_pages_path(current_user, repository.id);
         $.get(url).success(function (data) {
             this.setState({data: data});
+            this.props.onFilesLoaded();
         }.bind(this)).fail(function (xhr, status, err) {
             console.error(this.props.url, status, err.toString());
         }.bind(this))
     },
     getInitialState: function () {
         return {data: []};
+    },
+    getDefaultProps: function () {
+        return {
+            onFilesLoaded: function () {
+            }
+        }
     },
     componentWillMount: function () {
         this.loadFilesFromServer(this.props.repository);
