@@ -11,13 +11,10 @@ var Sidebar = React.createClass({
     navigateToRevisionsView: function () {
         $(".sidebar").animate({left: '-200%'}, 350);
     },
-    selectRepository: function (repository, component) {
-        if (isDefined(component)) {
-            this.loading_repositories.push(component);
-        }
+    selectRepository: function (repository) {
         if (this.state.repository === repository) {
+            EventManager.trigger('sidebar-pages-loaded');
             this.navigateToFilesView();
-            this.removeLoading();
         }
         this.setState({
             repository: repository
@@ -36,13 +33,6 @@ var Sidebar = React.createClass({
     },
     onFileLoaded: function () {
         this.navigateToFilesView();
-        this.removeLoading();
-    },
-    removeLoading: function () {
-        for (var i in this.loading_repositories) {
-            this.loading_repositories[i].setState({loading: false})
-        }
-        this.loading_repositories = []
     },
     componentDidMount: function () {
         this.compare_listener = CompareViewData.onUpdate(function (data) {
@@ -56,7 +46,6 @@ var Sidebar = React.createClass({
                 page: data.page
             });
         }.bind(this));
-        this.loading_repositories = [];
     },
     shouldComponentUpdate: function (nextProps, nextState) {
         return nextState.page !== this.state.page || nextState.repository !== this.state.repository

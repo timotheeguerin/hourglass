@@ -9,6 +9,7 @@ var FilesBox = React.createClass({
         var url = Routes.list_user_repository_pages_path(current_user, repository.id);
         $.get(url).success(function (data) {
             this.setState({data: data});
+            EventManager.trigger('sidebar-pages-loaded');
             this.props.onFilesLoaded();
         }.bind(this)).fail(function (xhr, status, err) {
             console.error(this.props.url, status, err.toString());

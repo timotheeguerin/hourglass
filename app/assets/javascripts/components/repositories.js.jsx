@@ -2,7 +2,7 @@
 //= require global
 
 var RepositoriesBox = React.createClass({
-    loadCommentsFromServer: function () {
+    loadRepositoriesFromServer: function () {
         var url = Routes.list_user_repositories_path({user_id: this.props.user_id, enabled: true});
         $.get(url).success(function (data) {
             this.setState({repositories: data});
@@ -22,7 +22,7 @@ var RepositoriesBox = React.createClass({
         return {repositories: [], searchText: ''};
     },
     componentDidMount: function () {
-        this.loadCommentsFromServer();
+        this.loadRepositoriesFromServer();
     },
     navigateBack: function () {
         $(".sidebar").animate({left: '-100%'}, 350);
@@ -88,7 +88,15 @@ var Repository = React.createClass({
     },
     selectRepository: function () {
         this.setState({loading: true});
-        this.props.onClick(this.props.repository, this);
+        this.props.onClick(this.props.repository);
+    },
+    componentDidMount: function () {
+        this.page_loaded_listener = EventManager.on('sidebar-pages-loaded', function () {
+            this.setState({loading: false});
+        }.bind(this));
+    },
+    componentWillUnmount: function () {
+        this.page_loaded_listener.destroy();
     },
     render: function () {
         var right_icon;
