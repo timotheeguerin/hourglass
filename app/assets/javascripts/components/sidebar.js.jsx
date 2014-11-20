@@ -12,7 +12,9 @@ var Sidebar = React.createClass({
         $(".sidebar").animate({left: '-200%'}, 350);
     },
     selectRepository: function (repository, component) {
-        this.loading_repositories.push(component);
+        if (isDefined(component)) {
+            this.loading_repositories.push(component);
+        }
         if (this.state.repository === repository) {
             this.navigateToFilesView();
             this.removeLoading();

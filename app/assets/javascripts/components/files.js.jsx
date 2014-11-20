@@ -15,13 +15,18 @@ var FilesBox = React.createClass({
         }.bind(this))
     },
     getInitialState: function () {
-        return {data: []};
+        return {data: [], searchText: ''};
     },
     getDefaultProps: function () {
         return {
             onFilesLoaded: function () {
             }
         }
+    },
+    getVisiblePages: function () {
+        return this.state.data.filter(function (page) {
+            return page.path.indexOf(this.state.searchText) > -1;
+        }.bind(this));
     },
     componentWillMount: function () {
         this.loadFilesFromServer(this.props.repository);
@@ -41,12 +46,15 @@ var FilesBox = React.createClass({
         $(".sidebar-container").toggleClass('hidden-container', animationSpeed);
         $("#content").toggleClass('wide-content', animationSpeed);
     },
+    search: function (event) {
+        this.setState({searchText: event.target.value});
+    },
     render: function () {
         var boundClick = this.props.onClick;
-        var fileNodes = this.state.data.map(function (file) {
+        var fileNodes = this.getVisiblePages().map(function (file) {
             return (
-                <File key={file.id}     name={file.name} file={file} repository={this.props.repository} onClick={boundClick}>
-                </File>
+                <Page key={file.id} name={file.name} file={file} repository={this.props.repository} onClick={boundClick}>
+                </Page>
             );
         }.bind(this));
         return (
@@ -62,14 +70,14 @@ var FilesBox = React.createClass({
                     {fileNodes}
                 </ol>
                 <div className="search-repositories">
-                    <input type="search" placeholder="Search"/>
+                    <input type="search" placeholder="Search pages" onChange={this.search}/>
                 </div>
             </div>
         );
     }
 });
 
-var File = React.createClass({
+var Page = React.createClass({
     selectFile: function () {
         this.props.onClick(this.props.repository, this.props.file);
     },

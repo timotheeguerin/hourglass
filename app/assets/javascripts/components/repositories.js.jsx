@@ -10,9 +10,12 @@ var RepositoriesBox = React.createClass({
             console.error(this.props.url, status, err.toString());
         }.bind(this));
     },
-    getVisibleRepositories: function () {
+    getVisibleRepositories: function (query) {
+        if (isNull(query)) {
+            query = this.state.searchText;
+        }
         return this.state.repositories.filter(function (repository) {
-            return repository.name.indexOf(this.state.searchText) > -1;
+            return repository.name.indexOf(query) > -1;
         }.bind(this));
     },
     getInitialState: function () {
@@ -26,6 +29,14 @@ var RepositoriesBox = React.createClass({
     },
     handleChange: function (event) {
         this.setState({searchText: event.target.value});
+    },
+    searchSubmit: function (event) {
+        if (event.which == 13) {
+            var repositories = this.getVisibleRepositories(event.target.value);
+            if (repositories.length == 1) {
+                this.props.onClick(repositories[0]);
+            }
+        }
     },
     render: function () {
         var boundClick = this.props.onClick;
@@ -47,7 +58,7 @@ var RepositoriesBox = React.createClass({
                     {repositoryNodes}
                 </ol>
                 <div className="search-repositories">
-                    <input type="search" placeholder="Search" onChange={this.handleChange}/>
+                    <input type="search" placeholder="Search repository" onChange={this.handleChange} onKeyUp={this.searchSubmit}/>
                 </div>
             </div>
         );
@@ -93,8 +104,10 @@ var Repository = React.createClass({
 
         return (
             <li className="repository" onClick={this.selectRepository}>
+                <div className='title'>
                 {this.props.name}
-                <div className="right">
+                </div>
+                <div className="icon">
                 {right_icon}
                 </div>
             </li>

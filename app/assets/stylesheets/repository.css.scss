@@ -19,12 +19,15 @@
   cursor: pointer;
   white-space: nowrap;
   background: #FFFFFF;
-}
 
-.repository span {
-  width: calc(100% - 4.5rem);
-  overflow: hidden;
-  text-overflow: ellipsis;
+  .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .icon {
+    flex: 0 0 1rem;
+  }
 }
 
 .repository:first-child {
@@ -54,9 +57,6 @@
   color: #FFFFFF;
 }
 
-.repository .right {
-  float: right;
-}
 
 .repository-alternate .repository {
   margin: 0;
