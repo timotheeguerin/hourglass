@@ -97,11 +97,17 @@ var RepositorySetting = React.createClass({
             'fa-refresh': true,
             'fa-spin': this.state.processing
         });
+        var refresh_button;
+        if (this.state.repository.enabled) {
+            refresh_button = (
+                <i className={refresh_classes} onClick={this.onRefresh}></i>
+            );
+        }
         return (
             <li className="list-item">
                 <div className='list-item-line'>
                     <div className='refresh-button'>
-                        <i className={refresh_classes} onClick={this.onRefresh}></i>
+                    {refresh_button}
                     </div>
                     <div className="title full-width">
                         <h3>{this.props.repository.name}
