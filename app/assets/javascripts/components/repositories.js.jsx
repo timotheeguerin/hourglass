@@ -91,7 +91,7 @@ var Repository = React.createClass({
         this.props.onClick(this.props.repository);
     },
     componentDidMount: function () {
-        this.page_loaded_listener = EventManager.on('sidebar-pages-loaded', function () {
+        this.page_loaded_listener = EventManager.on('sidebar-showing-pages', function () {
             this.setState({loading: false});
         }.bind(this));
     },

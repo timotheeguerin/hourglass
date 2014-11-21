@@ -79,13 +79,34 @@ var FilesBox = React.createClass({
 });
 
 var Page = React.createClass({
+    getInitialState: function () {
+        return {loading: false}
+    },
     selectFile: function () {
+        this.setState({loading: true});
         this.props.onClick(this.props.repository, this.props.file);
+    },
+    componentDidMount: function () {
+        this.showing_revsions_listener = EventManager.on('sidebar-showing-revisions', function () {
+            this.setState({loading: false})
+        }.bind(this));
+    },
+    componentWillUnmount: function () {
+        this.showing_revsions_listener.destroy();
     },
     render: function () {
         var image = this.props.file.revisions[0].thumbnails;
+        var loading;
+        if (this.state.loading) {
+            loading = (
+                <div className='loading'>
+                    <Spinner size='4x'/>
+                </div>
+            );
+        }
         return (
-            <div className="thumbnail" onClick={this.selectFile}>
+            <div className="page thumbnail" onClick={this.selectFile}>
+            {loading}
                 <div className="scroll-container" draggable="false">
                     <img src={image} />
                 </div>

@@ -6,9 +6,11 @@ var Sidebar = React.createClass({
         return {};
     },
     navigateToFilesView: function () {
+        EventManager.trigger('sidebar-showing-pages');
         $(".sidebar").animate({left: '-100%'}, 350);
     },
     navigateToRevisionsView: function () {
+        EventManager.trigger('sidebar-showing-revisions');
         $(".sidebar").animate({left: '-200%'}, 350);
     },
     selectRepository: function (repository) {
