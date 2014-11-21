@@ -24,9 +24,12 @@ var FilesBox = React.createClass({
             }
         }
     },
-    getVisiblePages: function () {
+    getVisiblePages: function (query) {
+        if (isNull(query)) {
+            query = this.state.searchText;
+        }
         return this.state.data.filter(function (page) {
-            return page.path.indexOf(this.state.searchText) > -1;
+            return page.path.indexOf(query) > -1;
         }.bind(this));
     },
     componentWillMount: function () {
@@ -50,6 +53,14 @@ var FilesBox = React.createClass({
     search: function (event) {
         this.setState({searchText: event.target.value});
     },
+    searchSubmit: function (event) {
+        if (event.which == 13) {
+            var pages = this.getVisiblePages(event.target.value);
+            if (pages.length == 1) {
+                this.props.onClick(this.props.repository, pages[0]);
+            }
+        }
+    },
     render: function () {
         var boundClick = this.props.onClick;
         var fileNodes = this.getVisiblePages().map(function (file) {
@@ -71,7 +82,7 @@ var FilesBox = React.createClass({
                     {fileNodes}
                 </ol>
                 <div className="search-repositories">
-                    <input type="search" placeholder="Search pages" onChange={this.search}/>
+                    <input type="search" placeholder="Search pages" onChange={this.search} onKeyUp={this.searchSubmit}/>
                 </div>
             </div>
         );
