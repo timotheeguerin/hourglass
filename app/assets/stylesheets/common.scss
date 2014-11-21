@@ -66,6 +66,7 @@ a {
 
 .section-header {
   @include flex;
+  justify-content: center;
 
   padding: 0.8rem 1rem;
   background: #FFFFFF;
@@ -132,4 +133,20 @@ small {
 .text-overflow {
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.repositories-settings {
+  .list-item-line {
+    display: flex;
+    .refresh-button {
+      flex: 0 1 2rem;
+      i:hover {
+        color: $primary-color
+      }
+    }
+
+    .title {
+      flex: 1 0 auto
+    }
+  }
 }

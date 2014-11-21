@@ -26,13 +26,7 @@ var RepositoriesSettings = React.createClass({
         return (
             <div className="repositories-settings">
                 <div className="section-header">
-                    <span className="sidebar-button">
-                        <i className="fa fa-plus fa-lg" ></i>
-                    </span>
                     <h2>Repositories</h2>
-                    <span className="sidebar-button">
-                        <i className="fa fa-close fa-lg" ></i>
-                    </span>
                 </div>
                 <ol className="list">
                     {repositoryNodes}
@@ -53,9 +47,8 @@ var RepositorySetting = React.createClass({
 
         $.post(url).done(function (data) {
             this.setState({
-                processing: !isNull(data.data.processing),
+                processing: isDefined(data.data.processing),
                 repository: data.data
-
             })
         }.bind(this)).fail(function (xhr, status, err) {
             console.error("Failure");
@@ -64,7 +57,7 @@ var RepositorySetting = React.createClass({
     },
     getInitialState: function () {
         return {
-            processing: !isNull(this.props.repository.processing),
+            processing: isDefined(this.props.repository.processing),
             repository: this.props.repository
         }
     },
@@ -75,6 +68,15 @@ var RepositorySetting = React.createClass({
             title: 'Processing Completed',
             body: 'Finished processing thumbnails for ' + this.props.repository.name
         });
+    },
+    onRefresh: function () {
+        $.post(Routes.refresh_user_repository_path(current_user, this.props.repository.id)).done(function (data) {
+            this.setState({
+                processing: isDefined(data.data.processing),
+                repository: data.data
+
+            })
+        }.bind(this));
     },
     render: function () {
         var checked;
@@ -90,10 +92,18 @@ var RepositorySetting = React.createClass({
         } else {
             progress = null;
         }
+        var refresh_classes = React.addons.classSet({
+            'fa': true,
+            'fa-refresh': true,
+            'fa-spin': this.state.processing
+        });
         return (
             <li className="list-item">
-                <div className="flex">
-                    <div className="full-width">
+                <div className='list-item-line'>
+                    <div className='refresh-button'>
+                        <i className={refresh_classes} onClick={this.onRefresh}></i>
+                    </div>
+                    <div className="title full-width">
                         <h3>{this.props.repository.name}
                         </h3>
                     </div>
@@ -109,59 +119,6 @@ var RepositorySetting = React.createClass({
                 </div>
                 {progress}
             </li>
-        );
-    }
-});
-
-var TimeFromNow = React.createClass({
-    getDefaultProps: function () {
-        return {
-            format: '{0}'
-        };
-    },
-    getInitialState: function () {
-        return {
-            date: this.getFromTime(this.props.date)
-        }
-    },
-    updateTime: function (date) {
-        if (isNull(date)) {
-            date = this.props.date;
-        }
-        this.setState({
-            date: this.getFromTime(date)
-        })
-    },
-    getFromTime: function (date) {
-        if (isNull(date)) {
-            return null;
-        } else {
-            return moment.utc(date, "YYYY-MM-DD hh:mm:ss").fromNow()
-        }
-    },
-    componentDidMount: function () {
-        this.tick();
-    },
-    tick: function () {
-        if (!isNull(this.ticker)) {
-            clearInterval(this.ticker);
-        }
-        this.ticker = setInterval(this.updateTime, 60000);
-    },
-    componentWillUnmount: function () {
-        if (!isNull(this.ticker)) {
-            clearInterval(this.ticker);
-        }
-    },
-    componentWillReceiveProps: function (nextProps) {
-        if (nextProps.date != this.props.date) {
-            this.updateTime(nextProps.date);
-            this.tick();
-        }
-    },
-    render: function () {
-        return (
-            <span>{this.state.date == null ? null : this.props.format.format(this.state.date)}</span>
         );
     }
 });

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       member do
         post 'enable'
         post 'disable'
+        post 'refresh'
       end
 
       collection do

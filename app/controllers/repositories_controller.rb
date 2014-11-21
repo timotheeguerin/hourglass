@@ -15,16 +15,7 @@ class RepositoriesController < ApplicationController
   end
 
   def enable
-    status = if @repository.processing.nil?
-               nil
-             else
-               Sidekiq::Status::status(@repository.processing)
-             end
-    if status.nil? or status.complete? or status.failed?
-      job_id = RepositoryPreprocessorWorker.perform_async(@repository.id)
-      @repository.sync_at = Time.now
-      @repository.processing = job_id
-    end
+    sync_repo
     @repository.enabled = true
     @repository.save
     return_json(true, message: 'Repository enabled', data: @repository)
@@ -36,9 +27,29 @@ class RepositoriesController < ApplicationController
     return_json(true, message: 'Repository disabled', data: @repository)
   end
 
+  def refresh
+    sync_repo
+    return_json(true, message: 'Repository refreshing', data: @repository)
+  end
+
   private
   def reset
     @repository = Repository.new
     @repositories = Repository.none
+  end
+
+
+  def sync_repo
+    status = if @repository.processing.nil?
+               nil
+             else
+               Sidekiq::Status::status(@repository.processing)
+             end
+    if status.nil? or status.complete? or status.failed?
+      job_id = RepositoryPreprocessorWorker.perform_async(@repository.id)
+      @repository.sync_at = Time.now
+      @repository.processing = job_id
+      @repository.save
+    end
   end
 end
