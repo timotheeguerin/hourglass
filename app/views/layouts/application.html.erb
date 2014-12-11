@@ -17,10 +17,11 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= render 'layouts/header' %>
+<% compare_header ||= false %>
+<%= render partial: 'layouts/header', locals: {compare_header: compare_header} %>
 <div class="wrapper">
-  <% hide_sidebar ||= false %>
-  <% unless hide_sidebar %>
+
+<% unless hide_sidebar %>
       <%= render 'layouts/sidebar' %>
   <% end %>
   <div id='content' class="content <%= 'no-sidebar' if hide_sidebar %>">

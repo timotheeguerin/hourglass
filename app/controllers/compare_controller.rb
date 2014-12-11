@@ -1,4 +1,6 @@
 class CompareController < ApplicationController
+  layout "compare_header"
+
   def index
 
   end

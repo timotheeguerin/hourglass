@@ -1,17 +1,22 @@
 <header class="alternate">
   <% if user_signed_in? %>
       <div class="header-left">
-        <a href="/"><h1>Hourglass</h1></a>
+        <a href="/compare"><h1>Hourglass</h1></a>
       </div>
-      <div class="header-middle">
-        <div class="field">
-          <input type="search" placeholder="Search" value="index.html"/>
-        </div>
+      <% compare_header ||= false %>
+      <% if compare_header %>
+          <div class="header-middle">
+            <div class="field">
+              <input type="search" placeholder="Search" value="index.html"/>
+            </div>
+          </div>
 
-      </div>
-      <div class="header-right">
-        <%= react_component('SelectCompareType') %>
-      </div>
+          <div class="header-right">
+            <%= react_component('SelectCompareType') %>
+          </div>
+      <% end %>
+
+
       <div class="header-right">
 
         <h3><%= current_user.username %></h3>
@@ -23,7 +28,7 @@
       </div>
   <% else %>
       <div class="header-left">
-        <h1>Hourglass</h1>
+        <a href="/"><h1>Hourglass</h1></a>
       </div>
       <div class="header-middle">
 
