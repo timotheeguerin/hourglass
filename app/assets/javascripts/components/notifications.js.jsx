@@ -5,8 +5,6 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var Notifications = React.createClass({
     componentDidMount: function () {
-        //this.add(NotificationTypes.notificationsRunning);
-
         this.notification_event = EventManager.on('notification', function (notification) {
             this.add(notification);
         }.bind(this));
