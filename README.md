@@ -26,6 +26,8 @@ github_client_id: "Not a client ID"
 github_client_secret: "Not a client secret"
 
 repositories_base: "~/.tmp/hourglass/"
+$ redis-server # Starts the redis server
+$ sidekiq # Starts the sidekiq instance
 $ rake db:create # Make the schema manually if fails
 $ rake db:migrate
 $ rails s
