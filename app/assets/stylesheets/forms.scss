@@ -18,19 +18,31 @@
 
 .select {
   @include flex;
-  margin-bottom: .5rem;
 }
 
 .select span {
-  color: #CCCCCC;
-  padding: .8rem .8rem;
+  margin: 0 .2rem;
+  padding: .6rem .4rem;
   text-align: center;
-  border-radius: $border-radius;
+  border-radius: 10rem;
   cursor: pointer;
+  width: 2.7rem;
+  height: 2.7rem;
+}
+
+.select span i {
+  color: #FFFFFF;
 }
 
 .select span:hover {
-  background: #F5F5F5;
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+  transition: all .1s;
+}
+
+.select span:active {
+  background: rgba(0, 0, 0, 0.2);
+  transition: all .1s;
 }
 
 .select span.selected {

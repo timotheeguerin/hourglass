@@ -66,7 +66,7 @@ var RepositorySetting = React.createClass({
         EventManager.trigger('notification', {
             type: 'success',
             title: 'Processing Completed',
-            body: 'Finished processing thumbnails for ' + this.props.repository.name
+            body: this.props.repository.name + ' thumbnails successfully updated'
         });
     },
     onRefresh: function () {

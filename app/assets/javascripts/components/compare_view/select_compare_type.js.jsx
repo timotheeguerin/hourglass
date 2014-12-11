@@ -29,7 +29,6 @@ var SelectCompareType = React.createClass({
             return (
                 <span key={key} onClick={this.onTypeSelected.bind(this, value)} className={className}>
                     <i className={"fa fa-" + value.icon + " fa-lg"}></i>
-                {value.text}
                 </span>
             );
         }.bind(this));
