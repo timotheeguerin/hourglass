@@ -10,16 +10,17 @@
               <input type="search" placeholder="Search" value="index.html"/>
             </div>
           </div>
-
-          <div class="header-right">
-            <%= react_component('SelectCompareType') %>
-          </div>
       <% end %>
 
 
       <div class="header-right">
+        <% if compare_header %>
+            <div class="select-compare-type">
+              <%= react_component('SelectCompareType') %>
+            </div>
+        <% end %>
 
-        <h3><%= current_user.username %></h3>
+        <h3 class="username"><%= current_user.username %></h3>
 
         <div class="dropdown">
           <%= link_to 'Settings', settings_path, class: 'button simple-button' %>

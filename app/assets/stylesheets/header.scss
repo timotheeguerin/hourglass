@@ -12,15 +12,14 @@ header {
 .header-right {
   position: relative;
   padding: .5rem;
+  //width: 400px;
 }
 
 .header-right h3 {
   cursor: pointer;
 }
 
-.header-right:hover .dropdown {
-  display: block;
-}
+
 
 header.alternate {
   background: $blue;
@@ -35,4 +34,20 @@ header.alternate {
     background: $dark-blue;
     font-size: 1.1rem;
   }
+}
+
+.select-compare-type {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1rem;
+}
+
+.username {
+  display: inline-block;
+  vertical-align: middle;
+  padding: .5rem;
+}
+
+.username:hover + .dropdown {
+  display: block;
 }
