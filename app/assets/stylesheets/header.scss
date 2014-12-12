@@ -9,10 +9,18 @@ header {
   height: $header-height;
 }
 
+.header-left {
+  width: 20%;
+}
+
+.header-middle {
+  width: 40%;
+}
 .header-right {
   position: relative;
   padding: .5rem;
-  //width: 400px;
+  width: 20%;
+  text-align: right;
 }
 
 .header-right h3 {
